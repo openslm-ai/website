@@ -2,6 +2,10 @@
 
 *On open, accessible, and correctable AI for the next decade*
 
+**Version 0.1 (draft) · Issued 6 April 2026**
+
+The accord is a dated document. Its claims about openness are stated as of the issue date above. Subsequent versions update the snapshot.
+
 **Preamble**
 
 The open systems that run modern computing (operating systems, browsers, internet protocols, the toolchains that make software portable) share a single condition. The substrate has to remain modifiable by the people who depend on it. AI will be built either as inspectable infrastructure or as opaque services, and the choice is being made now.
@@ -102,4 +106,4 @@ The accord is versioned. It can be revised through open process as the technical
 
 ---
 
-The Open Small Models Accord, version 0.1 (draft), authored by [Anivar Aravind](https://anivar.net). Hosted at [openslm.ai](https://openslm.ai/). Released under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). Translate, adapt, republish. Endorse by signing. Build according to the principles.
+The Open Small Models Accord, version 0.1 (draft), issued 6 April 2026, authored by [Anivar Aravind](https://anivar.net). Hosted at [openslm.ai](https://openslm.ai/). Released under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). Translate, adapt, republish. Endorse by signing. Build according to the principles.

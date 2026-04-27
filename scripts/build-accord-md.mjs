@@ -13,6 +13,8 @@ const accordDir = path.join(root, 'src/content/accord');
 const out = path.join(root, 'public/downloads/accord.md');
 
 const VERSION = '0.1 (draft)';
+const ISSUED = '6 April 2026';
+const ISSUED_ISO = '2026-04-06';
 
 function parse(file) {
   const text = fs.readFileSync(file, 'utf8');
@@ -50,6 +52,13 @@ lines.push('# The Open Small Models Accord');
 lines.push('');
 lines.push('*On open, accessible, and correctable AI for the next decade*');
 lines.push('');
+lines.push(`**Version ${VERSION} · Issued ${ISSUED}**`);
+lines.push('');
+lines.push(
+  'The accord is a dated document. Its claims about openness are stated as ' +
+    'of the issue date above. Subsequent versions update the snapshot.',
+);
+lines.push('');
 
 for (const { fm, body } of entries) {
   if (fm.number === null || fm.number === undefined) {
@@ -65,12 +74,14 @@ for (const { fm, body } of entries) {
 lines.push('---');
 lines.push('');
 lines.push(
-  `The Open Small Models Accord, version ${VERSION}, authored by [Anivar Aravind](https://anivar.net). ` +
+  `The Open Small Models Accord, version ${VERSION}, issued ${ISSUED}, ` +
+    'authored by [Anivar Aravind](https://anivar.net). ' +
     'Hosted at [openslm.ai](https://openslm.ai/). Released under ' +
     '[CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). ' +
     'Translate, adapt, republish. Endorse by signing. Build according to the principles.',
 );
 lines.push('');
+void ISSUED_ISO;
 
 const md = lines.join('\n');
 fs.mkdirSync(path.dirname(out), { recursive: true });
