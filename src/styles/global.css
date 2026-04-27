@@ -88,10 +88,42 @@
   .display-xl {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.015em;
+    font-size: clamp(2.5rem, 5.5vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.018em;
     margin: 0;
+  }
+
+  /* Hero subtitle (paired with display-xl) */
+  .subtitle-xl {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    line-height: 1.35;
+    color: var(--color-muted);
+    margin: 0;
+    max-width: 38rem;
+  }
+
+  /* Eyebrow / kicker label above section headings */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-faint);
+    font-weight: 600;
+    margin: 0 0 1rem;
+  }
+
+  /* Section divider rule */
+  hr.rule {
+    border: 0;
+    border-top: 1px solid var(--color-rule);
+    margin: 0;
+    width: 100%;
+    max-width: var(--container-wide);
+    margin-inline: auto;
   }
 
   /* Page prose */

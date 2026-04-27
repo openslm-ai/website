@@ -13,12 +13,14 @@ interface Props {
 
 const {
   title,
-  description = 'openslm.ai — the home for the Open Small Models Accord and related work on open, accessible, and correctable AI.',
+  description = 'The Open Small Models Accord — principles for open, accessible, and correctable AI. Hosted at openslm.ai.',
   ogType = 'website',
 } = Astro.props;
 
 const siteName = 'openslm.ai';
-const fullTitle = title ? `${title} — ${siteName}` : `${siteName} — Open Small Models Accord`;
+const fullTitle = title
+  ? `${title} — ${siteName}`
+  : `The Open Small Models Accord — ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 

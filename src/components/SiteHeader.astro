@@ -1,21 +1,17 @@
 ---
-const { pathname } = Astro.url;
-const isActive = (href: string) =>
-  pathname === href || (href !== '/' && pathname.startsWith(href));
-
 const links = [
-  { href: '/accord/', label: 'Accord' },
-  { href: '/code/', label: 'Code' },
-  { href: '/research/', label: 'Research' },
-  { href: '/references/', label: 'References' },
-  { href: '/about/', label: 'About' },
+  { href: '#accord', label: 'Accord' },
+  { href: '#code', label: 'Code' },
+  { href: '#research', label: 'Research' },
+  { href: '#references', label: 'References' },
+  { href: '#about', label: 'About' },
 ];
 ---
 
 <header class="border-b border-[color:var(--color-rule)]">
   <div class="container-wide flex flex-wrap items-baseline justify-between gap-4 py-5">
     <a
-      href="/"
+      href="#top"
       class="brand no-underline text-[color:var(--color-fg)]"
       aria-label="openslm.ai home">openslm.ai</a>
     <nav aria-label="Primary">
@@ -24,17 +20,18 @@ const links = [
           <li>
             <a
               href={l.href}
-              class:list={[
-                'no-underline',
-                isActive(l.href)
-                  ? 'text-[color:var(--color-fg)]'
-                  : 'text-[color:var(--color-muted)] hover:text-[color:var(--color-accent)]',
-              ]}
-              aria-current={isActive(l.href) ? 'page' : undefined}>
+              class="no-underline text-[color:var(--color-muted)] hover:text-[color:var(--color-accent)]">
               {l.label}
             </a>
           </li>
         ))}
+        <li>
+          <a
+            href="https://github.com/openslm-ai"
+            class="no-underline text-[color:var(--color-muted)] hover:text-[color:var(--color-accent)]">
+            GitHub
+          </a>
+        </li>
       </ul>
     </nav>
   </div>

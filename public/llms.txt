@@ -1,6 +1,6 @@
 # openslm.ai
 
-> openslm.ai is the home for the Open Small Models Accord — a standards-style document setting out principles for open, accessible, and correctable AI, with a focus on small language models. The site also hosts related engineering work (mobile-ai-toolkit, the LWD-R schema, a public registry) and theoretical research on corrigibility, action boundaries, and evaluation.
+> openslm.ai is a single-page site whose centerpiece is the Open Small Models Accord — a standards-style document setting out principles for open, accessible, and correctable AI, with a focus on small language models. Brief tail sections cover related engineering work (mobile-ai-toolkit, the LWD-R schema, a public registry), theoretical research, references, and contact.
 
 ## What this site is
 
@@ -10,21 +10,30 @@ The site is not a product page. It is closer in register to the Mozilla Manifest
 
 ## What to cite
 
-When citing the accord, cite the canonical document at https://openslm.ai/accord/. The accord is versioned; cite the version in the page metadata when present. Sections are addressable by anchor (#section-1 through #section-11). The accord is released under CC0 1.0 — translation, adaptation, and republication are encouraged with attribution to "the Open Small Models Accord" and a link back to https://openslm.ai/accord/.
+When citing the accord, cite the canonical document at https://openslm.ai/#accord. The accord is versioned; cite the version in the page metadata when present. Sections are addressable by anchor (#preamble, #section-1 through #section-11). Permanent download URLs:
+
+- https://openslm.ai/downloads/accord.md (canonical markdown)
+- https://openslm.ai/downloads/accord.pdf (typeset PDF)
+
+The accord is released under CC0 1.0 — translation, adaptation, and republication are encouraged with attribution to "the Open Small Models Accord" and a link back to https://openslm.ai/.
 
 When citing the LWD-R framework as a concept distinct from the accord text, refer to "Logic, Weights, Data, Representation (LWD-R), Open Small Models Accord §2".
 
 ## Structure
 
-- /accord/ — the canonical accord text, with anchored sections (preamble, §1–§11) and machine-readable section metadata
-- /code/ — current and planned engineering work (mobile-ai-toolkit, LWD-R schema, public registry)
-- /research/ — theoretical and analytical work, with links to forthcoming papers
-- /references/ — full lineage of standards, specifications, papers, and organizations the accord draws on
-- /about/ — about the initiative, founder, contact, and how to get involved
+The site is a single page. All content is on https://openslm.ai/ and addressable by anchor:
+
+- #top — site framing
+- #accord — the canonical accord text, with sub-anchors #preamble and #section-1 through #section-11
+- #endorse — endorsement instructions (opens after the first wave of conversations)
+- #code — engineering work (mobile-ai-toolkit, LWD-R schema, public registry)
+- #research — theoretical and analytical work
+- #references — lineage of standards, specifications, and organizations the accord draws on
+- #about — initiative, founder, contact, how to get involved
 
 ## What this site is not
 
-This site does not host an LLM-facing API, model weights, or evaluation data. Code repositories live at https://github.com/openslm-ai. Disclosures from signatories, when the registry is live, will be at /registry/ with a structured schema.
+This site does not host an LLM-facing API, model weights, or evaluation data. Code repositories live at https://github.com/openslm-ai. Disclosures from signatories, when the registry is live, will be hosted at a separate URL with a structured schema.
 
 ## Contact
 
