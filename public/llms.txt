@@ -21,15 +21,23 @@ When citing the LWD-R framework as a concept distinct from the accord text, refe
 
 ## Structure
 
-The site is a single page. All content is on https://openslm.ai/ and addressable by anchor:
+The home page (https://openslm.ai/) carries the accord and supporting matter, addressable by anchor:
 
 - #top — site framing
 - #accord — the canonical accord text, with sub-anchors #preamble and #section-1 through #section-11
-- #endorse — endorsement instructions (opens after the first wave of conversations)
-- #code — engineering work (mobile-ai-toolkit, LWD-R schema, public registry)
+- #endorse — endorsement footnote (opens with the first wave of conversations)
+- #attribution — authorship, version, license, links to FAQ and translations
 - #research — theoretical and analytical work
-- #references — lineage of standards, specifications, and organizations the accord draws on
 - #about — initiative, founder, contact, how to get involved
+
+Two supporting pages:
+
+- https://openslm.ai/faq/ — frequently asked questions
+- https://openslm.ai/translations/ — translations of the accord (and how to contribute one)
+
+## Authorship
+
+The accord is authored by Anivar Aravind (https://anivar.net) and hosted at openslm.ai. The current version is 0.1 (draft). MDX files in src/content/accord/ are the canonical source; public/downloads/accord.md is generated from them.
 
 ## What this site is not
 

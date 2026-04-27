@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const versions = [
+  {
+    version: '0.1',
+    state: 'draft',
+    label: 'Draft',
+    date: 'April 2026',
+    summary: 'Initial draft. Circulated to an invited set of practitioners for review.',
+    notes: [
+      'Preamble + 11 sections + closing matter.',
+      'LWD-R framework introduced (Logic, Weights, Data, Representation).',
+      'Direction-of-travel framing for endorsement.',
+      'CC0 1.0 license; site at openslm.ai.',
+    ],
+    isCurrent: true,
+  },
+];
+
+const upcoming = [
+  {
+    version: '0.5',
+    label: 'Revised draft',
+    when: 'after review by the invited set of practitioners',
+    summary: 'Integrates substantive feedback from the invited reviewers. Compliance-path mechanics clarified; safety section sharpened.',
+  },
+  {
+    version: '0.9',
+    label: 'Release candidate',
+    when: 'after open comment',
+    summary: 'Substantively final document. A short open comment window precedes endorsement.',
+  },
+  {
+    version: '1.0',
+    label: 'Canonical',
+    when: 'with founding endorsers',
+    summary: 'Formal release with founding signatories. Subsequent revision happens through the versioned process described in §11.',
+  },
+];
+---
+
+<BaseLayout
+  title="Version history"
+  description="Version history of the Open Small Models Accord, and the consultation process toward 1.0.">
+
+  <section class="container-page py-14 md:py-20">
+    <p class="eyebrow">§ Version history</p>
+    <h1 class="display-xl mb-4">Version history</h1>
+    <p class="subtitle-xl">Of the Open Small Models Accord.</p>
+
+    <p class="lede mt-8">
+      The accord is a versioned document. Each version is a public artifact, not a git
+      commit. Versions move from draft (0.x) through release candidate (0.9) to
+      canonical (1.0), then onward through the revision process described in §11.
+    </p>
+
+    <h2 class="vh-h">Released versions</h2>
+    <ol class="vh-list">
+      {versions.map((v) => (
+        <li class={['vh-item', v.isCurrent && 'is-current'].filter(Boolean).join(' ')}>
+          <div class="vh-head">
+            <span class="vh-num">v{v.version}</span>
+            <span class={`status-pill status-pill--${v.state === 'draft' ? 'planned' : 'active'}`}>
+              {v.label}
+            </span>
+            <span class="vh-date">{v.date}</span>
+          </div>
+          <p class="vh-summary">{v.summary}</p>
+          <ul class="vh-notes">
+            {v.notes.map((n) => <li>{n}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ol>
+
+    <h2 class="vh-h">Planned versions</h2>
+    <p class="vh-process-note">
+      The path from draft to canonical moves through a small number of public revisions.
+      Each version is a discrete public artifact.
+    </p>
+    <ol class="vh-list">
+      {upcoming.map((v) => (
+        <li class="vh-item is-upcoming">
+          <div class="vh-head">
+            <span class="vh-num">v{v.version}</span>
+            <span class="status-pill status-pill--planned">{v.label}</span>
+            <span class="vh-date">{v.when}</span>
+          </div>
+          <p class="vh-summary">{v.summary}</p>
+        </li>
+      ))}
+    </ol>
+
+    <p class="vh-tail">
+      Comments on the current draft are welcome at
+      <a href="https://github.com/openslm-ai/website/issues">github.com/openslm-ai/website/issues</a>
+      or by writing to <a href="mailto:hello@openslm.ai">hello@openslm.ai</a>.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .vh-h {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin: 3rem 0 1rem;
+    letter-spacing: -0.005em;
+  }
+
+  .vh-process-note {
+    font-size: 0.95rem;
+    color: var(--color-muted);
+    max-width: 38rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .vh-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .vh-item {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .vh-item:last-child { border-bottom: 1px solid var(--color-rule); }
+
+  .vh-item.is-current {
+    background: color-mix(in srgb, var(--color-accent) 4%, transparent);
+    padding-inline: 1.25rem;
+    margin-inline: -1.25rem;
+    border-left: 3px solid var(--color-accent);
+  }
+
+  .vh-head {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0 0 0.65rem;
+  }
+
+  .vh-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--color-fg);
+    font-feature-settings: 'tnum';
+  }
+
+  .vh-date {
+    font-size: 0.82rem;
+    color: var(--color-faint);
+    font-style: italic;
+  }
+
+  .vh-summary {
+    margin: 0 0 0.65rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-fg);
+    max-width: 38rem;
+  }
+
+  .vh-notes {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .vh-notes li { margin-bottom: 0.25rem; }
+
+  .vh-tail {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-rule);
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+</style>

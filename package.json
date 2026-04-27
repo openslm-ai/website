@@ -8,12 +8,17 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "accord:md": "node scripts/build-accord-md.mjs",
+    "predev": "node scripts/build-accord-md.mjs",
+    "prestart": "node scripts/build-accord-md.mjs",
+    "prebuild": "node scripts/build-accord-md.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
     "@astrojs/sitemap": "^3.2.0",
     "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource-variable/source-serif-4": "^5.2.9",
     "@fontsource/zilla-slab": "^5.2.8",
     "@tailwindcss/vite": "^4.0.0",
     "astro": "^5.0.0",

@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AccordNav from '../components/AccordNav.astro';
+import EndorseFootnote from '../components/EndorseFootnote.astro';
 
 const accordEntries = await getCollection('accord');
 accordEntries.sort((a, b) => a.data.order - b.data.order);
@@ -19,21 +20,6 @@ const renderedAccord = await Promise.all(
   })),
 );
 
-const refs = await getCollection('references');
-const refTypeOrder: Record<string, number> = {
-  standard: 1,
-  specification: 2,
-  paper: 3,
-  organization: 4,
-  article: 5,
-};
-refs.sort((a, b) => {
-  const ta = refTypeOrder[a.data.type] ?? 99;
-  const tb = refTypeOrder[b.data.type] ?? 99;
-  if (ta !== tb) return ta - tb;
-  return a.data.title.localeCompare(b.data.title);
-});
-
 const pad2 = (n: number) => n.toString().padStart(2, '0');
 ---
 
@@ -42,27 +28,45 @@ const pad2 = (n: number) => n.toString().padStart(2, '0');
   ogType="article">
 
   <!-- ─── Hero / framing ─── -->
-  <section id="top" class="container-page py-14 md:py-20">
-    <p class="eyebrow">openslm.ai · Open Small Models Accord · v0.1 draft</p>
-    <h1 class="display-xl mb-4">The Open Small Models Accord</h1>
-    <p class="subtitle-xl">On open, accessible, and correctable AI for the next decade.</p>
+  <section id="top" class="hero">
+    <div class="container-page hero__inner">
+      <p class="hero__meta">
+        <span class="hero__pill"><span class="hero__pill-num">v0.1</span> · Draft</span>
+        <span class="hero__dot" aria-hidden="true">·</span>
+        <time datetime="2026-04-28">Issued 28 April 2026</time>
+        <span class="hero__dot" aria-hidden="true">·</span>
+        <a href="/version-history/" class="hero__history">Version history</a>
+      </p>
 
-    <p class="lede mt-8">
-      openslm.ai is the home for the Open Small Models Accord and related work on open,
-      accessible, and correctable AI. We document principles, build tooling, and publish
-      research aimed at making small language models genuinely open — inspectable,
-      reproducible, and correctable by the people they affect.
-    </p>
+      <h1 class="hero__title">The Open Small<br />Models Accord</h1>
+      <p class="hero__subtitle">
+        On open, accessible, and correctable AI for the next decade.
+      </p>
 
-    <p class="downloads">
-      Read the accord:
-      <a href="#accord">on this page</a>
-      <a href="/downloads/accord.md" download>Markdown</a>
-      <a href="/downloads/accord.pdf" download>PDF</a>
-    </p>
+      <p class="hero__lede">
+        openslm.ai is the home for the accord and related work on open,
+        accessible, and correctable AI. We document principles, build tooling,
+        and publish research aimed at making small language models genuinely
+        open: inspectable, reproducible, and correctable by the people they
+        affect.
+      </p>
+
+      <div class="hero__actions">
+        <a href="#accord" class="btn btn--primary">Read the accord</a>
+        <a href="/downloads/accord.md" download class="btn btn--ghost">Markdown</a>
+        <a href="/downloads/accord.pdf" download class="btn btn--ghost">PDF</a>
+      </div>
+
+      <ul class="hero__layers" aria-label="The four layers (LWD-R)">
+        <li><span class="hero__layer-mark">L</span><span>Logic</span></li>
+        <li><span class="hero__layer-mark">W</span><span>Weights</span></li>
+        <li><span class="hero__layer-mark">D</span><span>Data</span></li>
+        <li><span class="hero__layer-mark">R</span><span>Representation</span></li>
+      </ul>
+    </div>
   </section>
 
-  <hr class="rule" />
+  <div class="section-mark" aria-hidden="true">§</div>
 
   <!-- ─── Accord ─── -->
   <section id="accord" class="container-wide py-14 md:py-20">
@@ -93,7 +97,7 @@ const pad2 = (n: number) => n.toString().padStart(2, '0');
             return (
               <section id={anchor} class:list={['accord-section', { preamble: isPreamble }]}>
                 {!isPreamble && (
-                  <span class="section-num">§ {pad2(number!)} of 11</span>
+                  <span class="section-num">§ {pad2(number!)}</span>
                 )}
                 <h2>
                   <a href={`#${anchor}`} class="anchor">{title}</a>
@@ -103,170 +107,153 @@ const pad2 = (n: number) => n.toString().padStart(2, '0');
             );
           })}
 
-          <section class="endorse" id="endorse" aria-labelledby="endorse-heading">
-            <h2 id="endorse-heading">Endorse</h2>
-            <p>
-              Endorsement opens after the first wave of endorser conversations. If you are a
-              researcher, model developer, infrastructure provider, civil society organization,
-              enterprise, or standards body considering endorsement, write to
-              <a href="mailto:endorse@openslm.ai">endorse@openslm.ai</a>.
-            </p>
-          </section>
+          <EndorseFootnote />
 
           <div class="closing">
-            <p><em>Initial signatories: opens with the first endorser conversations.</em></p>
             <p><em>Released under CC0. Translate, adapt, republish. Endorse by signing. Build according to the principles.</em></p>
           </div>
+
+          <aside class="attribution" id="attribution" aria-label="Attribution">
+            <h3>Attribution</h3>
+            <p>
+              The Open Small Models Accord, version 0.1 (draft), authored by
+              <a href="https://anivar.net">Anivar Aravind</a>. Hosted at
+              <a href="/">openslm.ai</a>. Released under
+              <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0&nbsp;1.0</a>.
+            </p>
+            <p>
+              For answers to common questions, see the <a href="/faq/">FAQ</a>.
+              Translations are listed at <a href="/translations/">/translations</a>.
+            </p>
+          </aside>
         </div>
       </div>
     </div>
   </section>
 
-  <hr class="rule" />
-
-  <!-- ─── Code ─── -->
-  <section id="code" class="container-page py-14 md:py-20 prose">
-    <p class="eyebrow">§ Code</p>
-    <h2>Engineering work</h2>
-    <p class="lede">
-      Open infrastructure for running, evaluating, and composing small models — a runtime
-      toolkit for constrained hardware, a disclosure schema, and a public registry that
-      records what is open and what is not.
-    </p>
-
-    <h3>mobile-ai-toolkit</h3>
-    <p>
-      A toolkit for running small language models on mobile and other constrained
-      hardware, with a focus on local-first inference, deterministic action boundaries,
-      and inspectable runtime behavior.
-      <strong>Status:</strong> active development.
-      <a href="https://github.com/openslm-ai/mobile-ai-toolkit">Repository</a>.
-    </p>
-
-    <h3>LWD-R schema</h3>
-    <p>
-      A machine-readable schema for describing a release's openness across the four
-      layers of the accord — Logic, Weights, Data, and Representation. Each release
-      publishes a disclosure document; the schema defines what the disclosure must
-      contain so that independent parties can compare claims across releases.
-      <strong>Status:</strong> planned. Repository link forthcoming.
-    </p>
-
-    <h3>Public registry</h3>
-    <p>
-      A registry that collects LWD-R disclosures from signatories and renders them as a
-      public, queryable record. The registry is the mechanism by which endorsement
-      becomes something that can be checked rather than asserted.
-      <strong>Status:</strong> planned. Repository link forthcoming.
-    </p>
-  </section>
-
-  <hr class="rule" />
+  <div class="section-mark" aria-hidden="true">§</div>
 
   <!-- ─── Research ─── -->
-  <section id="research" class="container-page py-14 md:py-20 prose">
-    <p class="eyebrow">§ Research</p>
-    <h2>Theoretical and analytical work</h2>
-    <p class="lede">
-      The accord rests on a body of theoretical work on corrigibility, action
-      boundaries, and evaluation methodology. Forthcoming papers will be published with
-      reproducible artifacts and linked here.
-    </p>
+  <section id="research" class="tail-section">
+    <div class="container-page tail-section__inner">
+      <header class="tail-head">
+        <span class="tail-head__rule" aria-hidden="true"></span>
+        <p class="tail-head__eyebrow">Research</p>
+        <h2 class="tail-head__title">Theoretical and analytical work</h2>
+        <p class="tail-head__lede">
+          The accord rests on a body of theoretical work on corrigibility, action
+          boundaries, and evaluation methodology. Forthcoming papers will be published
+          with reproducible artifacts and linked here.
+        </p>
+      </header>
 
-    <h3>Corrigibility framework</h3>
-    <p>
-      A framework for designing AI systems whose decisions can be inspected, contested,
-      and overridden by the people they affect. The framework distinguishes
-      architectural corrigibility (deterministic boundaries imposed outside the model)
-      from behavioral corrigibility (the model's cooperation with correction), and
-      argues that only the first produces accountability.
-      <strong>Status:</strong> drafts forthcoming. Read the in-progress writing at
-      <a href="https://anivar.net/corrigibility">anivar.net/corrigibility</a>. ArXiv DOIs
-      will be added once the papers are public.
-    </p>
+      <article class="tail-card">
+        <h3 class="tail-card__title">Corrigibility framework</h3>
+        <p class="tail-card__body">
+          A structural framework for evaluating whether digital and AI-mediated public
+          infrastructure permits correction by affected participants. The framework
+          comprises two preprints, evaluated against five tests: EXIT, CODE, AUDIT,
+          GOVERN, and FORK.
+        </p>
+        <p class="tail-card__meta">
+          <a href="https://anivar.net/corrigibility">anivar.net/corrigibility</a>
+        </p>
+      </article>
 
-    <h3>Related directions</h3>
-    <p>
-      The accord draws on the OSI Open Source AI Definition (§2 in particular), Princeton's
-      research on AI agent reliability, and the emerging Agentic Skills specification work
-      on composable, inspectable agent capabilities. See <a href="#references">References</a>
-      below.
-    </p>
+      <article class="tail-card">
+        <h3 class="tail-card__title">Paper I · DPI</h3>
+        <p class="tail-card__body">
+          <strong>Corrigibility as a Structural Precondition for Digital Public
+          Infrastructure.</strong> Examines corrigibility requirements for deterministic
+          systems (ledgers, registries, payment rails) and how structural safeguards let
+          affected parties detect errors and hold infrastructure accountable.
+          <em>DPI = Deterministic Public Infrastructure.</em>
+        </p>
+        <p class="tail-card__meta">
+          <span class="tail-status">Preprint</span>
+          <a href="https://anivar.net/corrigibility">anivar.net/corrigibility</a>
+        </p>
+      </article>
+
+      <article class="tail-card">
+        <h3 class="tail-card__title">Paper II · EPI</h3>
+        <p class="tail-card__body">
+          <strong>Epistemic Capture and the Action Boundary.</strong> Extends the
+          framework to learned and agentic systems, examining how epistemic constraints
+          shape decision boundaries in AI and machine learning infrastructure.
+          <em>EPI = Epistemic Public Infrastructure.</em>
+        </p>
+        <p class="tail-card__meta">
+          <span class="tail-status">Preprint</span>
+          <a href="https://anivar.net/corrigibility">anivar.net/corrigibility</a>
+        </p>
+      </article>
+
+      <article class="tail-card">
+        <h3 class="tail-card__title">Related directions</h3>
+        <p class="tail-card__body">
+          The accord draws on the OSI Open Source AI Definition (§2 in particular),
+          Princeton's research on AI agent reliability, and the emerging Agentic Skills
+          specification work on composable, inspectable agent capabilities.
+        </p>
+      </article>
+    </div>
   </section>
 
-  <hr class="rule" />
-
-  <!-- ─── References ─── -->
-  <section id="references" class="container-page py-14 md:py-20 prose">
-    <p class="eyebrow">§ References</p>
-    <h2>Lineage and citations</h2>
-    <p class="lede">
-      Standards, organizations, and writing the accord draws on. The complete list is
-      in preparation; what follows is the starting set.
-    </p>
-
-    <ul class="ref-list">
-      {refs.map((r) => (
-        <li>
-          <div class="ref-title">
-            {r.data.url ? <a href={r.data.url}>{r.data.title}</a> : r.data.title}
-          </div>
-          <div class="ref-meta">
-            {[r.data.authors?.join(', '), r.data.year].filter(Boolean).join(', ')}
-            {r.data.type && (
-              <span class="text-[color:var(--color-faint)]"> · {r.data.type}</span>
-            )}
-          </div>
-          <p class="m-0 mt-2 text-sm">
-            {r.data.note}
-            {r.data.relevance && r.data.relevance.length > 0 && (
-              <span class="text-[color:var(--color-faint)]">
-                {' '}[§{r.data.relevance.join(', §')}]
-              </span>
-            )}
-          </p>
-        </li>
-      ))}
-    </ul>
-
-    <p class="text-sm text-[color:var(--color-muted)] mt-6">
-      To suggest a citation, open an issue on
-      <a href="https://github.com/openslm-ai/website">openslm-ai/website</a>.
-    </p>
-  </section>
-
-  <hr class="rule" />
+  <div class="section-mark" aria-hidden="true">§</div>
 
   <!-- ─── About ─── -->
-  <section id="about" class="container-page py-14 md:py-20 prose">
-    <p class="eyebrow">§ About</p>
-    <h2>About this initiative</h2>
-    <p class="lede">
-      openslm.ai is an initiative to make small language models, and the systems that
-      run them, open in a way that holds up — inspectable, reproducible, and
-      correctable by the people they affect.
-    </p>
+  <section id="about" class="tail-section">
+    <div class="container-page tail-section__inner">
+      <header class="tail-head">
+        <span class="tail-head__rule" aria-hidden="true"></span>
+        <p class="tail-head__eyebrow">About</p>
+        <h2 class="tail-head__title">About this initiative</h2>
+        <p class="tail-head__lede">
+          openslm.ai is an initiative to make small language models, and the systems
+          that run them, open in a way that holds up: inspectable, reproducible, and
+          correctable by the people they affect.
+        </p>
+      </header>
 
-    <p>
-      The initiative is founded and initiated by
-      <a href="https://anivar.net">Anivar Aravind</a>, a longtime contributor to free
-      software, language technology, and digital rights, with a focus on open
-      infrastructure for non-English-speaking users.
-    </p>
+      <p class="tail-paragraph">
+        The initiative is founded and initiated by
+        <a href="https://anivar.net">Anivar Aravind</a>, a longtime contributor to free
+        software, language technology, and digital rights, with a focus on open
+        infrastructure for non-English-speaking users.
+      </p>
 
-    <h3>Contact</h3>
-    <p>
-      General inquiries: <a href="mailto:hello@openslm.ai">hello@openslm.ai</a>.
-      Endorsement inquiries: <a href="mailto:endorse@openslm.ai">endorse@openslm.ai</a>.
-      Code and issues: <a href="https://github.com/openslm-ai">github.com/openslm-ai</a>.
-    </p>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h4>General inquiries</h4>
+          <a href="mailto:hello@openslm.ai">hello@openslm.ai</a>
+        </div>
+        <div class="contact-card">
+          <h4>Endorsement</h4>
+          <a href="mailto:endorse@openslm.ai">endorse@openslm.ai</a>
+        </div>
+        <div class="contact-card">
+          <h4>Code and issues</h4>
+          <a href="https://github.com/openslm-ai">github.com/openslm-ai</a>
+        </div>
+      </div>
 
-    <h3>Get involved</h3>
-    <ul>
-      <li>Open an issue or pull request on <a href="https://github.com/openslm-ai">github.com/openslm-ai</a>.</li>
-      <li>Send a note to <a href="mailto:hello@openslm.ai">hello@openslm.ai</a> to discuss the accord, contribute code, or work on the research.</li>
-      <li>Endorse the accord once endorsement opens after the first wave of conversations.</li>
-    </ul>
+      <h3 class="involve-h">Get involved</h3>
+      <ul class="involve-list">
+        <li>
+          Open an issue or pull request on
+          <a href="https://github.com/openslm-ai">github.com/openslm-ai</a>.
+        </li>
+        <li>
+          Send a note to <a href="mailto:hello@openslm.ai">hello@openslm.ai</a> to
+          discuss the accord, contribute code, or work on the research.
+        </li>
+        <li>
+          Endorse the accord once endorsement opens after the first wave of
+          conversations.
+        </li>
+      </ul>
+    </div>
   </section>
 
 </BaseLayout>

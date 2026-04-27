@@ -40,4 +40,51 @@ const disclosures = defineCollection({
   }),
 });
 
-export const collections = { accord, references, disclosures };
+const endorsers = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/endorsers' }),
+  schema: z.object({
+    name: z.string(),
+    type: z.enum([
+      'research-institution',
+      'model-developer',
+      'infrastructure-provider',
+      'civil-society',
+      'enterprise',
+      'standards-body',
+      'individual',
+    ]),
+    url: z.string().url().optional(),
+    logo: z.string().optional(),
+    country: z.string().optional(),
+    date: z.coerce.date(),
+    order: z.number().optional(),
+    statement: z.string().max(240).optional(),
+  }),
+});
+
+const faq = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/faq' }),
+  schema: z.object({
+    order: z.number(),
+    question: z.string(),
+    anchor: z.string(),
+    category: z.string().optional(),
+  }),
+});
+
+const translations = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/translations' }),
+  schema: z.object({
+    language: z.string(),                  // English name, e.g. "Spanish"
+    language_native: z.string(),           // Native name, e.g. "Español"
+    code: z.string(),                      // BCP47, e.g. "es", "pt-BR"
+    translator: z.string(),
+    translator_url: z.string().url().optional(),
+    version: z.string(),                   // accord version this translates
+    status: z.enum(['draft', 'complete', 'outdated']),
+    url: z.string().optional(),            // hosted location of translation
+    date: z.coerce.date(),
+  }),
+});
+
+export const collections = { accord, references, disclosures, endorsers, faq, translations };

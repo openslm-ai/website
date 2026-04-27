@@ -1,0 +1,140 @@
+---
+const layers = [
+  { letter: 'L', name: 'Logic',          line: 'What the system computes.' },
+  { letter: 'W', name: 'Weights',        line: 'What the system has learned.' },
+  { letter: 'D', name: 'Data',           line: 'What the system was trained on.' },
+  { letter: 'R', name: 'Representation', line: 'How the system sees the world.' },
+];
+---
+
+<figure class="lwdr" role="group" aria-labelledby="lwdr-caption">
+  <figcaption id="lwdr-caption" class="lwdr-caption">
+    <span class="lwdr-eyebrow">The framework</span>
+    <span class="lwdr-acronym" aria-hidden="true">L · W · D · R</span>
+  </figcaption>
+
+  <div class="lwdr-grid">
+    {layers.map((l, i) => (
+      <article class="lwdr-card" style={`--lwdr-i: ${i}`}>
+        <div class="lwdr-mono" aria-hidden="true">{l.letter}</div>
+        <h4 class="lwdr-name">{l.name}</h4>
+        <p class="lwdr-line">{l.line}</p>
+      </article>
+    ))}
+  </div>
+</figure>
+
+<style>
+  .lwdr {
+    margin: 2.5rem 0 2.75rem;
+    padding: 0;
+  }
+
+  .lwdr-caption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .lwdr-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-faint);
+    font-weight: 600;
+  }
+
+  .lwdr-acronym {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.18em;
+    color: var(--color-accent);
+    font-feature-settings: 'tnum';
+  }
+
+  .lwdr-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  @media (min-width: 640px) {
+    .lwdr-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 960px) {
+    .lwdr-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .lwdr-card {
+    position: relative;
+    padding: 1.5rem 1.25rem 1.5rem;
+    border-top: 3px solid var(--color-accent);
+    background: var(--color-bg);
+    transition: background 120ms ease, transform 120ms ease;
+  }
+
+  /* Hairline separators between cards on the wide layout */
+  @media (min-width: 640px) {
+    .lwdr-card + .lwdr-card { box-shadow: -1px 0 0 var(--color-rule); }
+  }
+  @media (min-width: 960px) {
+    .lwdr-card + .lwdr-card { box-shadow: -1px 0 0 var(--color-rule); }
+  }
+
+  /* Stacked: bottom rule between cards */
+  @media (max-width: 639px) {
+    .lwdr-card { border-top: 3px solid var(--color-accent); }
+    .lwdr-card + .lwdr-card { border-top-width: 3px; box-shadow: 0 -1px 0 var(--color-rule); }
+  }
+
+  .lwdr-card:hover {
+    background: var(--color-soft);
+  }
+
+  .lwdr-mono {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 0.9;
+    color: var(--color-accent);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+    font-feature-settings: 'ss01';
+  }
+
+  .lwdr-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.2;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.005em;
+    color: var(--color-fg);
+  }
+
+  .lwdr-line {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  @media print {
+    .lwdr-card {
+      border-top-color: #000 !important;
+      background: #fff !important;
+      box-shadow: none !important;
+    }
+    .lwdr-mono { color: #000; }
+    .lwdr-acronym { color: #000; }
+  }
+</style>

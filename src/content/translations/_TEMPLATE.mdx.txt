@@ -1,0 +1,24 @@
+---
+# Required
+language: "Spanish"
+language_native: "Español"
+code: "es"
+translator: "Translator Name"
+version: "0.1"
+status: "draft"           # draft | complete | outdated
+date: 2026-05-01
+
+# Optional
+translator_url: "https://example.org"
+url: "/translations/es/"  # where the translated text is hosted (relative or absolute)
+---
+
+Optional MDX body (notes for the maintainer; not currently rendered).
+
+To contribute a translation:
+
+1. Copy this file to <code>.mdx (e.g. es.mdx, pt-BR.mdx).
+2. Translate the accord text. The MDX files in src/content/accord/ are the source.
+3. Host the translated text either at /translations/<code>/ on this site or externally; set `url` accordingly.
+4. Pin to the accord version you translated (`version` field).
+5. Open a PR at openslm-ai/website.

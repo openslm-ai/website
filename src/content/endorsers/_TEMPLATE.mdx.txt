@@ -1,0 +1,21 @@
+---
+# Required
+name: "Example Foundation"
+type: "civil-society"   # research-institution | model-developer | infrastructure-provider | civil-society | enterprise | standards-body | individual
+date: 2026-05-01
+
+# Optional
+url: "https://example.org"
+logo: "/endorsers/example-foundation.svg"   # under public/endorsers/, prefer monochrome SVG ≤ 240px wide
+country: "DE"                               # ISO 3166-1 alpha-2
+order: 100                                  # lower = earlier in list; default sort is by date desc, then name
+statement: "Short pull quote, ≤ 240 chars. Optional."
+---
+
+Optional MDX body. Currently unused at render time; reserved for an endorser detail page.
+
+To add a real endorser:
+1. Copy this file to <slug>.mdx (e.g. example-foundation.mdx).
+2. Drop the logo at public/endorsers/<slug>.svg (or .png).
+3. Fill in the frontmatter. Remove unused optional fields.
+4. Open a PR.

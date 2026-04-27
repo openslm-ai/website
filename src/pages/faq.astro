@@ -1,0 +1,148 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const entries = await getCollection('faq');
+entries.sort((a, b) => a.data.order - b.data.order);
+
+const rendered = await Promise.all(
+  entries.map(async (e) => ({ entry: e, Content: (await render(e)).Content })),
+);
+
+const pad2 = (n: number) => n.toString().padStart(2, '0');
+---
+
+<BaseLayout
+  title="FAQ"
+  description="Frequently asked questions about the Open Small Models Accord."
+  ogType="article">
+
+  <section class="container-page py-14 md:py-20">
+    <p class="eyebrow">§ FAQ</p>
+    <h1 class="display-xl mb-4">Frequently asked questions</h1>
+    <p class="subtitle-xl">About the Open Small Models Accord.</p>
+
+    <p class="lede mt-8">
+      Quick answers to the questions endorsers, contributors, and readers have asked
+      most often. The full text of the accord is at <a href="/#accord">/#accord</a>.
+    </p>
+
+    <ol class="faq-list">
+      {rendered.map(({ entry, Content }, i) => (
+        <li id={entry.data.anchor} class="faq-item">
+          <span class="faq-num">Q.{pad2(entry.data.order)}</span>
+          <h2 class="faq-q">
+            <a href={`#${entry.data.anchor}`} class="anchor">{entry.data.question}</a>
+          </h2>
+          <div class="faq-a prose">
+            <Content />
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <p class="faq-tail">
+      Question we have not answered? Open an issue at
+      <a href="https://github.com/openslm-ai/website">openslm-ai/website</a>
+      or write to <a href="mailto:hello@openslm.ai">hello@openslm.ai</a>.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .faq-list {
+    list-style: none;
+    padding: 0;
+    margin: 3rem 0 0;
+    counter-reset: faq;
+  }
+
+  .faq-item {
+    counter-increment: faq;
+    padding: 2rem 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .faq-item:last-child {
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .faq-num {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.78rem;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    color: var(--color-accent);
+    margin-bottom: 0.85rem;
+    text-transform: uppercase;
+    font-feature-settings: 'tnum';
+  }
+
+  .faq-q {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    margin: 0 0 1rem;
+    text-wrap: balance;
+    scroll-margin-top: 2rem;
+  }
+
+  .faq-q a.anchor {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .faq-q a.anchor:hover { color: var(--color-accent); }
+
+  @media (hover: hover) {
+    .faq-q a.anchor::after {
+      content: '#';
+      margin-left: 0.4rem;
+      color: var(--color-faint);
+      font-weight: 400;
+      opacity: 0;
+      transition: opacity 120ms ease;
+    }
+    .faq-item:hover .faq-q a.anchor::after,
+    .faq-q a.anchor:focus-visible::after {
+      opacity: 1;
+    }
+  }
+
+  .faq-a {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-fg);
+  }
+
+  .faq-a :global(p) {
+    margin: 0 0 0.85rem;
+    text-wrap: pretty;
+  }
+
+  .faq-a :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .faq-a :global(ul) {
+    margin: 0 0 0.85rem;
+    padding-left: 1.25rem;
+  }
+
+  .faq-a :global(li) {
+    margin-bottom: 0.35rem;
+  }
+
+  .faq-tail {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-rule);
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+</style>

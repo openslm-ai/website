@@ -1,0 +1,157 @@
+---
+import { getCollection } from 'astro:content';
+
+const endorsers = await getCollection('endorsers');
+endorsers.sort((a, b) => {
+  const oa = a.data.order ?? Number.POSITIVE_INFINITY;
+  const ob = b.data.order ?? Number.POSITIVE_INFINITY;
+  if (oa !== ob) return oa - ob;
+  const da = a.data.date.getTime();
+  const db = b.data.date.getTime();
+  if (da !== db) return db - da;
+  return a.data.name.localeCompare(b.data.name);
+});
+
+const typeLabel: Record<string, string> = {
+  'research-institution': 'Research institution',
+  'model-developer': 'Model developer',
+  'infrastructure-provider': 'Infrastructure provider',
+  'civil-society': 'Civil society',
+  'enterprise': 'Enterprise',
+  'standards-body': 'Standards body',
+  'individual': 'Individual',
+};
+
+const withLogo = endorsers.filter((e) => e.data.logo);
+const withoutLogo = endorsers.filter((e) => !e.data.logo);
+const hasAny = endorsers.length > 0;
+---
+
+<aside class="endorse-footnote" id="endorse" aria-labelledby="endorse-heading">
+  <h3 id="endorse-heading" class="footnote-heading">
+    {hasAny ? 'Endorsed by' : 'Endorse'}
+  </h3>
+
+  {hasAny && withLogo.length > 0 && (
+    <ul class="logo-wall" role="list">
+      {withLogo.map((e) => (
+        <li>
+          {e.data.url ? (
+            <a href={e.data.url} title={e.data.name} rel="noopener">
+              <img src={e.data.logo} alt={e.data.name} loading="lazy" decoding="async" />
+            </a>
+          ) : (
+            <img src={e.data.logo} alt={e.data.name} loading="lazy" decoding="async" />
+          )}
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {hasAny && withoutLogo.length > 0 && (
+    <ul class="signatory-list" role="list">
+      {withoutLogo.map((e) => (
+        <li>
+          {e.data.url ? <a href={e.data.url} rel="noopener">{e.data.name}</a> : e.data.name}
+          <span class="meta"> · {typeLabel[e.data.type]}{e.data.country ? `, ${e.data.country}` : ''}</span>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <p class="footnote-body">
+    {hasAny ? (
+      <>Considering endorsement? Write to <a href="mailto:endorse@openslm.ai">endorse@openslm.ai</a>.</>
+    ) : (
+      <>Endorsement opens with the first wave of conversations. Researchers, model developers, infrastructure providers, civil society organizations, enterprises, and standards bodies considering endorsement, write to <a href="mailto:endorse@openslm.ai">endorse@openslm.ai</a>.</>
+    )}
+  </p>
+</aside>
+
+<style>
+  .endorse-footnote {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-rule);
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    line-height: 1.6;
+  }
+
+  .footnote-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+    margin: 0 0 1.25rem;
+  }
+
+  .footnote-body {
+    margin: 0;
+    max-width: 36rem;
+  }
+
+  .logo-wall {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: 1.75rem 2rem;
+    align-items: center;
+  }
+
+  .logo-wall li {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+  }
+
+  .logo-wall img {
+    max-width: 100%;
+    max-height: 2.5rem;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.7;
+    transition: filter 120ms ease, opacity 120ms ease;
+  }
+
+  .logo-wall a:hover img,
+  .logo-wall a:focus-visible img {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+
+  .signatory-list {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    columns: 2;
+    column-gap: 2.5rem;
+  }
+
+  @media (max-width: 40rem) {
+    .signatory-list { columns: 1; }
+  }
+
+  .signatory-list li {
+    margin: 0 0 0.5rem;
+    break-inside: avoid;
+  }
+
+  .signatory-list .meta {
+    color: var(--color-faint);
+    font-size: 0.8125rem;
+  }
+
+  @media print {
+    .endorse-footnote { color: #000; }
+    .logo-wall img { filter: none; opacity: 1; }
+  }
+</style>

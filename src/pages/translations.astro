@@ -1,0 +1,190 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const entries = await getCollection('translations');
+entries.sort((a, b) => a.data.language.localeCompare(b.data.language));
+
+const statusLabel: Record<string, string> = {
+  draft: 'Draft',
+  complete: 'Complete',
+  outdated: 'Outdated',
+};
+---
+
+<BaseLayout
+  title="Translations"
+  description="Translations of the Open Small Models Accord, and how to contribute one.">
+
+  <section class="container-page py-14 md:py-20">
+    <p class="eyebrow">§ Translations</p>
+    <h1 class="display-xl mb-4">Translations</h1>
+    <p class="subtitle-xl">Of the Open Small Models Accord.</p>
+
+    <p class="lede mt-8">
+      The accord is released under CC0 1.0. Translation, adaptation, and republication
+      are encouraged. Translations contributed back to this site are listed below.
+    </p>
+
+    {entries.length === 0 ? (
+      <div class="empty">
+        <h2>No translations yet</h2>
+        <p>
+          Be the first. The MDX files in <code>src/content/accord/</code> are the
+          source text; pin your translation to the accord version you translated and
+          credit yourself as translator.
+        </p>
+      </div>
+    ) : (
+      <ul class="trans-list" role="list">
+        {entries.map((t) => (
+          <li class="trans-item">
+            <div class="trans-head">
+              <h2 class="trans-name">
+                {t.data.url ? <a href={t.data.url}>{t.data.language_native}</a> : t.data.language_native}
+                <span class="trans-en"> · {t.data.language}</span>
+              </h2>
+              <span class={`status-pill status-pill--${t.data.status === 'complete' ? 'active' : 'planned'}`}>
+                {statusLabel[t.data.status]}
+              </span>
+            </div>
+            <p class="trans-meta">
+              <span>v{t.data.version}</span>
+              <span aria-hidden="true"> · </span>
+              <span>{t.data.code}</span>
+              <span aria-hidden="true"> · </span>
+              <span>
+                {t.data.translator_url
+                  ? <a href={t.data.translator_url}>{t.data.translator}</a>
+                  : t.data.translator}
+              </span>
+            </p>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <section class="contribute prose">
+      <h2>Contribute a translation</h2>
+      <ol>
+        <li>
+          Translate the accord. The canonical source is the MDX in
+          <a href="https://github.com/openslm-ai/website/tree/main/src/content/accord">
+            <code>src/content/accord/</code>
+          </a>
+          (or the generated <a href="/downloads/accord.md">accord.md</a>).
+        </li>
+        <li>
+          Host the translated text. You can host it externally and link to it, or
+          submit it to live at <code>/translations/&lt;code&gt;/</code> on this site.
+        </li>
+        <li>
+          Add a translation entry. Copy
+          <code>src/content/translations/_TEMPLATE.mdx.txt</code> to
+          <code>&lt;code&gt;.mdx</code> and fill in the frontmatter (language, code,
+          translator, version, status).
+        </li>
+        <li>
+          Open a pull request at
+          <a href="https://github.com/openslm-ai/website">openslm-ai/website</a>.
+        </li>
+      </ol>
+      <p>
+        Translations should pin to a specific accord version. When the accord is
+        revised, translations are marked <em>outdated</em> until updated. We ask, but
+        do not require, that translations link back to the canonical version at
+        <a href="/">openslm.ai</a>.
+      </p>
+    </section>
+  </section>
+</BaseLayout>
+
+<style>
+  .empty {
+    margin-top: 3rem;
+    padding: 2rem;
+    border: 1px dashed var(--color-rule-strong);
+    background: var(--color-soft);
+    text-align: center;
+  }
+
+  .empty h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .empty p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    max-width: 32rem;
+    margin-inline: auto;
+  }
+
+  .trans-list {
+    list-style: none;
+    padding: 0;
+    margin: 3rem 0 0;
+  }
+
+  .trans-item {
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .trans-item:last-child {
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .trans-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 0.4rem;
+  }
+
+  .trans-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .trans-en {
+    font-weight: 400;
+    color: var(--color-faint);
+    font-size: 0.95rem;
+  }
+
+  .trans-meta {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-faint);
+    font-feature-settings: 'tnum';
+  }
+
+  .contribute {
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .contribute h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+  }
+
+  .contribute code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--color-soft);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+  }
+</style>
