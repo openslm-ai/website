@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+
+const all = await getCollection('references');
+
+const typeOrder: Record<string, number> = {
+  standard: 1,
+  specification: 2,
+  paper: 3,
+  organization: 4,
+  article: 5,
+};
+
+const typeLabel: Record<string, string> = {
+  standard: 'Standards',
+  specification: 'Specifications',
+  paper: 'Papers',
+  organization: 'Organizations',
+  article: 'Articles',
+};
+
+const grouped: Record<string, typeof all> = {};
+for (const r of all) {
+  (grouped[r.data.type] ??= []).push(r);
+}
+
+const sortedGroups = Object.entries(grouped).sort(
+  ([a], [b]) => (typeOrder[a] ?? 99) - (typeOrder[b] ?? 99),
+);
+---
+
+<PageLayout
+  title="References"
+  description="The full lineage of standards, specifications, papers, and organizations the Open Small Models Accord draws on."
+  lede="A structured list of the standards, specifications, academic work, and organizations the accord draws on. This page is scaffolded with starting entries; the canonical reference list will be added as each section of the accord is finalized.">
+
+  <p>
+    Each entry notes the section of the accord it relates to (in brackets after the
+    note). Follow the link to the canonical source.
+  </p>
+
+  {sortedGroups.map(([type, items]) => (
+    <section>
+      <h2>{typeLabel[type] ?? type}</h2>
+      <ul class="ref-list">
+        {items.map((r) => (
+          <li>
+            <div class="ref-title">
+              {r.data.url ? <a href={r.data.url}>{r.data.title}</a> : r.data.title}
+            </div>
+            <div class="ref-meta">
+              {[r.data.authors?.join(', '), r.data.year].filter(Boolean).join(', ')}
+            </div>
+            <p class="m-0 mt-2 text-sm">
+              {r.data.note}
+              {r.data.relevance && r.data.relevance.length > 0 && (
+                <span class="text-[color:var(--color-muted)]">
+                  {' '}[§{r.data.relevance.join(', §')}]
+                </span>
+              )}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <p class="text-sm text-[color:var(--color-muted)] mt-12">
+    The complete reference list is in preparation. To suggest a citation, open an issue
+    on <a href="https://github.com/openslm-ai/website">openslm-ai/website</a>.
+  </p>
+</PageLayout>

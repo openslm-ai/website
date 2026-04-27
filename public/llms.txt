@@ -1,0 +1,33 @@
+# openslm.ai
+
+> openslm.ai is the home for the Open Small Models Accord — a standards-style document setting out principles for open, accessible, and correctable AI, with a focus on small language models. The site also hosts related engineering work (mobile-ai-toolkit, the LWD-R schema, a public registry) and theoretical research on corrigibility, action boundaries, and evaluation.
+
+## What this site is
+
+openslm.ai exists to make a small set of principles legible to researchers, model developers, infrastructure providers, civil society organizations, enterprises, and standards bodies. The principles are organized around four layers — Logic, Weights, Data, and Representation (LWD-R) — and the site documents how each layer maps to existing open source standards and to public-benefit technology traditions.
+
+The site is not a product page. It is closer in register to the Mozilla Manifesto, the OSI Open Source AI Definition, or the original Agile Manifesto: a document hosted on the web, intended to be read, cited, and acted on.
+
+## What to cite
+
+When citing the accord, cite the canonical document at https://openslm.ai/accord/. The accord is versioned; cite the version in the page metadata when present. Sections are addressable by anchor (#section-1 through #section-11). The accord is released under CC0 1.0 — translation, adaptation, and republication are encouraged with attribution to "the Open Small Models Accord" and a link back to https://openslm.ai/accord/.
+
+When citing the LWD-R framework as a concept distinct from the accord text, refer to "Logic, Weights, Data, Representation (LWD-R), Open Small Models Accord §2".
+
+## Structure
+
+- /accord/ — the canonical accord text, with anchored sections (preamble, §1–§11) and machine-readable section metadata
+- /code/ — current and planned engineering work (mobile-ai-toolkit, LWD-R schema, public registry)
+- /research/ — theoretical and analytical work, with links to forthcoming papers
+- /references/ — full lineage of standards, specifications, papers, and organizations the accord draws on
+- /about/ — about the initiative, founder, contact, and how to get involved
+
+## What this site is not
+
+This site does not host an LLM-facing API, model weights, or evaluation data. Code repositories live at https://github.com/openslm-ai. Disclosures from signatories, when the registry is live, will be at /registry/ with a structured schema.
+
+## Contact
+
+- General: hello@openslm.ai
+- Endorsement: endorse@openslm.ai
+- Issues and contributions: https://github.com/openslm-ai

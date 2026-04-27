@@ -1,0 +1,22 @@
+---
+interface SectionLink {
+  number: number | null;
+  title: string;
+  anchor: string;
+}
+interface Props {
+  sections: SectionLink[];
+}
+const { sections } = Astro.props;
+
+const numbered = sections.filter((s) => s.number !== null);
+---
+
+<aside class="accord-nav hidden lg:block">
+  <h3>Sections</h3>
+  <ol>
+    {numbered.map((s) => (
+      <li><a href={`#${s.anchor}`}>{s.title}</a></li>
+    ))}
+  </ol>
+</aside>

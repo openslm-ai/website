@@ -1,0 +1,16 @@
+---
+order: 2
+number: 2
+title: Openness comes in layers, and endorsement is a direction of travel
+anchor: section-2
+---
+
+An AI system is open to the extent that someone other than its original developer can reproduce it, inspect it, and change it. The Open Source Initiative has defined this carefully for AI in its Open Source AI Definition, requiring access to code, parameters, and information about training data. We draw on that work and extend it by adding a fourth layer.
+
+We call the four layers **Logic, Weights, Data, and Representation**. Logic is the model architecture and the inference code. Weights are the trained parameters, released under terms that allow use, redistribution, and modification. Data is the training corpus — including any routing or gating data for architectures that use them — documented well enough that someone else could reproduce or substitute it. Representation is the set of categories the model uses to interpret the world, documented so that the communities the model classifies can review and contest them.
+
+Without representation, openness stops at mechanics and never reaches meaning. A system can expose its code and weights while embedding classifications that cannot be examined or contested. Representation makes those assumptions visible.
+
+Not every release satisfies every layer, and the accord does not pretend otherwise. A base model release is assessed for the full training it represents. A derivative — a fine-tune, an adapter, a distillation, a domain or task adaptation — is assessed only for what that derivative adds, with the base model's own disclosure referenced rather than reproduced. Each stage discloses its own work. The openness of the whole system is the composition of what each stage contributes.
+
+Endorsement commits signatories to progress on the layers they touch, to document clearly which layers their releases meet, and to treat full openness across the stack as the long-term goal. Few releases in 2026 meet all four layers fully. The accord asks signatories to make visible where they are, and to move.

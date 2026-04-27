@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeBlock from '../components/HomeBlock.astro';
+---
+
+<BaseLayout
+  description="openslm.ai is the home for the Open Small Models Accord — principles for open, accessible, and correctable AI.">
+  <article class="container-page py-12 md:py-16">
+    <h1 class="text-3xl md:text-[2rem] font-bold leading-tight m-0 mb-4">openslm.ai</h1>
+    <p class="lede">
+      openslm.ai is the home for the Open Small Models Accord and related work on open,
+      accessible, and correctable AI. We document principles, build tooling, and publish
+      research aimed at making small language models genuinely open — inspectable, reproducible,
+      and correctable by the people they affect.
+    </p>
+
+    <div class="home-blocks">
+      <HomeBlock label="Accord" href="/accord/" more="Read the accord">
+        <p>
+          A standards-style document setting out what it takes for small language models, and
+          the systems that run them, to be open in a meaningful sense.
+        </p>
+      </HomeBlock>
+
+      <HomeBlock label="Code" href="/code/" more="See the engineering work">
+        <p>
+          Open infrastructure for running, evaluating, and composing small models — including
+          mobile-ai-toolkit, the LWD-R schema, and a public registry.
+        </p>
+      </HomeBlock>
+
+      <HomeBlock label="Research" href="/research/" more="Read the research">
+        <p>
+          Theoretical work on corrigibility, action boundaries, and evaluation methodology —
+          published as papers and analytical writing.
+        </p>
+      </HomeBlock>
+    </div>
+  </article>
+</BaseLayout>

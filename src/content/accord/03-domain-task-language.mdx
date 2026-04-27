@@ -1,0 +1,14 @@
+---
+order: 3
+number: 3
+title: "Domain, task, and language: the deployment unit"
+anchor: section-3
+---
+
+Small models work well not because they are miniature versions of large ones but because they serve a different purpose. A useful small model is usually scoped to a specific domain, tuned for a specific task, and built for a specific language or language mix. Agricultural question-answering in Kannada. Legal summarization for Indian tax law. Clinical discharge notes in Bangla. Maintenance log extraction in a particular industrial vocabulary. Each of these is a bounded problem, and small models are the natural architecture for bounded problems.
+
+This inverts the frontier thesis. A frontier model tries to serve every domain, every task, and every language at once, which forces compromises on all three. A small model that serves one domain, one task, and one language mix can actually be good at that specific thing. It can also be owned and maintained by the institution that deploys it, because the institution can fine-tune it on its own data without sending that data to a vendor.
+
+Three consequences follow. Deployment goes to the SLM layer, not the frontier, because the organizations doing the deployment need models that understand their specific work. Openness at the SLM layer is a precondition for this, because an institution cannot fine-tune a frontier model on proprietary data without surrendering it to the vendor. And language coverage stops being about training ever-larger models on ever-more-languages and starts being about enabling the communities that need a model in their language to build one.
+
+We commit to supporting this deployment pattern — domain, task, language — as a first-class way to build AI, and to designing the models, tools, benchmarks, and documentation that make it practical.

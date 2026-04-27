@@ -1,0 +1,12 @@
+---
+order: 4
+number: 4
+title: Running a model is not the same as reproducing it
+anchor: section-4
+---
+
+Inference is not reproduction. A model that runs on modest hardware is not automatically accessible in any meaningful sense. Mixture-of-experts architectures and other efficiency designs can make a model cheap to run while keeping it expensive to retrain. Two capacities are different here and need to be distinguished. Inference forkability is the ability to take a released model and run it. Training forkability is the ability to reproduce or fundamentally alter it. Only the second produces accountability; the first produces convenience.
+
+Where reproducing a model requires compute well beyond what research institutions, public bodies, enterprises, or independent developers can assemble, openness in principle becomes narrowness in practice. This is what we call compute capture: when training cost so far exceeds accessible compute that legal forkability becomes meaningless without practical reproducibility. Compute access is not an ancillary concern for the open AI community. It is part of what openness means.
+
+We support the development of public, academic, federated, and community-governed compute resources. We commit to publishing honest training cost estimates, inference cost estimates, and data manifests, so that anyone can assess whether a given model is actually reproducible. Active parameter counts, compute used, and other proxies are not substitutes for disclosed cost.

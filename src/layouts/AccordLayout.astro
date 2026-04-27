@@ -1,0 +1,29 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import AccordNav from '../components/AccordNav.astro';
+
+interface SectionLink {
+  number: number | null;
+  title: string;
+  anchor: string;
+}
+interface Props {
+  title: string;
+  description?: string;
+  sections: SectionLink[];
+}
+const { title, description, sections } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} ogType="article">
+  <div class="container-wide py-10 md:py-14">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-[14rem_1fr]">
+      <div class="lg:sticky lg:top-8 lg:self-start lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto">
+        <AccordNav sections={sections} />
+      </div>
+      <div>
+        <slot />
+      </div>
+    </div>
+  </div>
+</BaseLayout>

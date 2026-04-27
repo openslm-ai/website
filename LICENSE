@@ -1,0 +1,20 @@
+Creative Commons CC0 1.0 Universal
+
+The content of this repository — the text of the Open Small Models Accord and
+all accompanying prose, documentation, and reference material — is released
+into the public domain under CC0 1.0.
+
+To the extent possible under law, the contributors to openslm.ai have waived
+all copyright and related or neighboring rights to the content in this
+repository. This work is published from: Worldwide.
+
+Full legal text: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+You may copy, modify, distribute, translate, and republish the content,
+including for commercial purposes, without asking permission. Attribution to
+"the Open Small Models Accord" with a link to https://openslm.ai/accord/ is
+appreciated but not required.
+
+Note: code in this repository — Astro components, layouts, configuration, and
+build scripts — is licensed separately under the MIT License. See LICENSE-CODE
+for the code license.

@@ -1,0 +1,12 @@
+---
+order: 8
+number: 8
+title: Evaluation should measure what matters for deployment
+anchor: section-8
+---
+
+A system is reproducible in the open source sense when an independent party, given what has been published, can rebuild it and verify that it behaves as claimed. For AI this requires reproducible training procedures where feasible, clear records of compute and data provenance, and evaluation protocols that measure what actually matters once the system is deployed.
+
+Benchmarks that reduce a system to a single accuracy score hide the differences that determine whether the system is fit for use. A model that succeeds seventy percent of the time does not reliably succeed. A model that is cheaper to run than a competitor may be more expensive to retrain. Useful evaluation reports capability alongside reliability, and accuracy alongside cost — not through proxies like parameter counts, but in terms someone else can reproduce. Pareto-frontier reporting, multi-run protocols, transcript release, and honest cost disclosure are what separate evaluation from marketing. For capabilities that resist benchmarking — long-horizon tasks, open-ended agent work, tasks whose success is qualitative — open-world evaluations with documented human intervention and qualitative log analysis complement benchmarks rather than replacing them.
+
+We commit to publishing our work in forms that support independent verification at the scope of each contribution, including transcripts, multi-run statistics, and cost disclosures in terms that can be reproduced. We commit to engaging with standards and regulatory processes as they mature.

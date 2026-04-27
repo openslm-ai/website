@@ -1,0 +1,12 @@
+---
+order: 6
+number: 6
+title: Safety comes from inspectable architecture, not from closing the system
+anchor: section-6
+---
+
+Concerns about AI safety are legitimate, and some of them are urgent. The question is what architectural response those concerns should produce. We believe that response is inspectable, reproducible systems with deterministic boundaries around what the model can do — not restricted access to weights, training data, or operational logic.
+
+Closing a system in the name of safety does not remove the safety problem. It relocates accountability from the system's architecture to the vendor's judgment, and it puts the power to decide what is safe in the hands of the same actors whose commercial interests are served by holding that power. The opposite approach produces more accountability, not less: systems whose behavior can be independently verified, whose failure modes can be studied in public, and whose corrections do not depend on the operator's consent.
+
+Safety in this sense is measurable. The dimensions — borrowed from the aviation, nuclear, and automotive engineering traditions that have handled safety-critical systems for decades — are consistency under repetition, robustness under perturbation, predictability in how a system fails, and severity bounds on what happens when it does. These measures are independent of raw capability. A more capable system is not automatically a safer one. A scoped system is easier to evaluate than an unbounded one.

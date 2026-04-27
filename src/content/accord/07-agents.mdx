@@ -1,0 +1,10 @@
+---
+order: 7
+number: 7
+title: Agents need boundaries that do not depend on the model's cooperation
+anchor: section-7
+---
+
+As models are wired into agent systems that take actions in real environments, probabilistic reasoning has to be paired with deterministic limits. The model proposes an action; a deterministic policy layer outside the model — inspectable, machine-readable, and outside the prompt context — decides whether that action is allowed. We refer to this separation between probabilistic inference and deterministic execution as the action boundary. This is how prompt injection gets stopped, how runaway agents get contained, and how the actions an agent can take remain something a human could have anticipated.
+
+We support open standards for composing agents and for specifying the skills and tools they are allowed to use. We commit to developing, publishing, and reviewing skill specifications, tool definitions, and action boundaries as first-class open artifacts, alongside the models they constrain. Agent evaluation needs multi-run protocols, systematic perturbation testing, and the release of transcripts detailed enough for independent reviewers to check whether the agent actually behaved as its designers claimed.
