@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <style>
+      .bg { fill: #fafaf7; }
+      .ink { fill: #0a0a0a; }
+      .accent { fill: #1e3a8a; }
+      .muted { fill: #555555; }
+      .rule { stroke: #c8c8c0; stroke-width: 2; }
+      .layer { fill: #0a0a0a; }
+      .display { font-family: 'Zilla Slab', Georgia, serif; font-weight: 700; }
+      .sans { font-family: 'Inter', system-ui, sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="630" />
+
+  <!-- Top rule -->
+  <line class="rule" x1="80" y1="80" x2="1120" y2="80" />
+
+  <!-- Eyebrow -->
+  <text class="sans accent" x="80" y="125" font-size="18" font-weight="700" letter-spacing="3">
+    OPENSLM.AI · v0.1 DRAFT · 6 APRIL 2026
+  </text>
+
+  <!-- Brand mark: brackets + 4 layer bars -->
+  <g transform="translate(80, 175)">
+    <!-- Left bracket -->
+    <path class="ink" d="M 0 0 H 35 V 14 H 21 V 154 H 35 V 168 H 0 Z" />
+    <!-- Right bracket -->
+    <path class="ink" d="M 168 0 H 133 V 14 H 147 V 154 H 133 V 168 H 168 Z" />
+    <!-- Four descending layer bars -->
+    <rect class="layer" x="42" y="35" width="91" height="14" />
+    <rect class="layer" x="42" y="66" width="70" height="14" />
+    <rect class="layer" x="42" y="97" width="49" height="14" />
+    <rect class="layer" x="42" y="128" width="28" height="14" />
+  </g>
+
+  <!-- Title -->
+  <text class="display ink" x="295" y="245" font-size="92">
+    The Open Small
+  </text>
+  <text class="display ink" x="295" y="335" font-size="92">
+    Models Accord
+  </text>
+
+  <!-- Subtitle -->
+  <text class="sans muted" x="80" y="430" font-size="28">
+    On open, accessible, and correctable AI
+  </text>
+  <text class="sans muted" x="80" y="468" font-size="28">
+    for the next decade.
+  </text>
+
+  <!-- LWD-R layer marks -->
+  <g transform="translate(80, 530)">
+    <g>
+      <rect class="ink" x="0" y="0" width="40" height="40" />
+      <text class="display bg" x="20" y="29" font-size="22" text-anchor="middle" fill="#fafaf7">L</text>
+      <text class="sans muted" x="50" y="27" font-size="18" font-weight="600">Logic</text>
+    </g>
+    <g transform="translate(180, 0)">
+      <rect class="ink" x="0" y="0" width="40" height="40" />
+      <text class="display bg" x="20" y="29" font-size="22" text-anchor="middle" fill="#fafaf7">W</text>
+      <text class="sans muted" x="50" y="27" font-size="18" font-weight="600">Weights</text>
+    </g>
+    <g transform="translate(380, 0)">
+      <rect class="ink" x="0" y="0" width="40" height="40" />
+      <text class="display bg" x="20" y="29" font-size="22" text-anchor="middle" fill="#fafaf7">D</text>
+      <text class="sans muted" x="50" y="27" font-size="18" font-weight="600">Data</text>
+    </g>
+    <g transform="translate(540, 0)">
+      <rect class="ink" x="0" y="0" width="40" height="40" />
+      <text class="display bg" x="20" y="29" font-size="22" text-anchor="middle" fill="#fafaf7">R</text>
+      <text class="sans muted" x="50" y="27" font-size="18" font-weight="600">Representation</text>
+    </g>
+  </g>
+
+  <!-- Footer rule -->
+  <line class="rule" x1="80" y1="600" x2="1120" y2="600" />
+</svg>

@@ -1,4 +1,6 @@
 ---
+import BrandMark from './BrandMark.astro';
+
 const year = new Date().getFullYear();
 ---
 
@@ -7,8 +9,10 @@ const year = new Date().getFullYear();
 
     <div class="site-footer__brand">
       <a href="/" class="footer-brand" aria-label="openslm.ai home">
-        <span class="footer-brand__mark" aria-hidden="true">§</span>
-        <span class="footer-brand__name">openslm.ai</span>
+        <BrandMark size={26} class="footer-brand__svg" />
+        <span class="footer-brand__name">
+          <span class="footer-brand__bracket" aria-hidden="true">[</span><span class="footer-brand__open">Open</span><span class="footer-brand__core">SLM</span><span class="footer-brand__bracket" aria-hidden="true">]</span><span class="footer-brand__tld">.ai</span>
+        </span>
       </a>
       <p class="footer-tagline">
         Principles for open, accessible, and correctable AI.
@@ -43,16 +47,12 @@ const year = new Date().getFullYear();
     <nav class="site-footer__col" aria-label="Initiative">
       <h3 class="footer-h">Initiative</h3>
       <ul>
-        <li><a href="/#about">About</a></li>
-        <li><a href="https://anivar.net">Anivar Aravind</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/research/">Research</a></li>
+        <li><a href="/version-history/">Version history</a></li>
         <li>
           <a href="https://github.com/openslm-ai/website/blob/main/CONTRIBUTING.md">
             Contribute
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/openslm-ai/website/blob/main/CODE_OF_CONDUCT.md">
-            Code of conduct
           </a>
         </li>
       </ul>
@@ -136,10 +136,37 @@ const year = new Date().getFullYear();
   }
 
   .footer-brand__name {
+    display: inline-flex;
+    align-items: baseline;
     font-family: var(--font-display);
+    font-size: 1.05rem;
+    line-height: 1;
+    color: var(--color-fg);
+  }
+
+  .footer-brand__bracket {
     font-weight: 700;
-    font-size: 1rem;
+    color: var(--color-accent);
+    margin-inline: 0.05em;
+  }
+
+  .footer-brand__open {
+    font-weight: 600;
+    letter-spacing: -0.012em;
+  }
+
+  .footer-brand__core {
+    font-weight: 800;
+    letter-spacing: 0.005em;
+  }
+
+  .footer-brand__tld {
+    font-style: italic;
+    font-weight: 600;
+    font-size: 0.9em;
     letter-spacing: -0.005em;
+    color: var(--color-muted);
+    margin-left: 0.06em;
   }
 
   .footer-tagline {

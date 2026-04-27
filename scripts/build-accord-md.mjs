@@ -54,11 +54,6 @@ lines.push('*On open, accessible, and correctable AI for the next decade*');
 lines.push('');
 lines.push(`**Version ${VERSION} · Issued ${ISSUED}**`);
 lines.push('');
-lines.push(
-  'The accord is a dated document. Its claims about openness are stated as ' +
-    'of the issue date above. Subsequent versions update the snapshot.',
-);
-lines.push('');
 
 for (const { fm, body } of entries) {
   if (fm.number === null || fm.number === undefined) {

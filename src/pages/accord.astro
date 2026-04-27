@@ -1,0 +1,145 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AccordNav from '../components/AccordNav.astro';
+import EndorseFootnote from '../components/EndorseFootnote.astro';
+
+const accordEntries = await getCollection('accord');
+accordEntries.sort((a, b) => a.data.order - b.data.order);
+
+const sections = accordEntries.map((e) => ({
+  number: e.data.number,
+  title: e.data.title,
+  anchor: e.data.anchor,
+}));
+
+const renderedAccord = await Promise.all(
+  accordEntries.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+
+const pad2 = (n: number) => n.toString().padStart(2, '0');
+---
+
+<BaseLayout
+  title="The Accord"
+  description="The Open Small Models Accord — principles for open, accessible, and correctable AI. Version 0.1, draft."
+  ogType="article">
+
+  <section id="top" class="hero hero--accord">
+    <div class="container-page hero__inner">
+      <p class="hero__meta">
+        <span class="hero__pill"><span class="hero__pill-num">v0.1</span> · Draft</span>
+        <span class="hero__dot" aria-hidden="true">·</span>
+        <time datetime="2026-04-06">Issued 6 April 2026</time>
+        <span class="hero__dot" aria-hidden="true">·</span>
+        <a href="/version-history/" class="hero__history">Version history</a>
+      </p>
+
+      <h1 class="hero__title">The Open Small<br />Models Accord</h1>
+      <p class="hero__subtitle">
+        On open, accessible, and correctable AI for the next decade.
+      </p>
+
+      <div class="hero__actions">
+        <a href="#accord-body" class="btn btn--primary">Read</a>
+        <a href="/downloads/accord.md" download class="btn btn--ghost">Markdown</a>
+        <a href="/downloads/accord.pdf" download class="btn btn--ghost">PDF</a>
+      </div>
+
+      <ul class="hero__layers" aria-label="The four layers (LWD-R)">
+        <li><span class="hero__layer-mark">L</span><span>Logic</span></li>
+        <li><span class="hero__layer-mark">W</span><span>Weights</span></li>
+        <li><span class="hero__layer-mark">D</span><span>Data</span></li>
+        <li><span class="hero__layer-mark">R</span><span>Representation</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-mark" aria-hidden="true">§</div>
+
+  <section id="accord-body" class="container-wide py-14 md:py-20">
+    <div class="grid grid-cols-1 gap-14 lg:grid-cols-[15rem_minmax(0,40rem)] lg:gap-20">
+      <div class="lg:sticky lg:top-8 lg:self-start lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto">
+        <AccordNav sections={sections} />
+      </div>
+
+      <div>
+        <details class="mb-8 lg:hidden">
+          <summary class="jump">Jump to section</summary>
+          <ol class="mt-4 ml-0 pl-0 list-none text-sm leading-snug">
+            {sections.filter((s) => s.number !== null).map((s) => (
+              <li class="mb-2 grid grid-cols-[1.75rem_1fr] gap-1">
+                <span class="text-[color:var(--color-faint)] font-bold" style="font-family: var(--font-display); font-feature-settings: 'tnum';">
+                  {pad2(s.number!)}
+                </span>
+                <a href={`#${s.anchor}`}>{s.title}</a>
+              </li>
+            ))}
+          </ol>
+        </details>
+
+        <div class="accord-body">
+          <div class="accord-stamp" aria-label="Document metadata">
+            <span class="accord-stamp__row">
+              <span class="accord-stamp__k">Version</span>
+              <span class="accord-stamp__v">0.1 (draft)</span>
+            </span>
+            <span class="accord-stamp__row">
+              <span class="accord-stamp__k">Issued</span>
+              <span class="accord-stamp__v">
+                <time datetime="2026-04-06">6 April 2026</time>
+              </span>
+            </span>
+            <span class="accord-stamp__row">
+              <span class="accord-stamp__k">License</span>
+              <span class="accord-stamp__v">
+                <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0&nbsp;1.0</a>
+              </span>
+            </span>
+          </div>
+
+          {renderedAccord.map(({ entry, Content }) => {
+            const { number, title, anchor } = entry.data;
+            const isPreamble = number === null;
+            return (
+              <section id={anchor} class:list={['accord-section', { preamble: isPreamble }]}>
+                {!isPreamble && (
+                  <span class="section-num">§ {pad2(number!)}</span>
+                )}
+                <h2>
+                  <a href={`#${anchor}`} class="anchor">{title}</a>
+                </h2>
+                <Content />
+              </section>
+            );
+          })}
+
+          <EndorseFootnote />
+
+          <div class="closing">
+            <p><em>Released under CC0. Translate, adapt, republish. Endorse by signing. Build according to the principles.</em></p>
+          </div>
+
+          <aside class="attribution" id="attribution" aria-label="Attribution">
+            <h3>Attribution</h3>
+            <p>
+              The Open Small Models Accord, version 0.1 (draft), issued
+              <time datetime="2026-04-06">6 April 2026</time>, authored by
+              <a href="https://anivar.net">Anivar Aravind</a>. Hosted at
+              <a href="/">openslm.ai</a>. Released under
+              <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0&nbsp;1.0</a>.
+            </p>
+            <p>
+              For answers to common questions, see the <a href="/faq/">FAQ</a>.
+              Translations are listed at <a href="/translations/">/translations</a>.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

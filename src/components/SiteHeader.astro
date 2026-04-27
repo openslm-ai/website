@@ -1,20 +1,21 @@
 ---
+import BrandMark from './BrandMark.astro';
+
 const links = [
-  { href: '/#accord', label: 'Accord' },
-  { href: '/#research', label: 'Research' },
+  { href: '/accord/', label: 'Accord' },
+  { href: '/research/', label: 'Research' },
   { href: '/faq/', label: 'FAQ' },
   { href: '/translations/', label: 'Translations' },
-  { href: '/#about', label: 'About' },
+  { href: '/about/', label: 'About' },
 ];
 ---
 
 <header class="site-header">
   <div class="container-wide site-header__inner">
-    <a href="/" class="site-header__brand" aria-label="openslm.ai home">
-      <span class="brand-mark" aria-hidden="true">§</span>
-      <span class="brand-stack">
-        <span class="brand-name">openslm.ai</span>
-        <span class="brand-tag">Open Small Models Accord</span>
+    <a href="/" class="site-header__brand" aria-label="OpenSLM.ai home">
+      <BrandMark size={28} class="brand-mark-svg" />
+      <span class="brand-name">
+        <span class="brand-name__bracket" aria-hidden="true">[</span><span class="brand-name__open">Open</span><span class="brand-name__core">SLM</span><span class="brand-name__bracket" aria-hidden="true">]</span><span class="brand-name__tld">.ai</span>
       </span>
     </a>
 
@@ -26,12 +27,6 @@ const links = [
           </li>
         ))}
       </ul>
-
-      <span class="version-pill" title="Accord version 0.1, draft">
-        <span class="version-pill__num">v0.1</span>
-        <span class="version-pill__sep" aria-hidden="true">·</span>
-        <span class="version-pill__state">draft</span>
-      </span>
 
       <a
         href="https://github.com/openslm-ai"
@@ -76,51 +71,58 @@ const links = [
     line-height: 1;
   }
 
-  .brand-mark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border: 1.5px solid var(--color-fg);
-    background: var(--color-fg);
-    color: var(--color-bg);
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.05rem;
-    line-height: 1;
-    border-radius: 2px;
-    transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  :global(.brand-mark-svg) {
+    color: var(--color-fg);
+    transition: color 120ms ease, transform 120ms ease;
+    flex: 0 0 auto;
   }
 
-  .site-header__brand:hover .brand-mark {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-  }
-
-  .brand-stack {
-    display: inline-flex;
-    flex-direction: column;
-    gap: 0.18rem;
+  .site-header__brand:hover :global(.brand-mark-svg) {
+    color: var(--color-accent);
   }
 
   .brand-name {
+    display: inline-flex;
+    align-items: baseline;
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.05rem;
-    letter-spacing: -0.01em;
+    font-size: 1.18rem;
     line-height: 1;
+    color: var(--color-heading);
+  }
+
+  .brand-name__bracket {
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-inline: 0.05em;
+    transform: translateY(0.02em);
+    transition: color 120ms ease;
+  }
+
+  .brand-name__open {
+    font-weight: 600;
+    letter-spacing: -0.012em;
+  }
+
+  .brand-name__core {
+    font-weight: 800;
+    letter-spacing: 0.005em;
     color: var(--color-fg);
   }
 
-  .brand-tag {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 0.7rem;
-    letter-spacing: 0.04em;
-    line-height: 1;
-    color: var(--color-faint);
+  .brand-name__tld {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 0.9em;
+    letter-spacing: -0.005em;
+    color: var(--color-muted);
+    margin-left: 0.06em;
+    transition: color 120ms ease;
   }
+
+  .site-header__brand:hover .brand-name { color: var(--color-fg); }
+  .site-header__brand:hover .brand-name__bracket { color: var(--color-accent-hover); }
+  .site-header__brand:hover .brand-name__tld { color: var(--color-accent); }
 
   /* ─── Nav ─── */
   .site-header__nav {
@@ -172,37 +174,6 @@ const links = [
     transform: scaleX(1);
   }
 
-  /* ─── Version pill ─── */
-  .version-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.18rem 0.55rem;
-    border: 1px solid var(--color-rule-strong);
-    border-radius: 999px;
-    font-family: var(--font-sans);
-    font-feature-settings: 'tnum';
-    font-size: 0.68rem;
-    font-weight: 600;
-    color: var(--color-muted);
-    line-height: 1.4;
-    white-space: nowrap;
-  }
-
-  .version-pill__num {
-    color: var(--color-fg);
-  }
-
-  .version-pill__sep {
-    color: var(--color-faint);
-  }
-
-  .version-pill__state {
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-accent);
-  }
-
   /* ─── GitHub icon ─── */
   .site-header__gh {
     display: inline-flex;
@@ -217,9 +188,7 @@ const links = [
   /* ─── Mobile ─── */
   @media (max-width: 720px) {
     .site-header__inner { padding-block: 0.85rem; gap: 0.85rem 1.2rem; }
-    .brand-tag { display: none; }
     .site-header__links { gap: 0.95rem; font-size: 0.82rem; }
-    .version-pill { display: none; }
   }
 
   @media print {

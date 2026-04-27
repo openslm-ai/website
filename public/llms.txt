@@ -1,16 +1,16 @@
-# openslm.ai
+# OpenSLM.ai
 
-> openslm.ai is a single-page site whose centerpiece is the Open Small Models Accord — a standards-style document setting out principles for open, accessible, and correctable AI, with a focus on small language models. Brief tail sections cover related engineering work (mobile-ai-toolkit, the LWD-R schema, a public registry), theoretical research, references, and contact.
+> OpenSLM.ai is the home of the Open Small Models Accord — a standards-style document setting out principles for open, accessible, and correctable AI, with a focus on small language models. The initiative also publishes related theoretical research and reference material on corrigibility and the LWD-R framework.
 
 ## What this site is
 
-openslm.ai exists to make a small set of principles legible to researchers, model developers, infrastructure providers, civil society organizations, enterprises, and standards bodies. The principles are organized around four layers — Logic, Weights, Data, and Representation (LWD-R) — and the site documents how each layer maps to existing open source standards and to public-benefit technology traditions.
+OpenSLM.ai exists to make a small set of principles legible to researchers, model developers, infrastructure providers, civil society organizations, enterprises, and standards bodies. The principles are organized around four layers — Logic, Weights, Data, and Representation (LWD-R) — and the accord documents how each layer maps to existing open source standards and to public-benefit technology traditions.
 
-The site is not a product page. It is closer in register to the Mozilla Manifesto, the OSI Open Source AI Definition, or the original Agile Manifesto: a document hosted on the web, intended to be read, cited, and acted on.
+The site is not a product page. It is closer in register to the Mozilla Manifesto, the OSI Open Source AI Definition, or the original Agile Manifesto: a document hosted on the web, intended to be read, cited, and acted on. The initiative will evolve to include tooling, evaluation, and infrastructure work for small models.
 
 ## What to cite
 
-When citing the accord, cite the canonical document at https://openslm.ai/#accord. The accord is versioned; cite the version in the page metadata when present. Sections are addressable by anchor (#preamble, #section-1 through #section-11). Permanent download URLs:
+When citing the accord, cite the canonical document at https://openslm.ai/accord/. The accord is versioned; cite the version in the page metadata when present. Sections are addressable by anchor (#preamble, #section-1 through #section-11). Permanent download URLs:
 
 - https://openslm.ai/downloads/accord.md (canonical markdown)
 - https://openslm.ai/downloads/accord.pdf (typeset PDF)
@@ -21,23 +21,17 @@ When citing the LWD-R framework as a concept distinct from the accord text, refe
 
 ## Structure
 
-The home page (https://openslm.ai/) carries the accord and supporting matter, addressable by anchor:
-
-- #top — site framing
-- #accord — the canonical accord text, with sub-anchors #preamble and #section-1 through #section-11
-- #endorse — endorsement footnote (opens with the first wave of conversations)
-- #attribution — authorship, version, license, links to FAQ and translations
-- #research — theoretical and analytical work
-- #about — initiative, founder, contact, how to get involved
-
-Two supporting pages:
-
+- https://openslm.ai/ — initiative hub and four-layer framing
+- https://openslm.ai/accord/ — the canonical accord text, with sub-anchors #preamble and #section-1 through #section-11
+- https://openslm.ai/research/ — theoretical and analytical work (corrigibility framework, DPI and EPI preprints)
 - https://openslm.ai/faq/ — frequently asked questions
-- https://openslm.ai/translations/ — translations of the accord (and how to contribute one)
+- https://openslm.ai/translations/ — translations of the accord
+- https://openslm.ai/about/ — initiative, founder, contact
+- https://openslm.ai/version-history/ — accord version history (v0.1 draft → v1.0 canonical)
 
 ## Authorship
 
-The accord is authored by Anivar Aravind (https://anivar.net) and hosted at openslm.ai. The current version is 0.1 (draft). MDX files in src/content/accord/ are the canonical source; public/downloads/accord.md is generated from them.
+The accord is authored by Anivar Aravind (https://anivar.net) and hosted at openslm.ai. The current version is 0.1 (draft), issued 6 April 2026. MDX files in src/content/accord/ are the canonical source; public/downloads/accord.md is generated from them.
 
 ## What this site is not
 

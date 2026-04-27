@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Research"
+  description="Theoretical and analytical work behind the Open Small Models Accord — corrigibility, action boundaries, and evaluation methodology."
+  ogType="article">
+
+  <section class="hero hero--page">
+    <div class="container-page hero__inner">
+      <p class="hero__eyebrow">Research</p>
+      <h1 class="hero__title">Theoretical and<br />analytical work</h1>
+      <p class="hero__lede">
+        The accord rests on a body of theoretical work on corrigibility, action
+        boundaries, and evaluation methodology. Forthcoming papers will be published
+        with reproducible artifacts and linked here.
+      </p>
+    </div>
+  </section>
+
+  <div class="section-mark" aria-hidden="true">§</div>
+
+  <section class="tail-section">
+    <div class="container-page tail-section__inner">
+
+      <article class="tail-card">
+        <h3 class="tail-card__title">Corrigibility framework</h3>
+        <p class="tail-card__body">
+          A structural framework for evaluating whether digital and AI-mediated public
+          infrastructure permits correction by affected participants. The framework
+          comprises two preprints, evaluated against five tests: EXIT, CODE, AUDIT,
+          GOVERN, and FORK.
+        </p>
+        <p class="tail-card__meta">
+          <a href="https://anivar.net/corrigibility">anivar.net/corrigibility</a>
+        </p>
+      </article>
+
+      <article class="tail-card">
+        <h3 class="tail-card__title">Paper I · DPI</h3>
+        <p class="tail-card__body">
+          <strong>Corrigibility as a Structural Precondition for Digital Public
+          Infrastructure.</strong> Examines corrigibility requirements for deterministic
+          systems (ledgers, registries, payment rails) and how structural safeguards let
+          affected parties detect errors and hold infrastructure accountable.
+          <em>DPI = Deterministic Public Infrastructure.</em>
+        </p>
+        <p class="tail-card__meta">
+          <span class="tail-status">Preprint</span>
+          <a href="https://anivar.net/corrigibility">anivar.net/corrigibility</a>
+        </p>
+      </article>
+
+      <article class="tail-card">
+        <h3 class="tail-card__title">Paper II · EPI</h3>
+        <p class="tail-card__body">
+          <strong>Epistemic Capture and the Action Boundary.</strong> Extends the
+          framework to learned and agentic systems, examining how epistemic constraints
+          shape decision boundaries in AI and machine learning infrastructure.
+          <em>EPI = Epistemic Public Infrastructure.</em>
+        </p>
+        <p class="tail-card__meta">
+          <span class="tail-status">Preprint</span>
+          <a href="https://anivar.net/corrigibility">anivar.net/corrigibility</a>
+        </p>
+      </article>
+
+      <article class="tail-card">
+        <h3 class="tail-card__title">Related directions</h3>
+        <p class="tail-card__body">
+          The accord draws on the OSI Open Source AI Definition (§2 in particular),
+          Princeton's research on AI agent reliability, and the emerging Agentic Skills
+          specification work on composable, inspectable agent capabilities.
+        </p>
+      </article>
+    </div>
+  </section>
+
+</BaseLayout>

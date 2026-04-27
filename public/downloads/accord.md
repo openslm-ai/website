@@ -4,8 +4,6 @@
 
 **Version 0.1 (draft) · Issued 6 April 2026**
 
-The accord is a dated document. Its claims about openness are stated as of the issue date above. Subsequent versions update the snapshot.
-
 **Preamble**
 
 The open systems that run modern computing (operating systems, browsers, internet protocols, the toolchains that make software portable) share a single condition. The substrate has to remain modifiable by the people who depend on it. AI will be built either as inspectable infrastructure or as opaque services, and the choice is being made now.

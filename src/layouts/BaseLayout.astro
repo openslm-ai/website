@@ -14,15 +14,61 @@ interface Props {
 
 const {
   title,
-  description = 'The Open Small Models Accord — principles for open, accessible, and correctable AI. Hosted at openslm.ai.',
+  description = 'OpenSLM.ai — principles for open, accessible, and correctable AI. Home of the Open Small Models Accord.',
   ogType = 'website',
 } = Astro.props;
 
-const siteName = 'openslm.ai';
+const siteName = 'OpenSLM.ai';
 const fullTitle = title
   ? `${title} — ${siteName}`
-  : `The Open Small Models Accord — ${siteName}`;
+  : `OpenSLM.ai — Open, accessible, correctable AI`;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL('/og.svg', Astro.site).toString();
+
+const isAccordPage = Astro.url.pathname.startsWith('/accord');
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'OpenSLM.ai',
+  url: 'https://openslm.ai/',
+  logo: 'https://openslm.ai/og.svg',
+  founder: {
+    '@type': 'Person',
+    name: 'Anivar Aravind',
+    url: 'https://anivar.net',
+  },
+  description:
+    'An initiative for open, accessible, and correctable small language models. Home of the Open Small Models Accord.',
+  sameAs: ['https://github.com/openslm-ai'],
+};
+
+const accordJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'The Open Small Models Accord',
+  alternativeHeadline:
+    'On open, accessible, and correctable AI for the next decade',
+  inLanguage: 'en',
+  datePublished: '2026-04-06',
+  dateModified: '2026-04-06',
+  version: '0.1',
+  author: {
+    '@type': 'Person',
+    name: 'Anivar Aravind',
+    url: 'https://anivar.net',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'OpenSLM.ai',
+    url: 'https://openslm.ai/',
+  },
+  url: 'https://openslm.ai/accord/',
+  license: 'https://creativecommons.org/publicdomain/zero/1.0/',
+  about: ['Open source AI', 'Small language models', 'AI policy', 'Corrigibility'],
+  isAccessibleForFree: true,
+};
 ---
 
 <!doctype html>
@@ -32,6 +78,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <meta name="keywords" content="open source AI, small language models, AI policy, corrigibility, LWD-R, OpenSLM, AI accord, open weights, AI standards" />
+    <meta name="author" content="Anivar Aravind" />
+    <meta name="theme-color" content="#fafaf7" />
+    <meta name="color-scheme" content="light" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" title={siteName} href="/sitemap-index.xml" />
@@ -41,9 +92,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={siteName} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The Open Small Models Accord — OpenSLM.ai" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+    {(isAccordPage || isHome) && (
+      <script type="application/ld+json" set:html={JSON.stringify(accordJsonLd)} />
+    )}
 
     <meta name="generator" content={Astro.generator} />
   </head>
