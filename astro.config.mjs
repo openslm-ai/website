@@ -10,7 +10,29 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx(),
+    sitemap({
+      changefreq: 'monthly',
+      priority: 0.7,
+      lastmod: new Date('2026-04-06'),
+      serialize(item) {
+        if (item.url === 'https://openslm.ai/') {
+          item.priority = 1.0;
+          item.changefreq = 'weekly';
+        } else if (item.url === 'https://openslm.ai/accord/') {
+          item.priority = 0.95;
+          item.changefreq = 'weekly';
+        } else if (
+          item.url === 'https://openslm.ai/research/' ||
+          item.url === 'https://openslm.ai/faq/'
+        ) {
+          item.priority = 0.85;
+        }
+        return item;
+      },
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

@@ -1,11 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Research', url: '/research/' },
+];
 ---
 
 <BaseLayout
   title="Research"
-  description="Theoretical and analytical work behind the Open Small Models Accord — corrigibility, action boundaries, and evaluation methodology."
-  ogType="article">
+  description="Theoretical and analytical work behind the Open Small Models Accord — corrigibility, action boundaries, the LWD-R framework, and evaluation methodology."
+  ogType="article"
+  breadcrumbs={breadcrumbs}>
 
   <section class="hero hero--page">
     <div class="container-page hero__inner">

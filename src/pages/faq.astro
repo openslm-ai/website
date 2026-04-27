@@ -10,22 +10,46 @@ const rendered = await Promise.all(
 );
 
 const pad2 = (n: number) => n.toString().padStart(2, '0');
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: entries.map((e) => ({
+    '@type': 'Question',
+    name: e.data.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: e.body?.replace(/\s+/g, ' ').trim().slice(0, 1500) ?? '',
+    },
+  })),
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'FAQ', url: '/faq/' },
+];
 ---
 
 <BaseLayout
   title="FAQ"
-  description="Frequently asked questions about the Open Small Models Accord."
-  ogType="article">
+  description="Frequently asked questions about the Open Small Models Accord — scope, definitions, why small models, and how the accord relates to existing open-source AI definitions."
+  ogType="article"
+  breadcrumbs={breadcrumbs}>
+
+  <section class="hero hero--page">
+    <div class="container-page hero__inner">
+      <p class="hero__eyebrow">FAQ</p>
+      <h1 class="hero__title">Frequently<br />asked questions</h1>
+      <p class="hero__lede">
+        Quick answers to the questions endorsers, contributors, and readers have asked
+        most often. The full text of the accord is at <a href="/accord/">/accord</a>.
+      </p>
+    </div>
+  </section>
+
+  <div class="section-mark" aria-hidden="true">§</div>
 
   <section class="container-page py-14 md:py-20">
-    <p class="eyebrow">§ FAQ</p>
-    <h1 class="display-xl mb-4">Frequently asked questions</h1>
-    <p class="subtitle-xl">About the Open Small Models Accord.</p>
-
-    <p class="lede mt-8">
-      Quick answers to the questions endorsers, contributors, and readers have asked
-      most often. The full text of the accord is at <a href="/#accord">/#accord</a>.
-    </p>
 
     <ol class="faq-list">
       {rendered.map(({ entry, Content }, i) => (
@@ -47,6 +71,8 @@ const pad2 = (n: number) => n.toString().padStart(2, '0');
       or write to <a href="mailto:hello@openslm.ai">hello@openslm.ai</a>.
     </p>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 </BaseLayout>
 
 <style>

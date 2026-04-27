@@ -1,11 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'About', url: '/about/' },
+];
 ---
 
 <BaseLayout
   title="About"
   description="OpenSLM.ai — an initiative for open, accessible, and correctable small language models. Founded by Anivar Aravind."
-  ogType="article">
+  ogType="article"
+  breadcrumbs={breadcrumbs}>
 
   <section class="hero hero--page">
     <div class="container-page hero__inner">

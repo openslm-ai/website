@@ -10,12 +10,20 @@ interface Props {
   title?: string;
   description?: string;
   ogType?: 'website' | 'article';
+  ogImage?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  breadcrumbs?: Array<{ name: string; url: string }>;
 }
 
 const {
   title,
   description = 'OpenSLM.ai — principles for open, accessible, and correctable AI. Home of the Open Small Models Accord.',
   ogType = 'website',
+  ogImage: ogImageProp,
+  publishedTime,
+  modifiedTime,
+  breadcrumbs,
 } = Astro.props;
 
 const siteName = 'OpenSLM.ai';
@@ -23,17 +31,39 @@ const fullTitle = title
   ? `${title} — ${siteName}`
   : `OpenSLM.ai — Open, accessible, correctable AI`;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
-const ogImage = new URL('/og.svg', Astro.site).toString();
+const ogImage = new URL(ogImageProp ?? '/og.png', Astro.site).toString();
 
 const isAccordPage = Astro.url.pathname.startsWith('/accord');
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+
+const breadcrumbJsonLd = breadcrumbs && breadcrumbs.length > 0
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((b, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: b.name,
+        item: new URL(b.url, Astro.site).toString(),
+      })),
+    }
+  : null;
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  url: 'https://openslm.ai/',
+  inLanguage: 'en',
+  publisher: { '@type': 'Organization', name: siteName, url: 'https://openslm.ai/' },
+};
 
 const orgJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'OpenSLM.ai',
   url: 'https://openslm.ai/',
-  logo: 'https://openslm.ai/og.svg',
+  logo: 'https://openslm.ai/icon-512.png',
   founder: {
     '@type': 'Person',
     name: 'Anivar Aravind',
@@ -85,7 +115,11 @@ const accordJsonLd = {
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/rss+xml" title={siteName} href="/sitemap-index.xml" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link rel="alternate" type="text/markdown" title="OpenSLM accord (Markdown)" href="/downloads/accord.md" />
+    <link rel="alternate" type="text/plain" title="LLM-friendly site summary" href="/llms.txt" />
 
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -95,16 +129,31 @@ const accordJsonLd = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:alt" content="The Open Small Models Accord — OpenSLM.ai" />
     <meta property="og:locale" content="en_US" />
+    {ogType === 'article' && publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+    {ogType === 'article' && modifiedTime && (
+      <meta property="article:modified_time" content={modifiedTime} />
+    )}
+    {ogType === 'article' && (
+      <meta property="article:author" content="https://anivar.net" />
+    )}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="The Open Small Models Accord — OpenSLM.ai" />
 
+    <script type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
     {(isAccordPage || isHome) && (
       <script type="application/ld+json" set:html={JSON.stringify(accordJsonLd)} />
+    )}
+    {breadcrumbJsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
     )}
 
     <meta name="generator" content={Astro.generator} />

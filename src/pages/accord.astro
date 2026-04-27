@@ -21,12 +21,20 @@ const renderedAccord = await Promise.all(
 );
 
 const pad2 = (n: number) => n.toString().padStart(2, '0');
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'The Accord', url: '/accord/' },
+];
 ---
 
 <BaseLayout
   title="The Accord"
-  description="The Open Small Models Accord — principles for open, accessible, and correctable AI. Version 0.1, draft."
-  ogType="article">
+  description="The Open Small Models Accord — principles for open, accessible, and correctable AI. Version 0.1, draft. Released under CC0 1.0."
+  ogType="article"
+  publishedTime="2026-04-06T00:00:00Z"
+  modifiedTime="2026-04-06T00:00:00Z"
+  breadcrumbs={breadcrumbs}>
 
   <section id="top" class="hero hero--accord">
     <div class="container-page hero__inner">

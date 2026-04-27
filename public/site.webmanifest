@@ -1,0 +1,30 @@
+{
+  "name": "OpenSLM.ai — The Open Small Models Accord",
+  "short_name": "OpenSLM",
+  "description": "Principles for open, accessible, and correctable AI. Home of the Open Small Models Accord.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fafaf7",
+  "theme_color": "#fafaf7",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
