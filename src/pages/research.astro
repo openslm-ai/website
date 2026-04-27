@@ -21,8 +21,93 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <div class="section-mark" aria-hidden="true">§</div>
 
+  <section id="lwd-r" class="tail-section">
+    <div class="container-page tail-section__inner">
+
+      <header class="tail-head">
+        <span class="tail-head__rule" aria-hidden="true"></span>
+        <p class="tail-head__eyebrow">Framework</p>
+        <h2 class="tail-head__title">LWD-R · The four layers</h2>
+        <p class="tail-head__lede">
+          LWD-R is shorthand for the four layers along which a small language model
+          can be evaluated for openness. Each layer is independently inspectable,
+          reproducible, and correctable. Open at one layer is necessary but not
+          sufficient — open at all four is the standard the accord names.
+        </p>
+      </header>
+
+      <ol class="lwdr-list" aria-label="The four layers">
+        <li class="lwdr-item">
+          <span class="lwdr-item__mark" aria-hidden="true">L</span>
+          <div>
+            <h3 class="lwdr-item__title">Logic</h3>
+            <p class="lwdr-item__body">
+              Model architecture, training algorithm, decoding logic, and inference
+              code. Open <em>logic</em> means the system's behavior can be reasoned
+              about from source rather than inferred from outputs alone.
+            </p>
+          </div>
+        </li>
+        <li class="lwdr-item">
+          <span class="lwdr-item__mark" aria-hidden="true">W</span>
+          <div>
+            <h3 class="lwdr-item__title">Weights</h3>
+            <p class="lwdr-item__body">
+              Parameters, fine-tunes, and adapters, with provenance and license.
+              Open <em>weights</em> means the trained artifact itself is available
+              for inspection, reproduction, and downstream modification.
+            </p>
+          </div>
+        </li>
+        <li class="lwdr-item">
+          <span class="lwdr-item__mark" aria-hidden="true">D</span>
+          <div>
+            <h3 class="lwdr-item__title">Data</h3>
+            <p class="lwdr-item__body">
+              Training corpus, evaluation sets, and alignment data, with
+              documentation of sourcing and consent. Open <em>data</em> means the
+              inputs to training are documented enough to be audited, contested,
+              and corrected.
+            </p>
+          </div>
+        </li>
+        <li class="lwdr-item">
+          <span class="lwdr-item__mark" aria-hidden="true">R</span>
+          <div>
+            <h3 class="lwdr-item__title">Representation</h3>
+            <p class="lwdr-item__body">
+              Tokenization, embedding strategy, prompt schema, and the surface
+              through which the model is addressed. Open <em>representation</em>
+              means the cultural and linguistic assumptions baked into the
+              interface are surfaced rather than hidden.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <p class="lwdr-foot">
+        See <a href="/accord/#section-2">Accord § 2</a> for the canonical
+        formulation, and <a href="/faq/">the FAQ</a> for common questions about
+        scope and overlap with existing definitions.
+      </p>
+    </div>
+  </section>
+
+  <div class="section-mark" aria-hidden="true">§</div>
+
   <section class="tail-section">
     <div class="container-page tail-section__inner">
+
+      <header class="tail-head">
+        <span class="tail-head__rule" aria-hidden="true"></span>
+        <p class="tail-head__eyebrow">Corrigibility</p>
+        <h2 class="tail-head__title">Two preprints, five tests</h2>
+        <p class="tail-head__lede">
+          Theoretical work on whether infrastructure permits correction by the
+          people it affects. The framework is evaluated against five tests:
+          EXIT, CODE, AUDIT, GOVERN, FORK.
+        </p>
+      </header>
 
       <article class="tail-card">
         <h3 class="tail-card__title">Corrigibility framework</h3>

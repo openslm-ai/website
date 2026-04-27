@@ -1383,4 +1383,99 @@
     color: var(--color-muted);
     line-height: 1.45;
   }
+
+  /* ─── LWD-R framework explainer ─── */
+  .lwdr-list {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 720px) {
+    .lwdr-list { gap: 1.5rem; }
+  }
+
+  .lwdr-item {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 1.5rem 1.5rem 1.65rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-rule);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 4px;
+  }
+
+  @media (min-width: 720px) {
+    .lwdr-item {
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      padding: 1.75rem 2rem;
+      gap: 1.5rem;
+    }
+  }
+
+  .lwdr-item__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    background: var(--color-fg);
+    color: var(--color-bg);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.25rem;
+    line-height: 1;
+    border-radius: 2px;
+    flex: 0 0 auto;
+  }
+
+  @media (min-width: 720px) {
+    .lwdr-item__mark {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.55rem;
+    }
+  }
+
+  .lwdr-item__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1.15;
+    letter-spacing: -0.005em;
+    margin: 0 0 0.55rem;
+    color: var(--color-heading);
+  }
+
+  .lwdr-item__body {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--color-muted);
+    max-width: 42rem;
+  }
+
+  .lwdr-foot {
+    margin: 1.75rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-rule);
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+
+  .hero__layers-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 4px;
+    transition: opacity 120ms ease;
+  }
+
+  .hero__layers-link:hover {
+    opacity: 0.85;
+  }
 }
