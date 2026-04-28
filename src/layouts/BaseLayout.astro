@@ -184,8 +184,21 @@ const definedTermSetJsonLd = {
     <meta name="description" content={description} />
     <meta name="keywords" content="open source AI, small language models, AI policy, corrigibility, LWD-R, OpenSLM, AI accord, open weights, AI standards" />
     <meta name="author" content="Anivar Aravind" />
-    <meta name="theme-color" content="#fafaf7" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#F5F1E8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12161C" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <script is:inline>
+      // No-flash theme: read storage, fall back to system, set before paint.
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch (_) { /* private mode etc. — system preference applies */ }
+      })();
+    </script>
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

@@ -1,18 +1,21 @@
 @import "tailwindcss";
+@import "./tokens.css";
 
 @theme {
-  /* Warm off-white + deep indigo: civic standards-document register */
-  --color-bg: #fafaf7;
-  --color-fg: #1a1a1a;
-  --color-heading: #0a0a0a;
-  --color-muted: #555555;
-  --color-faint: #777770;
-  --color-rule: #e5e5e0;
-  --color-rule-strong: #c8c8c0;
-  --color-soft: #f0f0eb;
-  --color-accent: #1e3a8a;
-  --color-accent-hover: #1e40af;
-  --color-link-underline: #c5cfe5;
+  /* Static defaults consumed by Tailwind utilities. Runtime colour overrides
+     (light/dark) are owned by tokens.css via :root and [data-theme="dark"];
+     the values below are the initial-paint defaults Tailwind sees. */
+  --color-bg: #F5F1E8;
+  --color-fg: #0F1419;
+  --color-heading: #0F1419;
+  --color-muted: #5C6470;
+  --color-faint: #62697A;
+  --color-rule: #D9D2C2;
+  --color-rule-strong: #B7AE99;
+  --color-soft: #ECE6D6;
+  --color-accent: #1E2A78;
+  --color-accent-hover: #2A37A5;
+  --color-link-underline: #C7C0AE;
 
   --font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-display: 'Zilla Slab', Georgia, 'Times New Roman', serif;
@@ -46,7 +49,55 @@
     font-family: var(--font-sans);
     line-height: 1.55;
     font-feature-settings: 'kern', 'cv11', 'ss01';
+    transition: background-color 200ms ease, color 200ms ease;
   }
+
+  /* Paper-grain texture: subtle warm noise on light, faint highlight on dark.
+     Disabled when the user prefers reduced motion or higher contrast. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image: url('/textures/paper-grain.svg');
+    background-size: 120px 120px;
+    background-repeat: repeat;
+    opacity: 0.04;
+    mix-blend-mode: multiply;
+  }
+
+  [data-theme="dark"] body::before,
+  body[data-theme-dark]::before {
+    opacity: 0.06;
+    mix-blend-mode: screen;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) body::before {
+      opacity: 0.06;
+      mix-blend-mode: screen;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce), (prefers-contrast: more) {
+    body::before { display: none; }
+  }
+
+  /* Theme-icon visibility lives in global.css because Astro scoped styles
+     cannot target :root[data-theme]. The icon classes only appear in the
+     header, so the global match is safe. */
+  .theme-icon { display: none; }
+  .theme-icon--moon { display: block; }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-icon--moon { display: none; }
+    :root:not([data-theme="light"]) .theme-icon--sun  { display: block; }
+  }
+  :root[data-theme="dark"] .theme-icon--moon { display: none; }
+  :root[data-theme="dark"] .theme-icon--sun  { display: block; }
+  :root[data-theme="light"] .theme-icon--moon { display: block; }
+  :root[data-theme="light"] .theme-icon--sun  { display: none; }
 
   /* Account for sticky header height when jumping to anchors */
   :target { scroll-margin-top: 5rem; }
@@ -165,7 +216,7 @@
   .prose h1 {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.1;
     letter-spacing: -0.01em;
     margin: 0 0 1rem;
@@ -173,7 +224,7 @@
 
   .prose h2 {
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.5vw, 1.85rem);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
     line-height: 1.15;
     font-weight: 700;
     margin: 2.5rem 0 0.75rem;
@@ -182,7 +233,7 @@
 
   .prose h3 {
     font-family: var(--font-sans);
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-weight: 600;
     margin: 2rem 0 0.5rem;
     letter-spacing: -0.005em;
@@ -227,7 +278,7 @@
   .accord-body {
     font-family: var(--font-serif);
     font-size: 1.0625rem;
-    line-height: 1.75;
+    line-height: 1.7;
     color: var(--color-fg);
     hyphens: auto;
     -webkit-hyphens: auto;
@@ -276,7 +327,7 @@
   .accord-section h2 {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(1.5rem, 2.5vw, 1.95rem);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
     line-height: 1.2;
     letter-spacing: -0.005em;
     margin: 0 0 1.5rem;
@@ -662,13 +713,7 @@
   .hero {
     position: relative;
     padding-block: 4.5rem 5rem;
-    background:
-      radial-gradient(ellipse 80% 50% at 0% 0%,
-        color-mix(in srgb, var(--color-accent) 4%, transparent) 0%,
-        transparent 70%),
-      linear-gradient(to bottom,
-        var(--color-bg) 0%,
-        var(--color-bg) 100%);
+    background: var(--color-bg);
     overflow: hidden;
   }
 
@@ -729,9 +774,9 @@
   .hero__title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2.75rem, 7vw, 5.25rem);
-    line-height: 0.98;
-    letter-spacing: -0.022em;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
     margin: 0 0 1.25rem;
     text-wrap: balance;
     color: var(--color-heading);

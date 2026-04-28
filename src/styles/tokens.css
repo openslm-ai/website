@@ -1,0 +1,103 @@
+/*
+ * Design tokens for OpenSLM.ai
+ *
+ * The site is a standards-document register: parchment + ink + indigo, with a
+ * single seal-red accent for the call to action and a sage status colour.
+ *
+ * Token names follow two layers:
+ *   1. Spec aliases (--paper / --ink / --indigo / --seal / --sage) — semantic.
+ *   2. Legacy --color-* names — kept so existing components keep working.
+ *
+ * Light values live in :root. Dark values live in [data-theme="dark"] and
+ * @media (prefers-color-scheme: dark) (when no explicit choice is made).
+ *
+ * Tailwind v4 @theme tokens (in global.css) consume the legacy names.
+ */
+
+:root {
+  /* Spec palette */
+  --paper:        #F5F1E8;
+  --ink:          #0F1419;
+  --ink-muted:    #5C6470;
+  --ink-faint:    #62697A;
+  --rule:         #D9D2C2;
+  --rule-strong:  #B7AE99;
+  --soft:         #ECE6D6;
+  --indigo:       #1E2A78;
+  --indigo-hover: #2A37A5;
+  --indigo-soft:  #8FA0FF;
+  --seal:         #8B2E2A;
+  --seal-hover:   #A0383A;
+  --sage:         #6B8E7F;
+  --amber:        #B26B22;
+
+  /* Long-form reading column underline */
+  --link-underline: #C7C0AE;
+
+  /* Type scale (rem) */
+  --type-hero:     4rem;
+  --type-display:  3rem;
+  --type-h2:       2rem;
+  --type-h3:       1.375rem;
+  --type-body:     1.0625rem;
+  --type-caption:  0.875rem;
+
+  /* Long-form rhythm */
+  --leading-prose: 1.7;
+
+  /* Legacy aliases (do not rename — referenced across components) */
+  --color-bg:           var(--paper);
+  --color-fg:           var(--ink);
+  --color-heading:      var(--ink);
+  --color-muted:        var(--ink-muted);
+  --color-faint:        var(--ink-faint);
+  --color-rule:         var(--rule);
+  --color-rule-strong:  var(--rule-strong);
+  --color-soft:         var(--soft);
+  --color-accent:       var(--indigo);
+  --color-accent-hover: var(--indigo-hover);
+  --color-link-underline: var(--link-underline);
+  --color-seal:         var(--seal);
+  --color-sage:         var(--sage);
+}
+
+/* Manual override: data-theme on <html> wins over media query.
+   The no-flash inline script in BaseLayout sets this before paint. */
+[data-theme="dark"] {
+  --paper:        #12161C;
+  --ink:          #E8E2D2;
+  --ink-muted:    #A8B0BC;
+  --ink-faint:    #818897;
+  --rule:         #2A323D;
+  --rule-strong:  #3F4A58;
+  --soft:         #1A1F27;
+  --indigo:       #8FA0FF;
+  --indigo-hover: #B0BCFF;
+  --indigo-soft:  #1E2A78;
+  --seal:         #C46967;
+  --seal-hover:   #D88685;
+  --sage:         #8FB6A4;
+  --amber:        #D6904D;
+  --link-underline: #4A5160;
+}
+
+/* Default (no explicit choice): respect the system preference. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:        #12161C;
+    --ink:          #E8E2D2;
+    --ink-muted:    #A8B0BC;
+    --ink-faint:    #818897;
+    --rule:         #2A323D;
+    --rule-strong:  #3F4A58;
+    --soft:         #1A1F27;
+    --indigo:       #8FA0FF;
+    --indigo-hover: #B0BCFF;
+    --indigo-soft:  #1E2A78;
+    --seal:         #C46967;
+    --seal-hover:   #D88685;
+    --sage:         #8FB6A4;
+    --amber:        #D6904D;
+    --link-underline: #4A5160;
+  }
+}
