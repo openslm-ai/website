@@ -1523,4 +1523,205 @@
   .hero__layers-link:hover {
     opacity: 0.85;
   }
+
+  /* ─── Accord hero masthead (seal + format strip + cite) ─── */
+  .hero__inner--masthead {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  @media (min-width: 720px) {
+    .hero__inner--masthead {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 2.5rem 3rem;
+    }
+  }
+
+  .masthead__text { min-width: 0; }
+
+  .masthead__seal {
+    order: -1;
+    align-self: start;
+    padding-top: 0.4rem;
+  }
+
+  @media (min-width: 720px) {
+    .masthead__seal { order: 0; }
+  }
+
+  .hero__formats {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1rem;
+    padding: 1rem 0;
+    margin: 0 0 2.5rem;
+    border-top: 1px solid var(--color-rule);
+    border-bottom: 1px solid var(--color-rule);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+  }
+
+  .hero__formats-label {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-faint);
+    font-weight: 600;
+    font-size: 0.7rem;
+  }
+
+  .hero__formats > ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 0.7rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .hero__formats > ul > li + li::before {
+    content: '·';
+    margin-right: 0.7rem;
+    color: var(--color-rule-strong);
+  }
+
+  .format {
+    color: var(--color-muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--color-rule-strong);
+    padding-bottom: 1px;
+    font-weight: 500;
+    transition: color 80ms ease, border-color 80ms ease;
+  }
+
+  .format:hover {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+
+  .format--current {
+    color: var(--color-fg);
+    border-bottom: 1px solid var(--color-fg);
+    font-weight: 600;
+  }
+
+  /* Cite popover (progressive: details/summary, JS upgrades copy) */
+  .cite {
+    margin-left: auto;
+    position: relative;
+  }
+
+  .cite__summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    list-style: none;
+    user-select: none;
+    transition: border-color 80ms ease, color 80ms ease;
+  }
+
+  .cite__summary::-webkit-details-marker { display: none; }
+
+  .cite__summary:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .cite[open] .cite__summary { border-color: var(--color-fg); }
+
+  .cite__chev {
+    transition: transform 120ms ease;
+  }
+
+  .cite[open] .cite__chev { transform: rotate(180deg); }
+
+  .cite__panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    z-index: 10;
+    width: min(28rem, calc(100vw - 2rem));
+    background: var(--color-bg);
+    border: 1px solid var(--color-rule-strong);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    padding: 0.85rem;
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .cite__row { display: grid; gap: 0.35rem; }
+
+  .cite__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .cite__label {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  .cite__copy {
+    background: transparent;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: 2px;
+    padding: 0.18rem 0.55rem;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-fg);
+    cursor: pointer;
+    transition: border-color 80ms ease, color 80ms ease, background 80ms ease;
+  }
+
+  .cite__copy:hover {
+    border-color: var(--color-fg);
+  }
+
+  .cite__copy[data-copied="true"] {
+    border-color: var(--color-sage);
+    color: var(--color-sage);
+  }
+
+  .cite__src {
+    margin: 0;
+    padding: 0.6rem 0.7rem;
+    background: var(--color-soft);
+    border: 1px solid var(--color-rule);
+    border-radius: 2px;
+    font-family: var(--font-mono, ui-monospace, 'JetBrains Mono', monospace);
+    font-size: 0.74rem;
+    line-height: 1.5;
+    color: var(--color-fg);
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
+    max-height: 14rem;
+  }
+
+  @media (max-width: 720px) {
+    .cite { margin-left: 0; width: 100%; }
+    .cite__panel { right: auto; left: 0; width: 100%; }
+  }
 }

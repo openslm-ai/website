@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AccordNav from '../components/AccordNav.astro';
+import AccordSeal from '../components/AccordSeal.astro';
 import EndorseFootnote from '../components/EndorseFootnote.astro';
 import {
   VERSION,
@@ -9,8 +10,34 @@ import {
   STATE,
   ISSUED,
   ISSUED_ISO,
+  AUTHOR,
+  TITLE,
   pillLabel,
 } from '../lib/accord-meta.mjs';
+
+const issuedYear = ISSUED_ISO.slice(0, 4);
+const shortVersion = VERSION.replace(/\.0$/, '');
+const sealVersion = `v${shortVersion}`;
+const accordUrl = 'https://openslm.ai/accord/';
+const stateLabel = STATE === 'canonical' ? '' : STATE;
+const versionFull = stateLabel ? `${shortVersion}, ${stateLabel}` : shortVersion;
+
+const nameParts = AUTHOR.name.split(' ');
+const last = nameParts.slice(-1)[0];
+const given = nameParts.slice(0, -1).join(' ');
+const initial = given[0];
+
+const cite = {
+  bibtex: `@misc{${last.toLowerCase()}${issuedYear}openslm,
+  author = {${last}, ${given}},
+  title  = {{${TITLE}}, version ${versionFull}},
+  year   = {${issuedYear}},
+  url    = {${accordUrl}},
+  note   = {Released under CC0 1.0}
+}`,
+  apa: `${last}, ${initial}. (${issuedYear}). ${TITLE} (Version ${versionFull}). ${accordUrl}`,
+  chicago: `${last}, ${given}. "${TITLE}." Version ${versionFull}. ${ISSUED}. ${accordUrl}`,
+};
 
 const accordEntries = await getCollection('accord');
 accordEntries.sort((a, b) => a.data.order - b.data.order);
@@ -51,34 +78,66 @@ void VERSION;
   breadcrumbs={breadcrumbs}>
 
   <section id="top" class="hero hero--accord">
-    <div class="container-page hero__inner">
-      <p class="hero__meta">
-        <span class="hero__pill"><span class="hero__pill-num">{pillNum}</span> · {pillTail}</span>
-        <span class="hero__dot" aria-hidden="true">·</span>
-        <time datetime={ISSUED_ISO}>Issued {ISSUED}</time>
-        <span class="hero__dot" aria-hidden="true">·</span>
-        <a href="/version-history/" class="hero__history">Version history</a>
-      </p>
+    <div class="container-page hero__inner hero__inner--masthead">
+      <div class="masthead__text">
+        <p class="hero__meta">
+          <span class="hero__pill"><span class="hero__pill-num">{pillNum}</span> · {pillTail}</span>
+          <span class="hero__dot" aria-hidden="true">·</span>
+          <time datetime={ISSUED_ISO}>Issued {ISSUED}</time>
+          <span class="hero__dot" aria-hidden="true">·</span>
+          <a href="/version-history/" class="hero__history">Version history</a>
+        </p>
 
-      <h1 class="hero__title">The Open Small<br />Models Accord</h1>
-      <p class="hero__subtitle">
-        On open, accessible, and correctable AI for the next decade.
-      </p>
+        <h1 class="hero__title">The Open Small<br />Models Accord</h1>
+        <p class="hero__subtitle">
+          On open, accessible, and correctable AI for the next decade.
+        </p>
 
-      <div class="hero__actions">
-        <a href="#accord-body" class="btn btn--primary">Read</a>
-        <a href="/downloads/accord.md" download class="btn btn--ghost">Markdown</a>
-        <a href="/downloads/accord.pdf" download class="btn btn--ghost">PDF</a>
+        <nav class="hero__formats" aria-label="Available formats">
+          <span class="hero__formats-label">Read in</span>
+          <ul>
+            <li><span class="format format--current" aria-current="page">HTML</span></li>
+            <li><a href="/downloads/accord.md" download class="format">Markdown</a></li>
+            <li><a href="/downloads/accord.pdf" download class="format">PDF</a></li>
+          </ul>
+
+          <details class="cite">
+            <summary class="cite__summary">
+              <span>Cite</span>
+              <svg class="cite__chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+                <path d="M2 4 L5 7 L8 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <div class="cite__panel" role="group" aria-label="Citation formats">
+              <div class="cite__row">
+                <div class="cite__head">
+                  <span class="cite__label">BibTeX</span>
+                  <button type="button" class="cite__copy" data-copy-target="cite-bibtex">Copy</button>
+                </div>
+                <pre class="cite__src" id="cite-bibtex">{cite.bibtex}</pre>
+              </div>
+              <div class="cite__row">
+                <div class="cite__head">
+                  <span class="cite__label">APA</span>
+                  <button type="button" class="cite__copy" data-copy-target="cite-apa">Copy</button>
+                </div>
+                <pre class="cite__src" id="cite-apa">{cite.apa}</pre>
+              </div>
+              <div class="cite__row">
+                <div class="cite__head">
+                  <span class="cite__label">Chicago</span>
+                  <button type="button" class="cite__copy" data-copy-target="cite-chicago">Copy</button>
+                </div>
+                <pre class="cite__src" id="cite-chicago">{cite.chicago}</pre>
+              </div>
+            </div>
+          </details>
+        </nav>
       </div>
 
-      <a href="/research/#lwd-r" class="hero__layers-link" aria-label="LWD-R: the four layers, explained">
-        <ul class="hero__layers" aria-label="The four layers (LWD-R)">
-          <li><span class="hero__layer-mark">L</span><span>Logic</span></li>
-          <li><span class="hero__layer-mark">W</span><span>Weights</span></li>
-          <li><span class="hero__layer-mark">D</span><span>Data</span></li>
-          <li><span class="hero__layer-mark">R</span><span>Representation</span></li>
-        </ul>
-      </a>
+      <aside class="masthead__seal" aria-hidden="true">
+        <AccordSeal version={sealVersion} year={issuedYear} />
+      </aside>
     </div>
   </section>
 
@@ -165,5 +224,40 @@ void VERSION;
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (function () {
+      var buttons = document.querySelectorAll('.cite__copy[data-copy-target]');
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-copy-target');
+          var src = id ? document.getElementById(id) : null;
+          if (!src) return;
+          var text = src.textContent || '';
+          var done = function () {
+            var prev = btn.textContent;
+            btn.setAttribute('data-copied', 'true');
+            btn.textContent = 'Copied';
+            setTimeout(function () {
+              btn.removeAttribute('data-copied');
+              btn.textContent = prev;
+            }, 1400);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, function () {});
+          } else {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(); } catch (e) {}
+            document.body.removeChild(ta);
+          }
+        });
+      });
+    })();
+  </script>
 
 </BaseLayout>

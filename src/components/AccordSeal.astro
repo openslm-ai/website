@@ -1,0 +1,84 @@
+---
+/*
+ * Document seal mark.
+ *
+ * Renders a circular "issued" stamp evoking a paper register: outer ring,
+ * inner ring, brand bracket glyph at the center, version label below.
+ * Curved microtext around the rim repeats the document name and year.
+ *
+ * Used in the /accord hero. Decorative — aria-hidden by default.
+ */
+interface Props {
+  size?: number;
+  version?: string;
+  year?: string | number;
+  class?: string;
+}
+
+const {
+  size = 92,
+  version = 'v0.2',
+  year = '2026',
+  class: className,
+} = Astro.props;
+
+const rim = `THE OPEN SMALL MODELS ACCORD · ISSUED ${year} · `;
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  class:list={['accord-seal', className]}>
+  <defs>
+    <path id="accord-seal-rim" d="M 50 50 m -38 0 a 38 38 0 1 1 76 0 a 38 38 0 1 1 -76 0" />
+  </defs>
+
+  <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.25" />
+  <circle cx="50" cy="50" r="33" fill="none" stroke="currentColor" stroke-width="0.75" />
+
+  <g fill="currentColor">
+    <path d="M 36 38 H 41 V 40 H 38 V 60 H 41 V 62 H 36 Z" />
+    <path d="M 64 38 H 59 V 40 H 62 V 60 H 59 V 62 H 64 Z" />
+    <rect x="41.5" y="42" width="11" height="1.6" />
+    <rect x="41.5" y="46" width="9" height="1.6" />
+    <rect x="41.5" y="50" width="6" height="1.6" />
+    <rect x="41.5" y="54" width="4" height="1.6" />
+  </g>
+
+  <text class="accord-seal__chip" x="50" y="73" text-anchor="middle" fill="currentColor">{version}</text>
+
+  <text class="accord-seal__rim" fill="currentColor">
+    <textPath href="#accord-seal-rim" startOffset="0">{rim}{rim}</textPath>
+  </text>
+</svg>
+
+<style>
+  .accord-seal {
+    color: var(--color-seal);
+    flex: 0 0 auto;
+    transform: rotate(-6deg);
+  }
+
+  .accord-seal__chip {
+    font-family: var(--font-display, 'Zilla Slab', Georgia, serif);
+    font-weight: 700;
+    font-size: 5.5px;
+    letter-spacing: 0.04em;
+    font-feature-settings: 'tnum';
+  }
+
+  .accord-seal__rim {
+    font-family: var(--font-sans, system-ui, sans-serif);
+    font-weight: 700;
+    font-size: 4.4px;
+    letter-spacing: 0.18em;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .accord-seal { transition: transform 200ms ease; }
+  }
+</style>
