@@ -54,7 +54,10 @@ function parseSection(file) {
   }
   let body = m[2]
     .replace(/^\s*import\s+.+?from\s+['"][^'"]+['"];?\s*$/gm, '')
-    .replace(/^\s*<[A-Z][A-Za-z0-9]*(\s[^/>]*)?\s*\/>\s*$/gm, '')
+    // Strip JSX tags but keep their inner text:
+    //   <LWDR />               → ''       (component with no children)
+    //   <DefinedTerm ...>x</…> → 'x'     (inline annotation)
+    .replace(/<\/?[A-Z][A-Za-z0-9]*(?:\s[^>]*?)?\s*\/?>/g, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
   return { fm, body };

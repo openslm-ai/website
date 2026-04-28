@@ -1,0 +1,131 @@
+---
+/*
+ * Inline defined-term wrapper.
+ *
+ * Wraps a phrase in the running text with a glossary popover. The wrapped
+ * phrase remains the source word(s); the popover shows the canonical label
+ * and the short definition from src/data/glossary.json.
+ *
+ * Usage in MDX:
+ *   <DefinedTerm term="slm">small models</DefinedTerm>
+ *
+ * The term key MUST exist in glossary.json — we throw at build time on
+ * miss so typos surface immediately.
+ */
+import glossary from '../data/glossary.json';
+
+interface Props {
+  term: string;
+}
+
+const { term } = Astro.props;
+const entry = (glossary as Record<string, { label: string; definition: string }>)[term];
+
+if (!entry) {
+  throw new Error(`<DefinedTerm term="${term}" /> — no entry in glossary.json. Add it or fix the key.`);
+}
+
+const popId = `defined-${term}`;
+---
+
+<span class="defined">
+  <dfn tabindex="0" class="defined__term" aria-describedby={popId}>
+    <slot />
+  </dfn>
+  <span id={popId} role="tooltip" class="defined__pop">
+    <span class="defined__label">{entry.label}</span>
+    <span class="defined__def">{entry.definition}</span>
+  </span>
+</span>
+
+<style>
+  .defined {
+    position: relative;
+    display: inline;
+  }
+
+  .defined__term {
+    font-style: inherit;
+    font-weight: inherit;
+    border-bottom: 1px dotted var(--color-rule-strong);
+    padding-bottom: 1px;
+    cursor: help;
+    transition: border-color 80ms ease, color 80ms ease;
+  }
+
+  .defined__term:hover,
+  .defined__term:focus-visible {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+    outline: none;
+  }
+
+  .defined__pop {
+    position: absolute;
+    z-index: 20;
+    left: 0;
+    top: calc(100% + 0.4rem);
+    min-width: 18rem;
+    max-width: 24rem;
+    padding: 0.85rem 1rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-rule-strong);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-fg);
+    text-align: left;
+    text-indent: 0;
+    font-style: normal;
+    font-weight: 400;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 100ms ease, transform 100ms ease, visibility 0s linear 100ms;
+  }
+
+  .defined:hover .defined__pop,
+  .defined__term:focus-visible + .defined__pop,
+  .defined__pop:hover {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 100ms ease, transform 100ms ease, visibility 0s linear 0s;
+  }
+
+  .defined__label {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+    margin-bottom: 0.3rem;
+  }
+
+  .defined__def {
+    display: block;
+    color: var(--color-fg);
+    text-wrap: pretty;
+  }
+
+  /* On narrow viewports, anchor the popover so it stays inside the column */
+  @media (max-width: 640px) {
+    .defined__pop {
+      left: 0;
+      right: 0;
+      width: auto;
+      min-width: 0;
+      max-width: none;
+    }
+  }
+
+  @media print {
+    .defined__term {
+      border-bottom: none;
+      cursor: auto;
+    }
+    .defined__pop { display: none; }
+  }
+</style>
