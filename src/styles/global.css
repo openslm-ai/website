@@ -1238,6 +1238,31 @@
   }
 
   .attribution__row dd a:hover { color: var(--color-accent); }
+
+  .orcid-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: 0.5rem;
+    padding: 0.08rem 0.45rem 0.08rem 0.35rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 999px;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.72rem;
+    font-feature-settings: 'tnum';
+    color: var(--color-faint) !important;
+    text-decoration: none !important;
+    line-height: 1.4;
+    vertical-align: baseline;
+  }
+
+  .orcid-badge:hover {
+    border-color: #A6CE39;
+    color: var(--color-fg) !important;
+  }
+
+  .orcid-badge__icon { flex-shrink: 0; }
+  .orcid-badge__id { letter-spacing: 0.01em; }
 }
 
 /* ─── Print ─── */
@@ -2240,6 +2265,42 @@
     overflow-x: auto;
     max-height: 14rem;
   }
+
+  .cite__more {
+    border-top: 1px solid var(--color-rule);
+    padding-top: 0.7rem;
+    margin-top: 0.15rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .cite__more-summary {
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    user-select: none;
+    transition: color 80ms ease;
+  }
+
+  .cite__more-summary::-webkit-details-marker { display: none; }
+
+  .cite__more-summary::before {
+    content: "▸";
+    display: inline-block;
+    margin-right: 0.4rem;
+    color: var(--color-faint);
+    transition: transform 120ms ease;
+  }
+
+  .cite__more[open] .cite__more-summary::before {
+    transform: rotate(90deg);
+  }
+
+  .cite__more-summary:hover { color: var(--color-fg); }
 
   @media (max-width: 720px) {
     .cite { margin-left: 0; width: 100%; }

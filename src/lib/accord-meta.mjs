@@ -30,6 +30,8 @@ export const TAGLINE = 'On open, accessible, and correctable AI for the next dec
 export const AUTHOR = {
   name: 'Anivar Aravind',
   url: 'https://anivar.net',
+  orcid: '0009-0009-8995-0005',
+  orcidUrl: 'https://orcid.org/0009-0009-8995-0005',
 };
 
 export const LICENSE = {

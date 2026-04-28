@@ -77,6 +77,13 @@ const orgJsonLd = {
     '@type': 'Person',
     name: 'Anivar Aravind',
     url: 'https://anivar.net',
+    sameAs: ['https://orcid.org/0009-0009-8995-0005'],
+    identifier: {
+      '@type': 'PropertyValue',
+      propertyID: 'ORCID',
+      value: '0009-0009-8995-0005',
+      url: 'https://orcid.org/0009-0009-8995-0005',
+    },
   },
   description:
     'An initiative for open, accessible, and correctable small language models. Home of the Open Small Models Accord.',
@@ -93,7 +100,18 @@ const accordJsonLd = {
   dateModified: ISSUED_ISO,
   version: VERSION,
   schemaVersion: LABEL,
-  author: { '@type': 'Person', name: AUTHOR.name, url: AUTHOR.url },
+  author: {
+    '@type': 'Person',
+    name: AUTHOR.name,
+    url: AUTHOR.url,
+    sameAs: ['https://orcid.org/0009-0009-8995-0005'],
+    identifier: {
+      '@type': 'PropertyValue',
+      propertyID: 'ORCID',
+      value: '0009-0009-8995-0005',
+      url: 'https://orcid.org/0009-0009-8995-0005',
+    },
+  },
   publisher: {
     '@type': 'Organization',
     name: 'OpenSLM.ai',
@@ -106,7 +124,12 @@ const accordJsonLd = {
   url: 'https://openslm.ai/accord/',
   mainEntityOfPage: 'https://openslm.ai/accord/',
   license: LICENSE.url,
-  copyrightHolder: { '@type': 'Person', name: AUTHOR.name, url: AUTHOR.url },
+  copyrightHolder: {
+    '@type': 'Person',
+    name: AUTHOR.name,
+    url: AUTHOR.url,
+    sameAs: ['https://orcid.org/0009-0009-8995-0005'],
+  },
   copyrightYear: Number(ISSUED_ISO.slice(0, 4)),
   keywords: [
     'open source AI',

@@ -31,13 +31,14 @@ const initial = given[0];
 const cite = {
   bibtex: `@misc{${last.toLowerCase()}${issuedYear}openslm,
   author = {${last}, ${given}},
+  orcid  = {${AUTHOR.orcid}},
   title  = {{${TITLE}}, version ${versionFull}},
   year   = {${issuedYear}},
   url    = {${accordUrl}},
   note   = {Released under CC0 1.0}
 }`,
-  apa: `${last}, ${initial}. (${issuedYear}). ${TITLE} (Version ${versionFull}). ${accordUrl}`,
-  chicago: `${last}, ${given}. "${TITLE}." Version ${versionFull}. ${ISSUED}. ${accordUrl}`,
+  apa: `${last}, ${initial}. [ORCID: ${AUTHOR.orcid}]. (${issuedYear}). ${TITLE} (Version ${versionFull}). ${accordUrl}`,
+  chicago: `${last}, ${given} (ORCID: ${AUTHOR.orcid}). "${TITLE}." Version ${versionFull}. ${ISSUED}. ${accordUrl}`,
 };
 
 const accordEntries = await getCollection('accord');
@@ -151,25 +152,28 @@ const glossaryJsonLd = {
             <div class="cite__panel" role="group" aria-label="Citation formats">
               <div class="cite__row">
                 <div class="cite__head">
-                  <span class="cite__label">BibTeX</span>
-                  <button type="button" class="cite__copy" data-copy-target="cite-bibtex">Copy</button>
-                </div>
-                <pre class="cite__src" id="cite-bibtex">{cite.bibtex}</pre>
-              </div>
-              <div class="cite__row">
-                <div class="cite__head">
                   <span class="cite__label">APA</span>
                   <button type="button" class="cite__copy" data-copy-target="cite-apa">Copy</button>
                 </div>
                 <pre class="cite__src" id="cite-apa">{cite.apa}</pre>
               </div>
-              <div class="cite__row">
-                <div class="cite__head">
-                  <span class="cite__label">Chicago</span>
-                  <button type="button" class="cite__copy" data-copy-target="cite-chicago">Copy</button>
+              <details class="cite__more">
+                <summary class="cite__more-summary">Other citation formats</summary>
+                <div class="cite__row">
+                  <div class="cite__head">
+                    <span class="cite__label">BibTeX</span>
+                    <button type="button" class="cite__copy" data-copy-target="cite-bibtex">Copy</button>
+                  </div>
+                  <pre class="cite__src" id="cite-bibtex">{cite.bibtex}</pre>
                 </div>
-                <pre class="cite__src" id="cite-chicago">{cite.chicago}</pre>
-              </div>
+                <div class="cite__row">
+                  <div class="cite__head">
+                    <span class="cite__label">Chicago</span>
+                    <button type="button" class="cite__copy" data-copy-target="cite-chicago">Copy</button>
+                  </div>
+                  <pre class="cite__src" id="cite-chicago">{cite.chicago}</pre>
+                </div>
+              </details>
             </div>
           </details>
         </nav>
@@ -301,7 +305,18 @@ const glossaryJsonLd = {
               </div>
               <div class="attribution__row">
                 <dt>Founder</dt>
-                <dd><a href={AUTHOR.url} rel="author">{AUTHOR.name}</a></dd>
+                <dd>
+                  <a href={AUTHOR.url} rel="author">{AUTHOR.name}</a>
+                  <a class="orcid-badge" href={AUTHOR.orcidUrl} rel="author noopener" aria-label={`ORCID iD ${AUTHOR.orcid}`}>
+                    <svg class="orcid-badge__icon" width="14" height="14" viewBox="0 0 256 256" aria-hidden="true">
+                      <path fill="#A6CE39" d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z"/>
+                      <path fill="#FFFFFF" d="M86.3 186.2H70.9V79.1h15.4v107.1z"/>
+                      <path fill="#FFFFFF" d="M108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7 0-21.4-13.7-39.6-43.7-39.6h-23.7v79.3z"/>
+                      <path fill="#FFFFFF" d="M88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z"/>
+                    </svg>
+                    <span class="orcid-badge__id">{AUTHOR.orcid}</span>
+                  </a>
+                </dd>
               </div>
               <div class="attribution__row">
                 <dt>Maintainer</dt>
