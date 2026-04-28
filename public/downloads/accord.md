@@ -42,7 +42,7 @@ Not every release satisfies every layer, and the accord does not pretend otherwi
 
 Endorsement commits signatories to progress on the layers they touch, to document clearly which layers their releases meet, and to treat full openness across the stack as the long-term goal. Few releases in 2026 meet all four layers fully. The accord asks signatories to make visible where they are, and to move.
 
-## 3. Open AI is built at the scope of a specific domain, task, and language.
+## 3. Open models are built at the scope of a specific domain, task, and language.
 
 Small models work well not because they are miniature versions of large ones but because they serve a different purpose. A useful small model is usually scoped to a specific domain, tuned for a specific task, and built for a specific language or language mix. Agricultural question-answering in Kannada. Legal summarization for Indian tax law. Clinical discharge notes in Bangla. Maintenance log extraction in a particular industrial vocabulary. Each of these is a bounded problem, and small models are the natural architecture for bounded problems.
 
