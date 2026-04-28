@@ -6,7 +6,7 @@
 
 OpenSLM.ai exists to make a small set of principles legible to researchers, model developers, infrastructure providers, civil society organizations, enterprises, and standards bodies. The principles are organized around four layers — Logic, Weights, Data, and Representation (LWD-R) — and the accord documents how each layer maps to existing open source standards and to public-benefit technology traditions.
 
-The site is not a product page. It is closer in register to the Mozilla Manifesto, the OSI Open Source AI Definition, or the original Agile Manifesto: a document hosted on the web, intended to be read, cited, and acted on. The initiative will evolve to include tooling, evaluation, and infrastructure work for small models.
+The site is not a product page. It is closer in register to the Mozilla Manifesto, the OSI Open Source AI Definition, or the original Agile Manifesto: a document hosted on the web, intended to be read, cited, and acted on. The initiative grows with the work to include tooling, evaluation, and infrastructure for small models.
 
 ## What to cite
 
