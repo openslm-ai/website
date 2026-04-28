@@ -5,13 +5,13 @@ title: Openness is a layered property; disclosure follows the layer.
 anchor: section-2
 ---
 
-import LWDRBlock from '../../components/LWDRBlock.astro';
+import LWDR from '../../components/LWDR.astro';
 
 An AI system is open to the extent that someone other than its original developer can reproduce it, inspect it, and change it. The Open Source Initiative has defined this carefully for AI in its Open Source AI Definition, requiring access to code, parameters, and information about training data. We draw on that work and extend it by adding a fourth layer.
 
 We call the four layers **Logic, Weights, Data, and Representation**, together **LWD-R**. The principle behind the four layers is that anything which shapes the operative behavior of the deployed system falls within disclosure obligations, regardless of where in the system it sits.
 
-<LWDRBlock />
+<LWDR />
 
 **Logic** is the model architecture, the inference code, the tokenizer, and any deployment-time transformations applied between training and inference. For architectures with internal routing or gating, Logic includes the routing networks alongside the expert components. The tokenizer matters particularly for language coverage: a tokenizer that does not represent a language well constrains what any model built on it can learn about that language.
 

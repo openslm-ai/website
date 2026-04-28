@@ -1,22 +1,31 @@
 ---
+/*
+ * LWDR — the four layers of openness:
+ *   L (Logic), W (Weights), D (Data), R (Representation).
+ *
+ * Each layer is permalinkable at /accord/#lwdr-l etc. The card heading
+ * is the anchor target; a hover-revealed link icon copies the URL.
+ */
 const layers = [
-  { letter: 'L', name: 'Logic',          line: 'What the system computes.' },
-  { letter: 'W', name: 'Weights',        line: 'What the system has learned.' },
-  { letter: 'D', name: 'Data',           line: 'What the system was trained on.' },
-  { letter: 'R', name: 'Representation', line: 'How the system sees the world.' },
+  { letter: 'L', name: 'Logic',          line: 'What the system computes.',          anchor: 'lwdr-l' },
+  { letter: 'W', name: 'Weights',        line: 'What the system has learned.',       anchor: 'lwdr-w' },
+  { letter: 'D', name: 'Data',           line: 'What the system was trained on.',    anchor: 'lwdr-d' },
+  { letter: 'R', name: 'Representation', line: 'How the system sees the world.',     anchor: 'lwdr-r' },
 ];
 ---
 
 <figure class="lwdr" role="group" aria-labelledby="lwdr-caption">
   <figcaption id="lwdr-caption" class="lwdr-caption">
-    <span class="lwdr-eyebrow">The framework</span>
+    <span class="lwdr-eyebrow">The four layers</span>
     <span class="lwdr-acronym" aria-hidden="true">L · W · D · R</span>
   </figcaption>
 
   <div class="lwdr-grid">
     {layers.map((l, i) => (
-      <article class="lwdr-card" style={`--lwdr-i: ${i}`}>
-        <div class="lwdr-mono" aria-hidden="true">{l.letter}</div>
+      <article id={l.anchor} class="lwdr-card" style={`--lwdr-i: ${i}`}>
+        <a href={`#${l.anchor}`} class="lwdr-anchor" aria-label={`Permalink to ${l.name}`}>
+          <span class="lwdr-mono" aria-hidden="true">{l.letter}</span>
+        </a>
         <h4 class="lwdr-name">{l.name}</h4>
         <p class="lwdr-line">{l.line}</p>
       </article>
@@ -77,35 +86,59 @@ const layers = [
     padding: 1.5rem 1.25rem 1.5rem;
     border-top: 3px solid var(--color-accent);
     background: var(--color-bg);
-    transition: background 120ms ease, transform 120ms ease;
+    scroll-margin-top: 4rem;
+    transition: background 120ms ease;
   }
 
-  /* Hairline separators between cards on the wide layout */
   @media (min-width: 640px) {
     .lwdr-card + .lwdr-card { box-shadow: -1px 0 0 var(--color-rule); }
   }
-  @media (min-width: 960px) {
-    .lwdr-card + .lwdr-card { box-shadow: -1px 0 0 var(--color-rule); }
-  }
 
-  /* Stacked: bottom rule between cards */
   @media (max-width: 639px) {
-    .lwdr-card { border-top: 3px solid var(--color-accent); }
-    .lwdr-card + .lwdr-card { border-top-width: 3px; box-shadow: 0 -1px 0 var(--color-rule); }
+    .lwdr-card + .lwdr-card { box-shadow: 0 -1px 0 var(--color-rule); }
   }
 
-  .lwdr-card:hover {
-    background: var(--color-soft);
+  .lwdr-card:hover { background: var(--color-soft); }
+
+  .lwdr-card:target {
+    background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  }
+
+  .lwdr-anchor {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 0.6rem;
+    border-radius: 2px;
+  }
+
+  .lwdr-anchor::after {
+    content: '#';
+    margin-left: 0.3rem;
+    color: var(--color-faint);
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.4rem;
+    opacity: 0;
+    transition: opacity 120ms ease;
+    vertical-align: top;
+  }
+
+  @media (hover: hover) {
+    .lwdr-card:hover .lwdr-anchor::after,
+    .lwdr-anchor:focus-visible::after {
+      opacity: 1;
+    }
   }
 
   .lwdr-mono {
+    display: inline-block;
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 3rem;
     line-height: 0.9;
     color: var(--color-accent);
     letter-spacing: -0.02em;
-    margin-bottom: 0.6rem;
     font-feature-settings: 'ss01';
   }
 
@@ -136,5 +169,6 @@ const layers = [
     }
     .lwdr-mono { color: #000; }
     .lwdr-acronym { color: #000; }
+    .lwdr-anchor::after { display: none; }
   }
 </style>
