@@ -3,6 +3,14 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AccordNav from '../components/AccordNav.astro';
 import EndorseFootnote from '../components/EndorseFootnote.astro';
+import {
+  VERSION,
+  LABEL,
+  STATE,
+  ISSUED,
+  ISSUED_ISO,
+  pillLabel,
+} from '../lib/accord-meta.mjs';
 
 const accordEntries = await getCollection('accord');
 accordEntries.sort((a, b) => a.data.order - b.data.order);
@@ -26,22 +34,28 @@ const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'The Accord', url: '/accord/' },
 ];
+
+const heroPill = pillLabel();
+const [pillNum, ...pillRest] = heroPill.split(' · ');
+const pillTail = pillRest.join(' · ');
+void STATE;
+void VERSION;
 ---
 
 <BaseLayout
   title="The Accord"
-  description="The Open Small Models Accord — principles for open, accessible, and correctable AI. Version 0.1, draft. Released under CC0 1.0."
+  description={`The Open Small Models Accord — principles for open, accessible, and correctable AI. Version ${LABEL}. Released under CC0 1.0.`}
   ogType="article"
-  publishedTime="2026-04-06T00:00:00Z"
-  modifiedTime="2026-04-06T00:00:00Z"
+  publishedTime={`${ISSUED_ISO}T00:00:00Z`}
+  modifiedTime={`${ISSUED_ISO}T00:00:00Z`}
   breadcrumbs={breadcrumbs}>
 
   <section id="top" class="hero hero--accord">
     <div class="container-page hero__inner">
       <p class="hero__meta">
-        <span class="hero__pill"><span class="hero__pill-num">v0.1</span> · Draft</span>
+        <span class="hero__pill"><span class="hero__pill-num">{pillNum}</span> · {pillTail}</span>
         <span class="hero__dot" aria-hidden="true">·</span>
-        <time datetime="2026-04-06">Issued 6 April 2026</time>
+        <time datetime={ISSUED_ISO}>Issued {ISSUED}</time>
         <span class="hero__dot" aria-hidden="true">·</span>
         <a href="/version-history/" class="hero__history">Version history</a>
       </p>
@@ -95,12 +109,12 @@ const breadcrumbs = [
           <div class="accord-stamp" aria-label="Document metadata">
             <span class="accord-stamp__row">
               <span class="accord-stamp__k">Version</span>
-              <span class="accord-stamp__v">0.1 (draft)</span>
+              <span class="accord-stamp__v">{LABEL}</span>
             </span>
             <span class="accord-stamp__row">
               <span class="accord-stamp__k">Issued</span>
               <span class="accord-stamp__v">
-                <time datetime="2026-04-06">6 April 2026</time>
+                <time datetime={ISSUED_ISO}>{ISSUED}</time>
               </span>
             </span>
             <span class="accord-stamp__row">
@@ -136,8 +150,8 @@ const breadcrumbs = [
           <aside class="attribution" id="attribution" aria-label="Attribution">
             <h3>Attribution</h3>
             <p>
-              The Open Small Models Accord, version 0.1 (draft), issued
-              <time datetime="2026-04-06">6 April 2026</time>, authored by
+              The Open Small Models Accord, version {LABEL}, issued
+              <time datetime={ISSUED_ISO}>{ISSUED}</time>, authored by
               <a href="https://anivar.net">Anivar Aravind</a>. Hosted at
               <a href="/">openslm.ai</a>. Released under
               <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0&nbsp;1.0</a>.

@@ -1,5 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const accordEntries = await getCollection('accord');
+const principles = accordEntries
+  .filter((e) => e.data.number !== null)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const pad2 = (n: number) => n.toString().padStart(2, '0');
 ---
 
 <BaseLayout
@@ -7,12 +15,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <section class="hero hero--home">
     <div class="container-page hero__inner">
-      <p class="hero__meta">
-        <span class="hero__pill"><span class="hero__pill-num">v0.1</span> · Draft</span>
-        <span class="hero__dot" aria-hidden="true">·</span>
-        <time datetime="2026-04-06">Issued 6 April 2026</time>
-      </p>
-
       <h1 class="hero__title">Open, accessible,<br />correctable AI.</h1>
       <p class="hero__subtitle">
         For the next decade of small language models.
@@ -44,6 +46,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <div class="section-mark" aria-hidden="true">§</div>
 
+  <section id="principles" class="principles">
+    <div class="container-page principles__inner">
+      <header class="principles__head">
+        <span class="tail-head__rule" aria-hidden="true"></span>
+        <p class="tail-head__eyebrow">The principles</p>
+        <h2 class="tail-head__title">Ten principles for open, small AI.</h2>
+        <p class="tail-head__lede">
+          The accord names ten principles. Read each as a single idea, then
+          <a href="/accord/">read the full text</a> for the argument behind it.
+        </p>
+      </header>
+
+      <ol class="principles__list" aria-label="The ten principles">
+        {principles.map((p) => (
+          <li class="principle">
+            <a href={`/accord/#${p.data.anchor}`} class="principle__link">
+              <span class="principle__num" aria-hidden="true">§ {pad2(p.data.number!)}</span>
+              <h3 class="principle__title">{p.data.title}</h3>
+              <span class="principle__cta" aria-hidden="true">Read &rarr;</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <div class="section-mark" aria-hidden="true">§</div>
+
   <section class="hub">
     <div class="container-page hub__inner">
       <a href="/accord/" class="hub-card hub-card--feature">
@@ -54,7 +84,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           inspectable architectures, accessible weights, documented data, correctable
           representations.
         </p>
-        <span class="hub-card__cta">Read v0.1 (draft) →</span>
+        <span class="hub-card__cta">Read the accord &rarr;</span>
       </a>
 
       <a href="/research/" class="hub-card">
@@ -64,7 +94,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           The corrigibility framework — DPI and EPI preprints, evaluated against
           five tests: EXIT, CODE, AUDIT, GOVERN, FORK.
         </p>
-        <span class="hub-card__cta">See papers →</span>
+        <span class="hub-card__cta">See papers &rarr;</span>
       </a>
 
       <a href="/faq/" class="hub-card">
@@ -74,7 +104,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           Common questions on scope, definitions, why small models, and how the
           accord relates to existing open-source AI definitions.
         </p>
-        <span class="hub-card__cta">Read the FAQ →</span>
+        <span class="hub-card__cta">Read the FAQ &rarr;</span>
       </a>
 
       <a href="/translations/" class="hub-card">
@@ -84,7 +114,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           Community-led translations of the accord. Add yours by sending a pull
           request — the canonical text remains the English version.
         </p>
-        <span class="hub-card__cta">All translations →</span>
+        <span class="hub-card__cta">All translations &rarr;</span>
       </a>
     </div>
   </section>
@@ -99,7 +129,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <h2 class="tail-head__title">Built in the open.</h2>
         <p class="tail-head__lede">
           OpenSLM.ai will evolve. The accord is the founding artifact, but the
-          initiative reaches further — into tooling, evaluation, and infrastructure
+          initiative reaches further &mdash; into tooling, evaluation, and infrastructure
           for small models that can be inspected, reproduced, and corrected.
         </p>
       </header>
@@ -111,7 +141,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </a>
         <a href="/version-history/" class="link-rail__item">
           <span class="link-rail__k">Version history</span>
-          <span class="link-rail__v">From v0.1 (draft) toward v1.0.</span>
+          <span class="link-rail__v">Each accord version as a public artifact.</span>
         </a>
         <a href="https://github.com/openslm-ai" class="link-rail__item">
           <span class="link-rail__k">GitHub</span>
@@ -126,3 +156,110 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </section>
 
 </BaseLayout>
+
+<style>
+  .principles {
+    padding-block: 4rem 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .principles { padding-block: 5rem 6rem; }
+  }
+
+  .principles__head {
+    max-width: 42rem;
+    margin: 0 0 3rem;
+  }
+
+  .principles__list {
+    list-style: none;
+    counter-reset: principle;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  @media (min-width: 720px) {
+    .principles__list {
+      grid-template-columns: 1fr 1fr;
+      border-left: 1px solid var(--color-rule);
+    }
+  }
+
+  .principle {
+    counter-increment: principle;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  @media (min-width: 720px) {
+    .principle {
+      border-right: 1px solid var(--color-rule);
+    }
+  }
+
+  .principle__link {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.4rem 1.25rem;
+    text-decoration: none;
+    color: var(--color-fg);
+    transition: background 100ms ease;
+    min-height: 100%;
+  }
+
+  .principle__link:hover,
+  .principle__link:focus-visible {
+    background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+    outline: none;
+  }
+
+  .principle__num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    font-feature-settings: 'tnum';
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    align-self: start;
+    margin-top: 0.25rem;
+  }
+
+  .principle__title {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.02rem;
+    line-height: 1.45;
+    margin: 0;
+    text-wrap: balance;
+    color: var(--color-fg);
+  }
+
+  .principle__cta {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-faint);
+    align-self: start;
+    margin-top: 0.5rem;
+    opacity: 0;
+    transition: opacity 120ms ease, color 120ms ease;
+  }
+
+  .principle__link:hover .principle__cta,
+  .principle__link:focus-visible .principle__cta {
+    opacity: 1;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 720px) {
+    .principle__cta { display: none; }
+  }
+</style>

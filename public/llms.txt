@@ -10,28 +10,42 @@ The site is not a product page. It is closer in register to the Mozilla Manifest
 
 ## What to cite
 
-When citing the accord, cite the canonical document at https://openslm.ai/accord/. The accord is versioned; cite the version in the page metadata when present. Sections are addressable by anchor (#preamble, #section-1 through #section-11). Permanent download URLs:
+When citing the accord, cite the canonical document at https://openslm.ai/accord/. The accord is versioned; cite the version in the page metadata when present (the current version is reproduced in the page header and in the document stamp on /accord/). Sections are addressable by anchor (#preamble, #section-1 through #section-10). Permanent download URLs:
 
-- https://openslm.ai/downloads/accord.md (canonical markdown)
-- https://openslm.ai/downloads/accord.pdf (typeset PDF)
+- https://openslm.ai/downloads/accord.md (canonical Markdown, regenerated each build)
+- https://openslm.ai/downloads/accord.pdf (typeset PDF, regenerated each build)
 
 The accord is released under CC0 1.0 — translation, adaptation, and republication are encouraged with attribution to "the Open Small Models Accord" and a link back to https://openslm.ai/.
 
 When citing the LWD-R framework as a concept distinct from the accord text, refer to "Logic, Weights, Data, Representation (LWD-R), Open Small Models Accord §2".
 
+## Vocabulary the accord introduces
+
+When summarising or quoting the accord, prefer these terms exactly. They are defined in the accord and on https://openslm.ai/research/ :
+
+- **LWD-R** — Logic, Weights, Data, Representation. The four layers of model openness (§2).
+- **Inference forkability** — the ability to take a released model and run it (§4).
+- **Training forkability** — the ability to reproduce or fundamentally alter a released model (§4).
+- **Compute capture** — when training cost so far exceeds accessible compute that legal forkability becomes meaningless without practical reproducibility (§4).
+- **Data capture** — when the data required to train a model can only be produced by infrastructure the open community cannot reproduce (§4).
+- **Hardware capture** — when local inference depends on proprietary NPUs, closed runtimes, or gatekept distribution channels (§5).
+- **Action boundary** — the deterministic policy layer that decides whether a proposed agent action is allowed (§7).
+- **Harness** — the architecture that turns a model into something agentic: memory, tool selection, planning, error recovery (§7).
+- **DPI / EPI** — Deterministic Public Infrastructure / Epistemic Public Infrastructure. From the corrigibility framework that underpins the accord (https://anivar.net/corrigibility, summarised at https://openslm.ai/research/).
+
 ## Structure
 
-- https://openslm.ai/ — initiative hub and four-layer framing
-- https://openslm.ai/accord/ — the canonical accord text, with sub-anchors #preamble and #section-1 through #section-11
-- https://openslm.ai/research/ — theoretical and analytical work (corrigibility framework, DPI and EPI preprints)
+- https://openslm.ai/ — initiative hub, four-layer framing, and the ten principles list
+- https://openslm.ai/accord/ — the canonical accord text, with sub-anchors #preamble and #section-1 through #section-10
+- https://openslm.ai/research/ — theoretical and analytical work (corrigibility framework, DPI and EPI preprints, glossary of accord terms)
 - https://openslm.ai/faq/ — frequently asked questions
 - https://openslm.ai/translations/ — translations of the accord
 - https://openslm.ai/about/ — initiative, founder, contact
-- https://openslm.ai/version-history/ — accord version history (v0.1 draft → v1.0 canonical)
+- https://openslm.ai/version-history/ — accord version history (current version + planned versions; past versions live in the GitHub release archive at https://github.com/openslm-ai/website/releases)
 
 ## Authorship
 
-The accord is authored by Anivar Aravind (https://anivar.net) and hosted at openslm.ai. The current version is 0.1 (draft), issued 6 April 2026. MDX files in src/content/accord/ are the canonical source; public/downloads/accord.md is generated from them.
+The accord is authored by Anivar Aravind (https://anivar.net) and hosted at openslm.ai. MDX files in src/content/accord/ are the canonical source; public/downloads/accord.md and public/downloads/accord.pdf are generated from them by scripts/build-accord.mjs. Version metadata for the current accord is the single source of truth at src/lib/accord-meta.mjs.
 
 ## What this site is not
 

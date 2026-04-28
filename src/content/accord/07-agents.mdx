@@ -1,10 +1,18 @@
 ---
 order: 7
 number: 7
-title: Agents need boundaries that do not depend on the model's cooperation
+title: Agents are systems, and the system is what requires openness.
 anchor: section-7
 ---
 
-As models are wired into agent systems that take actions in real environments, probabilistic reasoning has to be paired with deterministic limits. The model proposes an action; a deterministic policy layer outside the model (inspectable, machine-readable, and outside the prompt context) decides whether that action is allowed. We refer to this separation between probabilistic inference and deterministic execution as the action boundary. This is how prompt injection gets stopped, how runaway agents get contained, and how the actions an agent can take remain something a human could have anticipated.
+Agentic AI is not a model that takes actions. It is a system in which a model is one component among several, and the components together produce the behavior the user encounters. Openness applies to the system.
 
-We support open standards for composing agents and for specifying the skills and tools they are allowed to use. We commit to developing, publishing, and reviewing skill specifications, tool definitions, and action boundaries as first-class open artifacts, alongside the models they constrain. Agent evaluation needs multi-run protocols, systematic perturbation testing, and the release of transcripts detailed enough for independent reviewers to check whether the agent actually behaved as its designers claimed.
+The action boundary is the deterministic policy layer that decides whether a proposed action is allowed. The model proposes; the boundary decides. The boundary is inspectable, machine-readable, and outside the prompt context. The same transparency that helps operators specify what agents may do helps defenders identify when agents are being exploited.
+
+The harness is the architecture that turns a model into something agentic. It manages memory across steps, decomposes plans, selects tools, parses outputs, recovers from errors, and orchestrates flow between model inference and tool execution. A closed harness around an open model produces a system whose behavior cannot be reproduced from the model alone. The harness should be disclosed at the same standard as the model: its architecture, its prompts and templates, its memory management, its tool selection logic, its error handling, and its version history.
+
+Skills and tools are the composition primitives within the harness. We support open standards for skill and tool specification and treat skill specifications, tool definitions, harness implementations, and action boundaries as first-class open artifacts alongside the models they constrain.
+
+Deployment-time variables shape behavior alongside these structural components: system prompts, decoding parameters, retrieval pipelines, and output filters. They belong in the disclosure of the deployed system. A retrieval-augmented system whose retrieval index, embedding model, chunking strategy, and reranking model are opaque is not an open system regardless of the underlying model's openness.
+
+Agent evaluation needs multi-run protocols, systematic perturbation testing, and the release of transcripts detailed enough for independent reviewers to check whether the system actually behaved as its designers claimed.

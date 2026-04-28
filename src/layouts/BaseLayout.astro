@@ -5,6 +5,15 @@ import '@fontsource-variable/source-serif-4/wght.css';
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import {
+  VERSION,
+  LABEL,
+  ISSUED_ISO,
+  TITLE,
+  TAGLINE,
+  AUTHOR,
+  LICENSE,
+} from '../lib/accord-meta.mjs';
 
 interface Props {
   title?: string;
@@ -77,27 +86,92 @@ const orgJsonLd = {
 const accordJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
-  headline: 'The Open Small Models Accord',
-  alternativeHeadline:
-    'On open, accessible, and correctable AI for the next decade',
+  headline: TITLE,
+  alternativeHeadline: TAGLINE.replace(/\.$/, ''),
   inLanguage: 'en',
-  datePublished: '2026-04-06',
-  dateModified: '2026-04-06',
-  version: '0.1',
-  author: {
-    '@type': 'Person',
-    name: 'Anivar Aravind',
-    url: 'https://anivar.net',
-  },
+  datePublished: ISSUED_ISO,
+  dateModified: ISSUED_ISO,
+  version: VERSION,
+  schemaVersion: LABEL,
+  author: { '@type': 'Person', name: AUTHOR.name, url: AUTHOR.url },
   publisher: {
     '@type': 'Organization',
     name: 'OpenSLM.ai',
     url: 'https://openslm.ai/',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://openslm.ai/icon-512.png',
+    },
   },
   url: 'https://openslm.ai/accord/',
-  license: 'https://creativecommons.org/publicdomain/zero/1.0/',
-  about: ['Open source AI', 'Small language models', 'AI policy', 'Corrigibility'],
+  mainEntityOfPage: 'https://openslm.ai/accord/',
+  license: LICENSE.url,
+  copyrightHolder: { '@type': 'Person', name: AUTHOR.name, url: AUTHOR.url },
+  copyrightYear: Number(ISSUED_ISO.slice(0, 4)),
+  keywords: [
+    'open source AI',
+    'small language models',
+    'LWD-R',
+    'corrigibility',
+    'inference forkability',
+    'training forkability',
+    'compute capture',
+    'data capture',
+    'action boundary',
+    'open weights',
+    'AI standards',
+  ],
+  about: [
+    { '@type': 'Thing', name: 'Open source AI' },
+    { '@type': 'Thing', name: 'Small language models' },
+    { '@type': 'Thing', name: 'Corrigibility' },
+    { '@type': 'Thing', name: 'AI policy' },
+  ],
   isAccessibleForFree: true,
+  encoding: [
+    { '@type': 'MediaObject', encodingFormat: 'text/markdown', contentUrl: 'https://openslm.ai/downloads/accord.md' },
+    { '@type': 'MediaObject', encodingFormat: 'application/pdf', contentUrl: 'https://openslm.ai/downloads/accord.pdf' },
+  ],
+};
+
+const definedTermSetJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  '@id': 'https://openslm.ai/accord/#lwd-r',
+  name: 'LWD-R — The four layers of model openness',
+  description:
+    'Logic, Weights, Data, Representation. The Open Small Models Accord §2 names anything that shapes the operative behavior of a deployed model and locates it in one of these four layers.',
+  inDefinedTermSet: 'https://openslm.ai/accord/',
+  hasDefinedTerm: [
+    {
+      '@type': 'DefinedTerm',
+      name: 'Logic',
+      termCode: 'L',
+      description:
+        'Model architecture, inference code, tokenizer, deployment-time transformations, and any routing or gating networks.',
+    },
+    {
+      '@type': 'DefinedTerm',
+      name: 'Weights',
+      termCode: 'W',
+      description:
+        'Trained parameters released under terms allowing use, redistribution, and modification, including transformations such as quantization, distillation, pruning, or adapter merging.',
+    },
+    {
+      '@type': 'DefinedTerm',
+      name: 'Data',
+      termCode: 'D',
+      description:
+        'Training corpus and the artifacts that shaped what the model learned: filtering, curation, schedules, reward models, verifiers, and synthetic-data provenance through derivation chains.',
+    },
+    {
+      '@type': 'DefinedTerm',
+      name: 'Representation',
+      termCode: 'R',
+      description:
+        'The operative categorical schema the deployed system uses to interpret the world, including post-training transformations that modify representational geometry and the provenance of inherited representations.',
+    },
+  ],
 };
 ---
 
@@ -152,6 +226,9 @@ const accordJsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
     {(isAccordPage || isHome) && (
       <script type="application/ld+json" set:html={JSON.stringify(accordJsonLd)} />
+    )}
+    {(isAccordPage || isHome) && (
+      <script type="application/ld+json" set:html={JSON.stringify(definedTermSetJsonLd)} />
     )}
     {breadcrumbJsonLd && (
       <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />

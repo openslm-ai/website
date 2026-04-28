@@ -5,11 +5,99 @@ const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Research', url: '/research/' },
 ];
+
+const glossary = [
+  {
+    term: 'Inference forkability',
+    short: 'Can someone take the released model and run it?',
+    body: `The ability to take a released model and execute it on hardware
+      that an independent party can assemble. Inference forkability is necessary
+      for any meaningful claim of openness, but it is not sufficient: a system
+      that can be run but not retrained gives users a tool, not accountability.`,
+    section: '§ 4',
+  },
+  {
+    term: 'Training forkability',
+    short: 'Can someone reproduce or fundamentally alter the model?',
+    body: `The ability to reproduce, retrain, or substantively modify a released
+      model from disclosed materials. Training forkability is what produces
+      accountability — only when the training pipeline can be re-run can the
+      community contest the choices encoded in the deployed system.`,
+    section: '§ 4',
+  },
+  {
+    term: 'Compute capture',
+    short: 'Reproduction is illegal-free but practically out of reach.',
+    body: `When training cost so far exceeds the compute the open community can
+      assemble that legal forkability becomes meaningless without practical
+      reproducibility. A model whose weights are released but whose training run
+      cost twenty million dollars is captured by compute regardless of license.`,
+    section: '§ 4',
+  },
+  {
+    term: 'Data capture',
+    short: 'Training data can only come from infrastructure you do not run.',
+    body: `When the data required to train a model can only be produced by
+      infrastructure the open community cannot reproduce — synthetic instruction
+      data, reasoning traces, distilled experts, or reward signals that flow from
+      frontier systems. Reproduction then requires reproducing the upstream
+      pipeline that produced the training signal, not just the small model itself.`,
+    section: '§ 4',
+  },
+  {
+    term: 'Hardware capture',
+    short: 'Local inference is gated by closed silicon and runtimes.',
+    body: `When local inference is the deployment topology but the substrate is
+      not addressable by the open community: proprietary neural processing units,
+      closed runtime layers, or gatekept distribution channels. Edge deployment
+      escapes cloud capture but remains within hardware capture if the silicon
+      and runtime are not themselves open.`,
+    section: '§ 5',
+  },
+  {
+    term: 'Action boundary',
+    short: 'The deterministic policy layer outside the model that decides what is allowed.',
+    body: `In an agentic system, the model proposes actions; the action boundary
+      decides which proposals are allowed. The boundary is a deterministic policy
+      layer that sits outside the prompt context, is inspectable, and is
+      machine-readable. The same transparency that helps operators specify what
+      agents may do helps defenders see when agents are being exploited.`,
+    section: '§ 7',
+  },
+  {
+    term: 'Harness',
+    short: 'The architecture that turns a model into something agentic.',
+    body: `A harness manages memory across steps, decomposes plans, selects
+      tools, parses outputs, recovers from errors, and orchestrates flow between
+      model inference and tool execution. A closed harness around an open model
+      produces a system whose behavior cannot be reproduced from the model alone.
+      Harness disclosure is held to the same standard as model disclosure.`,
+    section: '§ 7',
+  },
+  {
+    term: 'DPI · Deterministic Public Infrastructure',
+    short: 'Ledgers, registries, payment rails, and other deterministic public systems.',
+    body: `In the corrigibility framework, the class of infrastructure whose
+      behavior is governed by deterministic rules — registries, ledgers, payment
+      rails, and similar systems where outcomes follow legibly from inputs.
+      Examined in Paper I.`,
+    section: 'Paper I',
+  },
+  {
+    term: 'EPI · Epistemic Public Infrastructure',
+    short: 'Learned and agentic systems whose outputs shape what counts as known.',
+    body: `In the corrigibility framework, the class of infrastructure whose
+      behavior is shaped by learning, by training data, and by the categorical
+      schemas the system inherits — AI systems, recommender systems, and the
+      learned components of administrative decision-making. Examined in Paper II.`,
+    section: 'Paper II',
+  },
+];
 ---
 
 <BaseLayout
   title="Research"
-  description="Theoretical and analytical work behind the Open Small Models Accord — corrigibility, action boundaries, the LWD-R framework, and evaluation methodology."
+  description="Theoretical and analytical work behind the Open Small Models Accord — the LWD-R framework, the corrigibility preprints, and a glossary of terms the accord introduces."
   ogType="article"
   breadcrumbs={breadcrumbs}>
 
@@ -19,13 +107,14 @@ const breadcrumbs = [
       <h1 class="hero__title">Theoretical and<br />analytical work</h1>
       <p class="hero__lede">
         The accord rests on a body of theoretical work on corrigibility, action
-        boundaries, and evaluation methodology. Forthcoming papers will be published
-        with reproducible artifacts and linked here.
+        boundaries, and evaluation methodology. This page maps the vocabulary the
+        accord uses and links to the underlying papers. Forthcoming work will be
+        published with reproducible artifacts and listed here.
       </p>
     </div>
   </section>
 
-  <div class="section-mark" aria-hidden="true">§</div>
+  <div class="section-mark" aria-hidden="true">&sect;</div>
 
   <section id="lwd-r" class="tail-section">
     <div class="container-page tail-section__inner">
@@ -33,12 +122,14 @@ const breadcrumbs = [
       <header class="tail-head">
         <span class="tail-head__rule" aria-hidden="true"></span>
         <p class="tail-head__eyebrow">Framework</p>
-        <h2 class="tail-head__title">LWD-R · The four layers</h2>
+        <h2 class="tail-head__title">LWD-R &middot; The four layers</h2>
         <p class="tail-head__lede">
-          LWD-R is shorthand for the four layers along which a small language model
-          can be evaluated for openness. Each layer is independently inspectable,
-          reproducible, and correctable. Open at one layer is necessary but not
-          sufficient — open at all four is the standard the accord names.
+          LWD-R names the four layers along which a deployed AI system can be
+          evaluated for openness. The principle behind the four layers is that
+          anything which shapes the operative behavior of the deployed system
+          falls within disclosure obligations, regardless of where in the system
+          it sits. Open at one layer is necessary but not sufficient &mdash; open
+          at all four is the standard the accord names.
         </p>
       </header>
 
@@ -48,9 +139,13 @@ const breadcrumbs = [
           <div>
             <h3 class="lwdr-item__title">Logic</h3>
             <p class="lwdr-item__body">
-              Model architecture, training algorithm, decoding logic, and inference
-              code. Open <em>logic</em> means the system's behavior can be reasoned
-              about from source rather than inferred from outputs alone.
+              Model architecture, inference code, tokenizer, and any deployment-time
+              transformations applied between training and inference. For
+              architectures with internal routing or gating, Logic includes the
+              routing networks alongside the expert components. The tokenizer
+              matters particularly for language coverage: a tokenizer that does
+              not represent a language well constrains what any model built on
+              it can learn about that language.
             </p>
           </div>
         </li>
@@ -59,9 +154,14 @@ const breadcrumbs = [
           <div>
             <h3 class="lwdr-item__title">Weights</h3>
             <p class="lwdr-item__body">
-              Parameters, fine-tunes, and adapters, with provenance and license.
-              Open <em>weights</em> means the trained artifact itself is available
-              for inspection, reproduction, and downstream modification.
+              Trained parameters released under terms that allow use,
+              redistribution, and modification. Where weights are deployed in
+              transformed form &mdash; quantized, distilled, pruned, or merged
+              with adapters &mdash; the transformations are documented sufficiently
+              for independent reproduction. For mixture-of-experts and similar
+              architectures, weights include the gating networks alongside the
+              experts. Reproducibility is assessed against the complete deployed
+              system, not against active parameters alone.
             </p>
           </div>
         </li>
@@ -70,10 +170,15 @@ const breadcrumbs = [
           <div>
             <h3 class="lwdr-item__title">Data</h3>
             <p class="lwdr-item__body">
-              Training corpus, evaluation sets, and alignment data, with
-              documentation of sourcing and consent. Open <em>data</em> means the
-              inputs to training are documented enough to be audited, contested,
-              and corrected.
+              Training corpus and the artifacts that shaped what the model
+              learned: filtering and curation procedures, training schedules,
+              and routing or gating training data for architectures that use
+              them. Where training data is itself derivative (synthetic data
+              generated by other models or expert outputs distilled from larger
+              systems), provenance extends to the source. For models trained
+              through reinforcement learning, the Data layer extends to reward
+              models, verifiers, exploration policies, and procedural
+              specifications that shaped the training signal.
             </p>
           </div>
         </li>
@@ -82,10 +187,14 @@ const breadcrumbs = [
           <div>
             <h3 class="lwdr-item__title">Representation</h3>
             <p class="lwdr-item__body">
-              Tokenization, embedding strategy, prompt schema, and the surface
-              through which the model is addressed. Open <em>representation</em>
-              means the cultural and linguistic assumptions baked into the
-              interface are surfaced rather than hidden.
+              The operative categorical schema the deployed system uses to
+              interpret the world. Quantization, distillation, pruning, MoE
+              routing, and the training procedures that shape representational
+              geometry all modify R. R-layer disclosure must describe the
+              deployed system's operative representation, not a nominal one no
+              deployment uses. Where the deployed R derives from another model's
+              R through synthetic training data, distillation, or weight
+              inheritance, the provenance extends through that derivation chain.
             </p>
           </div>
         </li>
@@ -93,13 +202,43 @@ const breadcrumbs = [
 
       <p class="lwdr-foot">
         See <a href="/accord/#section-2">Accord § 2</a> for the canonical
-        formulation, and <a href="/faq/">the FAQ</a> for common questions about
-        scope and overlap with existing definitions.
+        formulation, the <a href="#glossary">glossary below</a> for the other
+        terms the accord uses, and <a href="/faq/">the FAQ</a> for common
+        questions about scope and overlap with existing definitions.
       </p>
     </div>
   </section>
 
-  <div class="section-mark" aria-hidden="true">§</div>
+  <div class="section-mark" aria-hidden="true">&sect;</div>
+
+  <section id="glossary" class="tail-section">
+    <div class="container-page tail-section__inner">
+      <header class="tail-head">
+        <span class="tail-head__rule" aria-hidden="true"></span>
+        <p class="tail-head__eyebrow">Glossary</p>
+        <h2 class="tail-head__title">Vocabulary the accord introduces</h2>
+        <p class="tail-head__lede">
+          The accord uses a small set of terms with specific meanings. These are
+          summarised here and defined in full in the section noted at the right.
+        </p>
+      </header>
+
+      <dl class="glossary">
+        {glossary.map((g) => (
+          <div class="glossary__entry">
+            <dt class="glossary__term">
+              <span class="glossary__name">{g.term}</span>
+              <span class="glossary__where">{g.section}</span>
+            </dt>
+            <dd class="glossary__short">{g.short}</dd>
+            <dd class="glossary__body">{g.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <div class="section-mark" aria-hidden="true">&sect;</div>
 
   <section class="tail-section">
     <div class="container-page tail-section__inner">
@@ -129,7 +268,7 @@ const breadcrumbs = [
       </article>
 
       <article class="tail-card">
-        <h3 class="tail-card__title">Paper I · DPI</h3>
+        <h3 class="tail-card__title">Paper I &middot; DPI</h3>
         <p class="tail-card__body">
           <strong>Corrigibility as a Structural Precondition for Digital Public
           Infrastructure.</strong> Examines corrigibility requirements for deterministic
@@ -144,7 +283,7 @@ const breadcrumbs = [
       </article>
 
       <article class="tail-card">
-        <h3 class="tail-card__title">Paper II · EPI</h3>
+        <h3 class="tail-card__title">Paper II &middot; EPI</h3>
         <p class="tail-card__body">
           <strong>Epistemic Capture and the Action Boundary.</strong> Extends the
           framework to learned and agentic systems, examining how epistemic constraints
@@ -169,3 +308,86 @@ const breadcrumbs = [
   </section>
 
 </BaseLayout>
+
+<style>
+  .glossary {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .glossary__entry {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--color-rule);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 720px) {
+    .glossary__entry {
+      grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+      gap: 0 2rem;
+      align-items: baseline;
+    }
+  }
+
+  .glossary__term {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    margin: 0;
+    color: var(--color-fg);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.75rem;
+  }
+
+  .glossary__name {
+    text-wrap: balance;
+  }
+
+  .glossary__where {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    font-feature-settings: 'tnum';
+  }
+
+  .glossary__short {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+    text-wrap: balance;
+  }
+
+  @media (min-width: 720px) {
+    .glossary__short {
+      grid-column: 2;
+    }
+  }
+
+  .glossary__body {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-fg);
+    text-wrap: pretty;
+  }
+
+  @media (min-width: 720px) {
+    .glossary__body {
+      grid-column: 2;
+      margin-top: 0.4rem;
+    }
+  }
+</style>

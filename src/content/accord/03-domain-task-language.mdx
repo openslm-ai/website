@@ -1,7 +1,7 @@
 ---
 order: 3
 number: 3
-title: "Domain, task, and language: the deployment unit"
+title: Open AI is built at the scope of a specific domain, task, and language.
 anchor: section-3
 ---
 
@@ -9,6 +9,6 @@ Small models work well not because they are miniature versions of large ones but
 
 This inverts the frontier thesis. A frontier model tries to serve every domain, every task, and every language at once, which forces compromises on all three. A small model that serves one domain, one task, and one language mix can actually be good at that specific thing. It can also be owned and maintained by the institution that deploys it, because the institution can fine-tune it on its own data without sending that data to a vendor.
 
-Three consequences follow. Deployment goes to the SLM layer, not the frontier, because the organizations doing the deployment need models that understand their specific work. Openness at the SLM layer is a precondition for this, because an institution cannot fine-tune a frontier model on proprietary data without surrendering it to the vendor. And language coverage stops being about training ever-larger models on ever-more-languages and starts being about enabling the communities that need a model in their language to build one.
+Three consequences follow. Deployment goes to the SLM layer because the organizations doing the deployment need models that understand their specific work. Openness at the SLM layer is a precondition for this, because an institution cannot fine-tune a frontier model on proprietary data without surrendering it to the vendor. Language coverage stops being about training ever-larger models on ever-more-languages and starts being about enabling the communities that need a model in their language to build one. Tokenizer openness is part of language coverage; a community cannot meaningfully build a model in its language using a tokenizer that fragments the language into subwords trained primarily on English.
 
-We commit to supporting this deployment pattern (domain, task, language) as a first-class way to build AI, and to designing the models, tools, benchmarks, and documentation that make it practical.
+We commit to supporting this deployment pattern as a first-class way to build AI, and to designing the models, tools, tokenizers, benchmarks, and documentation that make it practical.

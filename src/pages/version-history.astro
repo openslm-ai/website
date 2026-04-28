@@ -1,26 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  VERSION,
+  LABEL,
+  STATE,
+  ISSUED,
+  ISSUED_ISO,
+  pillLabel,
+} from '../lib/accord-meta.mjs';
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Version history', url: '/version-history/' },
-];
-
-const versions = [
-  {
-    version: '0.1',
-    state: 'draft',
-    label: 'Draft',
-    date: '6 April 2026',
-    summary: 'Initial draft. Circulated to an invited set of practitioners for review.',
-    notes: [
-      'Preamble + 11 sections + closing matter.',
-      'LWD-R framework introduced (Logic, Weights, Data, Representation).',
-      'Direction-of-travel framing for endorsement.',
-      'CC0 1.0 license; site at openslm.ai.',
-    ],
-    isCurrent: true,
-  },
 ];
 
 const upcoming = [
@@ -28,26 +19,32 @@ const upcoming = [
     version: '0.5',
     label: 'Revised draft',
     when: 'after review by the invited set of practitioners',
-    summary: 'Integrates substantive feedback from the invited reviewers. Compliance-path mechanics clarified; safety section sharpened.',
+    summary:
+      'Integrates substantive feedback from the invited reviewers. Compliance-path mechanics clarified; safety section sharpened.',
   },
   {
     version: '0.9',
     label: 'Release candidate',
     when: 'after open comment',
-    summary: 'Substantively final document. A short open comment window precedes endorsement.',
+    summary:
+      'Substantively final document. A short open comment window precedes endorsement.',
   },
   {
     version: '1.0',
     label: 'Canonical',
     when: 'with founding endorsers',
-    summary: 'Formal release with founding signatories. Subsequent revision happens through the versioned process described in §11.',
+    summary:
+      'Formal release with founding signatories. Subsequent revision happens through the versioned process described in §10.',
   },
 ];
+
+const stateLabel = ({ draft: 'Draft', rc: 'Release candidate', canonical: 'Canonical' } as const)[STATE as 'draft' | 'rc' | 'canonical'] ?? STATE;
+void pillLabel;
 ---
 
 <BaseLayout
   title="Version history"
-  description="Version history of the Open Small Models Accord, and the consultation process toward 1.0. Each version is a discrete public artifact."
+  description="The Open Small Models Accord is a versioned document. Each version is a public artifact. Past versions live in git history."
   breadcrumbs={breadcrumbs}>
 
   <section class="hero hero--page">
@@ -55,34 +52,41 @@ const upcoming = [
       <p class="hero__eyebrow">Version history</p>
       <h1 class="hero__title">From draft<br />toward canonical</h1>
       <p class="hero__lede">
-        The accord is a versioned document. Each version is a public artifact, not a git
-        commit. Versions move from draft (0.x) through release candidate (0.9) to
-        canonical (1.0), then onward through the revision process described in §11.
+        The accord is a versioned document. Each version is a discrete public
+        artifact &mdash; not a git commit. Versions move from draft (0.x) through
+        release candidate (0.9) to canonical (1.0), then onward through the
+        revision process described in &sect;&nbsp;10.
       </p>
     </div>
   </section>
 
-  <div class="section-mark" aria-hidden="true">§</div>
+  <div class="section-mark" aria-hidden="true">&sect;</div>
 
   <section class="container-page py-14 md:py-20">
 
-    <h2 class="vh-h">Released versions</h2>
+    <h2 class="vh-h">Current version</h2>
     <ol class="vh-list">
-      {versions.map((v) => (
-        <li class={['vh-item', v.isCurrent && 'is-current'].filter(Boolean).join(' ')}>
-          <div class="vh-head">
-            <span class="vh-num">v{v.version}</span>
-            <span class={`status-pill status-pill--${v.state === 'draft' ? 'planned' : 'active'}`}>
-              {v.label}
-            </span>
-            <span class="vh-date">{v.date}</span>
-          </div>
-          <p class="vh-summary">{v.summary}</p>
-          <ul class="vh-notes">
-            {v.notes.map((n) => <li>{n}</li>)}
-          </ul>
-        </li>
-      ))}
+      <li class="vh-item is-current">
+        <div class="vh-head">
+          <span class="vh-num">v{VERSION.replace(/\.0$/, '')}</span>
+          <span class={`status-pill status-pill--${STATE === 'canonical' ? 'active' : 'planned'}`}>
+            {stateLabel}
+          </span>
+          <span class="vh-date">
+            <time datetime={ISSUED_ISO}>{ISSUED}</time>
+          </span>
+        </div>
+        <p class="vh-summary">
+          {STATE === 'canonical'
+            ? `Canonical text. Released ${ISSUED} as ${LABEL}.`
+            : `Working draft, ${LABEL}. Open for comment.`}
+        </p>
+        <ul class="vh-notes">
+          <li><a href="/accord/">Read the current text</a></li>
+          <li><a href="/downloads/accord.md" download>Download Markdown</a></li>
+          <li><a href="/downloads/accord.pdf" download>Download PDF</a></li>
+        </ul>
+      </li>
     </ol>
 
     <h2 class="vh-h">Planned versions</h2>
@@ -102,6 +106,24 @@ const upcoming = [
         </li>
       ))}
     </ol>
+
+    <h2 class="vh-h">Past versions</h2>
+    <p class="vh-process-note">
+      Past versions are not catalogued on this site. They live in the version-control
+      history as tagged releases, each with the markdown and PDF as it shipped.
+    </p>
+    <ul class="vh-archive">
+      <li>
+        <a href="https://github.com/openslm-ai/website/releases">GitHub releases</a>
+        <span class="vh-archive__hint"> &mdash; tagged versions with downloadable assets</span>
+      </li>
+      <li>
+        <a href="https://github.com/openslm-ai/website/commits/main/src/content/accord">
+          Commit history of the accord text
+        </a>
+        <span class="vh-archive__hint"> &mdash; line-level changes to the source MDX</span>
+      </li>
+    </ul>
 
     <p class="vh-tail">
       Comments on the current draft are welcome at
@@ -185,6 +207,32 @@ const upcoming = [
   }
 
   .vh-notes li { margin-bottom: 0.25rem; }
+
+  .vh-archive {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    font-size: 0.92rem;
+  }
+
+  .vh-archive li {
+    padding: 0.65rem 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .vh-archive li:last-child {
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .vh-archive a {
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  .vh-archive__hint {
+    color: var(--color-muted);
+    font-size: 0.86rem;
+  }
 
   .vh-tail {
     margin-top: 3rem;
