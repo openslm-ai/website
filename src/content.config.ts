@@ -8,6 +8,11 @@ const accord = defineCollection({
     number: z.number().nullable(),
     title: z.string(),
     anchor: z.string(),
+    // Which LWD-R layers this principle directly addresses, if any.
+    // Used for the layer-tag chips on /accord and the summary grid.
+    layers: z.array(z.enum(['L', 'W', 'D', 'R'])).optional(),
+    // One-sentence gist used in the final summary grid.
+    summary: z.string().optional(),
   }),
 });
 

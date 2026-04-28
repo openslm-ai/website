@@ -57,6 +57,20 @@ const renderedAccord = await Promise.all(
 
 const pad2 = (n: number) => n.toString().padStart(2, '0');
 
+const layerNames: Record<string, string> = {
+  L: 'Logic', W: 'Weights', D: 'Data', R: 'Representation',
+};
+
+const principleSummary = accordEntries
+  .filter((e) => e.data.number !== null)
+  .map((e) => ({
+    number: e.data.number as number,
+    title: e.data.title,
+    anchor: e.data.anchor,
+    summary: (e.data as { summary?: string }).summary,
+    layers: ((e.data as { layers?: ('L'|'W'|'D'|'R')[] }).layers) ?? [],
+  }));
+
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'The Accord', url: '/accord/' },
@@ -189,20 +203,57 @@ void VERSION;
           </div>
 
           {renderedAccord.map(({ entry, Content }) => {
-            const { number, title, anchor } = entry.data;
+            const number = entry.data.number;
+            const title = entry.data.title;
+            const anchor = entry.data.anchor;
+            const layers = (entry.data as { layers?: string[] }).layers ?? [];
             const isPreamble = number === null;
             return (
-              <section id={anchor} class:list={['accord-section', { preamble: isPreamble }]}>
+              <section id={anchor} class:list={['accord-section', { preamble: isPreamble, 'has-dropcap': !isPreamble }]}>
                 {!isPreamble && (
                   <span class="section-num">§ {pad2(number!)}</span>
                 )}
                 <h2>
                   <a href={`#${anchor}`} class="anchor">{title}</a>
                 </h2>
+                {!isPreamble && layers.length > 0 && (
+                  <ul class="layer-tags" aria-label="LWD-R layers this principle addresses">
+                    {layers.map((L) => (
+                      <li>
+                        <a href={`#lwdr-${L.toLowerCase()}`} class="layer-tag" title={`${layerNames[L]} layer`}>
+                          <span class="layer-tag__mark">{L}</span>
+                          <span class="layer-tag__name">{layerNames[L]}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <Content />
               </section>
             );
           })}
+
+          <section class="summary-grid" id="summary" aria-labelledby="summary-h">
+            <h3 id="summary-h" class="summary-grid__heading">
+              <a href="#summary" class="anchor">The ten principles, in brief</a>
+            </h3>
+            <ol class="summary-grid__list">
+              {principleSummary.map((p) => (
+                <li class="summary-cell">
+                  <a href={`#${p.anchor}`} class="summary-cell__link">
+                    <span class="summary-cell__num">§ {pad2(p.number)}</span>
+                    <span class="summary-cell__title">{p.title}</span>
+                    {p.summary && <span class="summary-cell__line">{p.summary}</span>}
+                    {p.layers.length > 0 && (
+                      <span class="summary-cell__layers" aria-label="Layers">
+                        {p.layers.map((L) => <span class="summary-cell__layer">{L}</span>)}
+                      </span>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </section>
 
           <EndorseFootnote />
 

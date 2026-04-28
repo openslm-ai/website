@@ -3,6 +3,8 @@ order: 4
 number: 4
 title: Running a model is not the same as reproducing it.
 anchor: section-4
+layers: [W, D]
+summary: Inference forkability is not training forkability. Only the second produces accountability.
 ---
 
 Inference is not reproduction. A model that runs on modest hardware is not automatically accessible in any meaningful sense. Mixture-of-experts architectures and other efficiency designs can make a model cheap to run while keeping it expensive to retrain by activating only a subset of parameters per token. Reporting only active parameters obscures this gap. Two capacities need to be distinguished. **Inference forkability** is the ability to take a released model and run it. **Training forkability** is the ability to reproduce or fundamentally alter it. Only the second produces accountability.
