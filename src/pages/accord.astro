@@ -261,19 +261,61 @@ void VERSION;
             <p><em>Translate, adapt, republish. Endorse by signing. Build according to the principles.</em></p>
           </div>
 
-          <aside class="attribution" id="attribution" aria-label="Attribution">
-            <h3>Attribution</h3>
-            <p>
-              The Open Small Models Accord, version {LABEL}, issued
-              <time datetime={ISSUED_ISO}>{ISSUED}</time>, authored by
-              <a href="https://anivar.net">Anivar Aravind</a>. Hosted at
-              <a href="/">openslm.ai</a>. Released under
-              <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0&nbsp;1.0</a>.
-            </p>
-            <p>
-              For answers to common questions, see the <a href="/faq/">FAQ</a>.
-              Translations are listed at <a href="/translations/">/translations</a>.
-            </p>
+          <aside class="attribution" id="attribution" aria-labelledby="attribution-h">
+            <h3 id="attribution-h">
+              <a href="#attribution" class="anchor">Attribution</a>
+            </h3>
+            <dl class="attribution__dl">
+              <div class="attribution__row">
+                <dt>Document</dt>
+                <dd>
+                  <span class="attribution__doc">The Open Small Models Accord</span>,
+                  version {LABEL}.
+                </dd>
+              </div>
+              <div class="attribution__row">
+                <dt>Issued</dt>
+                <dd><time datetime={ISSUED_ISO}>{ISSUED}</time></dd>
+              </div>
+              <div class="attribution__row">
+                <dt>Founder</dt>
+                <dd><a href={AUTHOR.url} rel="author">{AUTHOR.name}</a></dd>
+              </div>
+              <div class="attribution__row">
+                <dt>Maintainer</dt>
+                <dd>The OpenSLM project, hosted at <a href="/">openslm.ai</a>.</dd>
+              </div>
+              <div class="attribution__row">
+                <dt>Stewardship</dt>
+                <dd>
+                  Open repository at
+                  <a href="https://github.com/openslm-ai/website" rel="external">github.com/openslm-ai/website</a>.
+                  Issues, pull requests, and translations welcome.
+                </dd>
+              </div>
+              <div class="attribution__row">
+                <dt>License</dt>
+                <dd>
+                  <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0&nbsp;1.0</a>
+                  — translate, adapt, republish without restriction.
+                </dd>
+              </div>
+              <div class="attribution__row">
+                <dt>Contact</dt>
+                <dd>
+                  <a href="mailto:hello@openslm.ai">hello@openslm.ai</a>
+                  · endorse at <a href="mailto:endorse@openslm.ai">endorse@openslm.ai</a>
+                </dd>
+              </div>
+              <div class="attribution__row">
+                <dt>Further reading</dt>
+                <dd>
+                  <a href="/faq/">FAQ</a>
+                  · <a href="/translations/">Translations</a>
+                  · <a href="/version-history/">Version history</a>
+                </dd>
+              </div>
+            </dl>
           </aside>
         </div>
       </div>

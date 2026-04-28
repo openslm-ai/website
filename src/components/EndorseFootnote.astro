@@ -1,4 +1,16 @@
 ---
+/*
+ * Endorse band.
+ *
+ * Two parts:
+ *   1. Prominent CTA card inviting endorsement (the action).
+ *   2. Below, when endorsers exist, the running list — logo wall and
+ *      then non-logo signatories in two columns.
+ *
+ * Replaces the previous quiet "footnote" treatment with a card that
+ * reads as a call to action, not as auxiliary metadata. The card
+ * itself is plain (no gradients) — paper, ink, indigo only.
+ */
 import { getCollection } from 'astro:content';
 
 const endorsers = await getCollection('endorsers');
@@ -27,58 +39,118 @@ const withoutLogo = endorsers.filter((e) => !e.data.logo);
 const hasAny = endorsers.length > 0;
 ---
 
-<aside class="endorse-footnote" id="endorse" aria-labelledby="endorse-heading">
-  <h3 id="endorse-heading" class="footnote-heading">
-    {hasAny ? 'Endorsed by' : 'Endorse'}
-  </h3>
+<section class="endorse-band" id="endorse" aria-labelledby="endorse-h">
+  <div class="endorse-band__cta">
+    <p class="endorse-band__eyebrow">Endorse</p>
+    <h3 id="endorse-h" class="endorse-band__title">
+      Sign on to the accord.
+    </h3>
+    <p class="endorse-band__body">
+      Endorsement is a public commitment to the ten principles and to
+      progressing on the LWD-R layers your work touches. Signatories
+      include research institutions, model developers, infrastructure
+      providers, civil society organizations, enterprises, and standards
+      bodies.
+    </p>
+    <div class="endorse-band__actions">
+      <a href="mailto:endorse@openslm.ai" class="btn btn--primary">Write to endorse@openslm.ai</a>
+      <a href="/faq/#endorsement" class="btn btn--ghost">What endorsement means</a>
+    </div>
+  </div>
 
-  {hasAny && withLogo.length > 0 && (
-    <ul class="logo-wall" role="list">
-      {withLogo.map((e) => (
-        <li>
-          {e.data.url ? (
-            <a href={e.data.url} title={e.data.name} rel="noopener">
-              <img src={e.data.logo} alt={e.data.name} loading="lazy" decoding="async" />
-            </a>
-          ) : (
-            <img src={e.data.logo} alt={e.data.name} loading="lazy" decoding="async" />
-          )}
-        </li>
-      ))}
-    </ul>
+  {hasAny && (
+    <div class="endorse-band__roll" aria-label="Current endorsers">
+      <p class="endorse-band__roll-label">Endorsed by</p>
+
+      {withLogo.length > 0 && (
+        <ul class="logo-wall" role="list">
+          {withLogo.map((e) => (
+            <li>
+              {e.data.url ? (
+                <a href={e.data.url} title={e.data.name} rel="noopener">
+                  <img src={e.data.logo} alt={e.data.name} loading="lazy" decoding="async" />
+                </a>
+              ) : (
+                <img src={e.data.logo} alt={e.data.name} loading="lazy" decoding="async" />
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {withoutLogo.length > 0 && (
+        <ul class="signatory-list" role="list">
+          {withoutLogo.map((e) => (
+            <li>
+              {e.data.url ? <a href={e.data.url} rel="noopener">{e.data.name}</a> : e.data.name}
+              <span class="meta"> · {typeLabel[e.data.type]}{e.data.country ? `, ${e.data.country}` : ''}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   )}
-
-  {hasAny && withoutLogo.length > 0 && (
-    <ul class="signatory-list" role="list">
-      {withoutLogo.map((e) => (
-        <li>
-          {e.data.url ? <a href={e.data.url} rel="noopener">{e.data.name}</a> : e.data.name}
-          <span class="meta"> · {typeLabel[e.data.type]}{e.data.country ? `, ${e.data.country}` : ''}</span>
-        </li>
-      ))}
-    </ul>
-  )}
-
-  <p class="footnote-body">
-    {hasAny ? (
-      <>Considering endorsement? Write to <a href="mailto:endorse@openslm.ai">endorse@openslm.ai</a>.</>
-    ) : (
-      <>Endorsement opens with the first wave of conversations. Researchers, model developers, infrastructure providers, civil society organizations, enterprises, and standards bodies considering endorsement, write to <a href="mailto:endorse@openslm.ai">endorse@openslm.ai</a>.</>
-    )}
-  </p>
-</aside>
+</section>
 
 <style>
-  .endorse-footnote {
-    margin-top: 4rem;
-    padding-top: 2rem;
+  .endorse-band {
+    margin-top: 4.5rem;
+    padding: 2.25rem 0 0;
     border-top: 1px solid var(--color-rule);
-    font-size: 0.9375rem;
-    color: var(--color-muted);
-    line-height: 1.6;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    scroll-margin-top: 4rem;
   }
 
-  .footnote-heading {
+  .endorse-band__cta {
+    border: 1px solid var(--color-rule-strong);
+    padding: 1.75rem 1.75rem 2rem;
+    background: var(--color-soft);
+  }
+
+  .endorse-band__eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin: 0 0 0.85rem;
+  }
+
+  .endorse-band__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    line-height: 1.15;
+    letter-spacing: -0.005em;
+    color: var(--color-heading);
+    margin: 0 0 1rem;
+    text-wrap: balance;
+  }
+
+  .endorse-band__body {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-fg);
+    max-width: 38rem;
+    margin: 0 0 1.5rem;
+    text-wrap: pretty;
+  }
+
+  .endorse-band__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .endorse-band__roll {
+    padding-top: 0.5rem;
+  }
+
+  .endorse-band__roll-label {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 0.8125rem;
@@ -86,11 +158,6 @@ const hasAny = endorsers.length > 0;
     text-transform: uppercase;
     color: var(--color-faint);
     margin: 0 0 1.25rem;
-  }
-
-  .footnote-body {
-    margin: 0;
-    max-width: 36rem;
   }
 
   .logo-wall {
@@ -118,7 +185,7 @@ const hasAny = endorsers.length > 0;
     height: auto;
     object-fit: contain;
     filter: grayscale(1);
-    opacity: 0.7;
+    opacity: 0.75;
     transition: filter 120ms ease, opacity 120ms ease;
   }
 
@@ -130,7 +197,7 @@ const hasAny = endorsers.length > 0;
 
   .signatory-list {
     list-style: none;
-    margin: 0 0 1.5rem;
+    margin: 0;
     padding: 0;
     columns: 2;
     column-gap: 2.5rem;
@@ -143,6 +210,8 @@ const hasAny = endorsers.length > 0;
   .signatory-list li {
     margin: 0 0 0.5rem;
     break-inside: avoid;
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
 
   .signatory-list .meta {
@@ -151,7 +220,11 @@ const hasAny = endorsers.length > 0;
   }
 
   @media print {
-    .endorse-footnote { color: #000; }
+    .endorse-band__cta {
+      background: #fff;
+      border-color: #000;
+    }
+    .endorse-band { color: #000; }
     .logo-wall img { filter: none; opacity: 1; }
   }
 </style>
