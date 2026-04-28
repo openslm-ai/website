@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Privacy', url: '/privacy/' },
+];
+---
+
+<BaseLayout
+  title="Privacy"
+  description="What openslm.ai collects, what it doesn't, and how to change your mind."
+  breadcrumbs={breadcrumbs}>
+
+  <section class="hero hero--page">
+    <div class="container-page hero__inner">
+      <p class="hero__eyebrow">Privacy</p>
+      <h1 class="hero__title">What this site<br />collects.</h1>
+      <p class="hero__lede">
+        OpenSLM.ai is a documents site. The default state is no analytics, no
+        cookies, no profiling. Anything beyond that requires you to opt in,
+        and you can change your mind at any time on this page.
+      </p>
+    </div>
+  </section>
+
+  <div class="section-mark" aria-hidden="true">§</div>
+
+  <section class="tail-section">
+    <div class="container-page tail-section__inner privacy-prose">
+
+      <h2>What runs by default</h2>
+      <p>
+        On a fresh visit, no analytics tag loads. Your browser fetches the page,
+        the static assets, and the fonts. There is no third-party tracking, no
+        advertising network, no cookie. Server access logs are kept by the host
+        (GitHub Pages) and are not used by this site.
+      </p>
+
+      <h2>What runs only if you accept</h2>
+      <p>
+        If you click <strong>Accept</strong> on the consent banner, this site
+        loads <a href="https://learn.microsoft.com/en-us/clarity/" rel="external noopener">Microsoft Clarity</a>.
+        Clarity is an anonymous usage analytics tool from Microsoft. It sets
+        cookies and records:
+      </p>
+      <ul>
+        <li>Pages you view and the order you view them in.</li>
+        <li>Anonymized session replays of how you move and click on the page.</li>
+        <li>Aggregated heatmaps of where visitors scroll and click.</li>
+        <li>Browser, operating system, and approximate region (country / city).</li>
+      </ul>
+      <p>
+        Clarity does <em>not</em> collect form contents on this site (we don't
+        have form inputs), does not build advertising profiles, and does not
+        sell data to third parties. Microsoft documents its data use at the
+        link above. Data sent to Clarity is processed by Microsoft on
+        infrastructure outside this project's control.
+      </p>
+
+      <h2>Why we ask</h2>
+      <p>
+        This site is a public document. Knowing which sections people read, where
+        they get stuck, and which links never get followed helps us make the
+        accord clearer over time. None of that requires identifying you. The
+        consent prompt exists because Clarity uses cookies, and cookies require
+        consent under the laws this site reads as binding (UK PECR, EU GDPR,
+        California CPRA, and equivalents).
+      </p>
+
+      <h2>Your choice, right now</h2>
+      <p>
+        You can change your decision at any time. The button below applies
+        immediately on this device and persists across visits.
+      </p>
+
+      <div class="privacy-actions" data-consent-controls>
+        <p class="privacy-status" data-consent-status>Loading current setting…</p>
+        <div class="privacy-buttons">
+          <button type="button" class="btn btn--primary" data-consent-set="granted">Accept analytics</button>
+          <button type="button" class="btn btn--ghost" data-consent-set="declined">Decline analytics</button>
+          <button type="button" class="btn btn--ghost" data-consent-set="reset">Reset to ask again</button>
+        </div>
+      </div>
+
+      <h2>What this site never does</h2>
+      <ul>
+        <li>No advertising. No retargeting. No ad networks.</li>
+        <li>No login. No accounts. No identity tied to your reading.</li>
+        <li>No selling, sharing, or licensing data to third parties beyond what is technically necessary to deliver the page (the host) or what you explicitly allowed (Clarity).</li>
+        <li>No fingerprinting or device-graph linking initiated by this site.</li>
+      </ul>
+
+      <h2>Contact</h2>
+      <p>
+        Questions, concerns, or rights requests:
+        <a href="mailto:hello@openslm.ai">hello@openslm.ai</a>.
+      </p>
+
+      <p class="privacy-meta">
+        This page is part of the openslm.ai source repository
+        (<a href="https://github.com/openslm-ai/website">github.com/openslm-ai/website</a>),
+        released under CC0 1.0 alongside the rest of the site. If our practice
+        diverges from what is written here, that is a bug — file an issue.
+      </p>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var KEY = 'analytics-consent';
+      var statusEl = document.querySelector('[data-consent-status]');
+      var btns = document.querySelectorAll('[data-consent-set]');
+      if (!statusEl || !btns.length) return;
+
+      function read() {
+        try { return localStorage.getItem(KEY); } catch (_) { return null; }
+      }
+
+      function reflect() {
+        var v = read();
+        if (v === 'granted') {
+          statusEl.textContent = 'Current setting on this device: analytics enabled.';
+        } else if (v === 'declined') {
+          statusEl.textContent = 'Current setting on this device: analytics declined.';
+        } else {
+          statusEl.textContent = 'Current setting on this device: not yet decided. The banner will ask on your next page load.';
+        }
+      }
+
+      reflect();
+
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var v = btn.getAttribute('data-consent-set');
+          try {
+            if (v === 'reset') localStorage.removeItem(KEY);
+            else localStorage.setItem(KEY, v);
+          } catch (_) {}
+          // For an immediate effect (loading or unloading Clarity) the page must
+          // reload — Clarity has no documented in-page tear-down.
+          location.reload();
+        });
+      });
+    })();
+  </script>
+
+</BaseLayout>
+
+<style>
+  .privacy-prose {
+    max-width: 38rem;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-fg);
+  }
+
+  .privacy-prose h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.25;
+    color: var(--color-heading);
+    margin: 2.4rem 0 0.85rem;
+  }
+
+  .privacy-prose p,
+  .privacy-prose ul {
+    margin: 0 0 1.1rem;
+  }
+
+  .privacy-prose ul {
+    padding-left: 1.2rem;
+  }
+
+  .privacy-prose li {
+    margin-bottom: 0.4rem;
+  }
+
+  .privacy-prose a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .privacy-actions {
+    margin: 1.5rem 0 2.5rem;
+    padding: 1.25rem;
+    background: var(--color-soft);
+    border: 1px solid var(--color-rule);
+  }
+
+  .privacy-status {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin: 0 0 0.85rem;
+  }
+
+  .privacy-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .privacy-meta {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    border-top: 1px solid var(--color-rule);
+    padding-top: 1rem;
+    margin-top: 2.5rem;
+  }
+</style>

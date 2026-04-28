@@ -1,0 +1,137 @@
+---
+/*
+ * Consent banner for Microsoft Clarity analytics.
+ *
+ * Default state on a fresh visit: no analytics loaded, banner shown.
+ * Accept → localStorage flag, inject Clarity tag, hide banner.
+ * Decline → localStorage flag, hide banner, never load Clarity.
+ *
+ * The pre-paint loader in BaseLayout reads the same localStorage key on
+ * subsequent visits, so consent is sticky across pages without round-
+ * tripping through this banner.
+ *
+ * The withdraw flow lives on /privacy/ — that page can flip the flag
+ * back to a fresh state and reload.
+ */
+---
+
+<aside id="consent-banner" class="consent" role="region" aria-label="Analytics consent" hidden>
+  <div class="consent__inner">
+    <p class="consent__body">
+      We use <strong>Microsoft Clarity</strong> for anonymous usage analytics
+      (no profile, no ads). Cookies are not set unless you accept.
+      <a href="/privacy/" class="consent__more">What this collects</a>
+    </p>
+    <div class="consent__actions">
+      <button type="button" class="btn btn--ghost consent__btn" data-consent="declined">Decline</button>
+      <button type="button" class="btn btn--primary consent__btn" data-consent="granted">Accept</button>
+    </div>
+  </div>
+</aside>
+
+<script is:inline>
+  (function () {
+    var KEY = 'analytics-consent';
+    var CLARITY_ID = 'wiotnrjld2';
+
+    var banner = document.getElementById('consent-banner');
+    if (!banner) return;
+
+    function readConsent() {
+      try { return localStorage.getItem(KEY); } catch (_) { return null; }
+    }
+
+    function writeConsent(v) {
+      try { localStorage.setItem(KEY, v); } catch (_) {}
+    }
+
+    function loadClarity(id) {
+      if (window.clarity && window.clarity.q) return;
+      (function (c, l, a, r, i, t, y) {
+        c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+        t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", id);
+    }
+
+    function hide() {
+      banner.hidden = true;
+      banner.setAttribute('aria-hidden', 'true');
+    }
+
+    function show() {
+      banner.hidden = false;
+      banner.removeAttribute('aria-hidden');
+    }
+
+    if (readConsent() === null) {
+      show();
+    }
+
+    banner.querySelectorAll('[data-consent]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var choice = btn.getAttribute('data-consent');
+        writeConsent(choice);
+        if (choice === 'granted') loadClarity(CLARITY_ID);
+        hide();
+      });
+    });
+  })();
+</script>
+
+<style>
+  .consent {
+    position: fixed;
+    inset: auto 1rem 1rem 1rem;
+    z-index: 80;
+    max-width: 36rem;
+    margin-inline: auto;
+    background: var(--color-bg);
+    border: 1px solid var(--color-rule-strong);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    font-family: var(--font-sans);
+  }
+
+  .consent__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .consent__body {
+    margin: 0;
+    flex: 1 1 18rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-fg);
+  }
+
+  .consent__more {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .consent__actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .consent__btn {
+    font-size: 0.78rem;
+    padding: 0.45rem 0.95rem;
+  }
+
+  @media (max-width: 520px) {
+    .consent { inset: auto 0.5rem 0.5rem 0.5rem; }
+    .consent__inner { padding: 0.75rem 0.85rem; }
+    .consent__actions { width: 100%; justify-content: flex-end; }
+  }
+
+  @media print {
+    .consent { display: none !important; }
+  }
+</style>
