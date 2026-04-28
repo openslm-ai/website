@@ -461,6 +461,10 @@
     display: grid;
     grid-template-columns: 1.5rem 1fr;
     gap: 0.25rem;
+    border-left: 2px solid transparent;
+    padding-left: 0.65rem;
+    margin-left: -0.65rem;
+    transition: border-color 120ms ease;
   }
 
   .accord-nav ol li::before {
@@ -473,6 +477,16 @@
     line-height: 1.4;
   }
 
+  .accord-nav__pre {
+    counter-increment: none !important;
+  }
+
+  .accord-nav__pre::before {
+    content: '§' !important;
+    color: var(--color-faint);
+    font-weight: 400 !important;
+  }
+
   .accord-nav a {
     color: var(--color-fg);
     text-decoration: none;
@@ -480,6 +494,19 @@
   }
 
   .accord-nav a:hover { color: var(--color-accent); }
+
+  .accord-nav ol li[data-active="true"] {
+    border-left-color: var(--color-accent);
+  }
+
+  .accord-nav ol li[data-active="true"] a {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .accord-nav ol li[data-active="true"]::before {
+    color: var(--color-accent);
+  }
 
   /* ─── Home blocks (tail-section card) ─── */
   .home-blocks {
@@ -1522,6 +1549,92 @@
 
   .hero__layers-link:hover {
     opacity: 0.85;
+  }
+
+  /* ─── Reading progress (top of /accord) ─── */
+  .reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 60;
+    pointer-events: none;
+    background: transparent;
+  }
+
+  .reading-progress__bar {
+    height: 100%;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+    background: var(--color-accent);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reading-progress__bar { transition: transform 60ms linear; }
+  }
+
+  /* ─── Paragraph permalink pilcrow (injected by inline script) ─── */
+  .accord-body p {
+    position: relative;
+  }
+
+  .paragraph-link {
+    position: absolute;
+    left: -1.5rem;
+    top: 0.15rem;
+    width: 1rem;
+    height: 1.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-faint);
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    line-height: 1;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 100ms ease, color 100ms ease;
+  }
+
+  @media (hover: hover) {
+    .accord-body p:hover .paragraph-link,
+    .paragraph-link:focus-visible {
+      opacity: 1;
+    }
+  }
+
+  .paragraph-link:hover { color: var(--color-accent); }
+
+  .paragraph-link[data-copied="true"]::after {
+    content: 'link copied';
+    position: absolute;
+    left: 1.4rem;
+    top: 0.05rem;
+    white-space: nowrap;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--color-sage);
+    background: var(--color-bg);
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .paragraph-link {
+      position: static;
+      display: inline-block;
+      margin-left: 0.35rem;
+      width: auto;
+      height: auto;
+      opacity: 0.55;
+    }
   }
 
   /* ─── Accord hero masthead (seal + format strip + cite) ─── */

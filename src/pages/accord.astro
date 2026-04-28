@@ -77,6 +77,10 @@ void VERSION;
   modifiedTime={`${ISSUED_ISO}T00:00:00Z`}
   breadcrumbs={breadcrumbs}>
 
+  <div class="reading-progress" aria-hidden="true">
+    <div class="reading-progress__bar"></div>
+  </div>
+
   <section id="top" class="hero hero--accord">
     <div class="container-page hero__inner hero__inner--masthead">
       <div class="masthead__text">
@@ -227,14 +231,28 @@ void VERSION;
 
   <script is:inline>
     (function () {
-      var buttons = document.querySelectorAll('.cite__copy[data-copy-target]');
-      buttons.forEach(function (btn) {
+      function copyText(text, onDone) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(onDone, function () {});
+          return;
+        }
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); onDone(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+
+      // ── Citation copy buttons
+      document.querySelectorAll('.cite__copy[data-copy-target]').forEach(function (btn) {
         btn.addEventListener('click', function () {
           var id = btn.getAttribute('data-copy-target');
           var src = id ? document.getElementById(id) : null;
           if (!src) return;
-          var text = src.textContent || '';
-          var done = function () {
+          copyText(src.textContent || '', function () {
             var prev = btn.textContent;
             btn.setAttribute('data-copied', 'true');
             btn.textContent = 'Copied';
@@ -242,19 +260,84 @@ void VERSION;
               btn.removeAttribute('data-copied');
               btn.textContent = prev;
             }, 1400);
-          };
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(done, function () {});
-          } else {
-            var ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.opacity = '0';
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand('copy'); done(); } catch (e) {}
-            document.body.removeChild(ta);
-          }
+          });
+        });
+      });
+
+      // ── Reading progress bar (driven by accord body bounds)
+      var progressBar = document.querySelector('.reading-progress__bar');
+      var body = document.querySelector('.accord-body');
+      if (progressBar && body) {
+        var ticking = false;
+        var update = function () {
+          var rect = body.getBoundingClientRect();
+          var vh = window.innerHeight || document.documentElement.clientHeight;
+          var total = rect.height + vh;
+          var scrolled = vh - rect.top;
+          var ratio = total > 0 ? Math.max(0, Math.min(1, scrolled / total)) : 0;
+          progressBar.style.transform = 'scaleX(' + ratio.toFixed(4) + ')';
+          ticking = false;
+        };
+        var onScroll = function () {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(update);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        update();
+      }
+
+      // ── Sticky TOC: active section
+      var navItems = document.querySelectorAll('[data-accord-nav] [data-anchor]');
+      if (navItems.length && 'IntersectionObserver' in window) {
+        var byAnchor = {};
+        navItems.forEach(function (li) { byAnchor[li.getAttribute('data-anchor')] = li; });
+        var sections = document.querySelectorAll('.accord-section[id]');
+        var visible = {};
+        var setActive = function () {
+          var bestId = null;
+          var bestRatio = 0;
+          Object.keys(visible).forEach(function (id) {
+            if (visible[id] > bestRatio) { bestRatio = visible[id]; bestId = id; }
+          });
+          if (!bestId) return;
+          navItems.forEach(function (li) { li.removeAttribute('data-active'); });
+          if (byAnchor[bestId]) byAnchor[bestId].setAttribute('data-active', 'true');
+        };
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            visible[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0;
+          });
+          setActive();
+        }, { rootMargin: '-25% 0px -55% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
+        sections.forEach(function (s) { io.observe(s); });
+      }
+
+      // ── Permalink pilcrows on each accord paragraph
+      var sectionsAll = document.querySelectorAll('.accord-section[id]');
+      sectionsAll.forEach(function (sec) {
+        var sid = sec.id;
+        var paras = sec.querySelectorAll(':scope > p');
+        paras.forEach(function (p, i) {
+          var pid = sid + '-p' + (i + 1);
+          if (!p.id) p.id = pid;
+          var a = document.createElement('a');
+          a.className = 'paragraph-link';
+          a.href = '#' + p.id;
+          a.setAttribute('aria-label', 'Permalink to paragraph ' + (i + 1) + ' of ' + sid);
+          a.textContent = '¶';
+          a.addEventListener('click', function (ev) {
+            if (ev.metaKey || ev.ctrlKey || ev.shiftKey) return;
+            ev.preventDefault();
+            var url = window.location.origin + window.location.pathname + '#' + p.id;
+            history.replaceState(null, '', '#' + p.id);
+            copyText(url, function () {
+              a.setAttribute('data-copied', 'true');
+              setTimeout(function () { a.removeAttribute('data-copied'); }, 1200);
+            });
+          });
+          p.appendChild(a);
         });
       });
     })();
