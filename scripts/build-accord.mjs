@@ -8,6 +8,7 @@
 //
 //   public/downloads/accord.md     (Markdown — always generated)
 //   public/downloads/accord.pdf    (PDF — generated if pandoc is available)
+//   public/og/accord-og.png        (OG image — generated if rsvg-convert is available)
 //
 // Bumping a version: edit src/lib/accord-meta.mjs only. Run npm run build.
 // Editing the text: edit the matching src/content/accord/NN-*.mdx file.
@@ -35,6 +36,9 @@ const accordDir = path.join(root, 'src/content/accord');
 const outDir = path.join(root, 'public/downloads');
 const outMd = path.join(outDir, 'accord.md');
 const outPdf = path.join(outDir, 'accord.pdf');
+const ogDir = path.join(root, 'public/og');
+const ogSvg = path.join(ogDir, 'accord-og.svg');
+const ogPng = path.join(ogDir, 'accord-og.png');
 
 // ─── 1. Parse MDX → ordered sections ─────────────────────────────────────────
 
@@ -107,6 +111,28 @@ function which(cmd) {
     return false;
   }
 }
+
+// ─── 4. Refresh OG PNG (soft-fail if rsvg-convert missing) ───────────────────
+
+function syncOgImage() {
+  if (!fs.existsSync(ogSvg)) {
+    console.log('accord-og.png → skipped (no source SVG at public/og/accord-og.svg)');
+    return;
+  }
+  if (!which('rsvg-convert')) {
+    console.log('accord-og.png → skipped (rsvg-convert not installed; apt install librsvg2-bin to enable)');
+    return;
+  }
+  try {
+    execFileSync('rsvg-convert', ['-w', '1200', '-h', '630', ogSvg, '-o', ogPng], { stdio: 'inherit' });
+    const pngKb = (fs.statSync(ogPng).size / 1024).toFixed(1);
+    console.log(`accord-og.png → ${path.relative(root, ogPng)} (${pngKb} KB)`);
+  } catch (err) {
+    console.error('accord-og.png → FAILED:', err.message);
+  }
+}
+
+syncOgImage();
 
 if (!which('pandoc')) {
   console.log('accord.pdf → skipped (pandoc not installed; install pandoc + texlive-xetex to enable)');

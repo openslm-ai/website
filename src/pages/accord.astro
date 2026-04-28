@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AccordNav from '../components/AccordNav.astro';
 import AccordSeal from '../components/AccordSeal.astro';
 import EndorseFootnote from '../components/EndorseFootnote.astro';
+import glossary from '../data/glossary.json';
 import {
   VERSION,
   LABEL,
@@ -81,12 +82,33 @@ const [pillNum, ...pillRest] = heroPill.split(' · ');
 const pillTail = pillRest.join(' · ');
 void STATE;
 void VERSION;
+
+const glossaryJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  '@id': 'https://openslm.ai/accord/#glossary',
+  name: 'OpenSLM Accord — Glossary',
+  description:
+    'Working definitions for terms used in the Open Small Models Accord. Each term is annotated inline in the document and linked to its definition here.',
+  inDefinedTermSet: 'https://openslm.ai/accord/',
+  hasDefinedTerm: Object.entries(glossary as Record<string, { label: string; definition: string }>).map(
+    ([key, v]) => ({
+      '@type': 'DefinedTerm',
+      '@id': `https://openslm.ai/accord/#term-${key}`,
+      name: v.label,
+      termCode: key,
+      description: v.definition,
+      inDefinedTermSet: 'https://openslm.ai/accord/#glossary',
+    }),
+  ),
+};
 ---
 
 <BaseLayout
   title="The Accord"
   description={`The Open Small Models Accord — principles for open, accessible, and correctable AI. Version ${LABEL}. Released under CC0 1.0.`}
   ogType="article"
+  ogImage="/og/accord-og.png"
   publishedTime={`${ISSUED_ISO}T00:00:00Z`}
   modifiedTime={`${ISSUED_ISO}T00:00:00Z`}
   breadcrumbs={breadcrumbs}>
@@ -435,5 +457,7 @@ void VERSION;
       });
     })();
   </script>
+
+  <script type="application/ld+json" set:html={JSON.stringify(glossaryJsonLd)} />
 
 </BaseLayout>

@@ -1242,57 +1242,213 @@
 
 /* ─── Print ─── */
 @media print {
+  @page {
+    size: A4;
+    margin: 1.6cm 1.4cm;
+  }
   :root {
     --color-fg: #000;
     --color-muted: #333;
     --color-accent: #000;
+    --color-faint: #555;
+    --color-rule: #ccc;
+    --color-rule-strong: #888;
+    --color-soft: #fff;
+    --color-bg: #fff;
+    --color-heading: #000;
   }
-  html { font-size: 11pt; }
-  body { background: #fff; color: #000; }
+  html { font-size: 10.5pt; }
+  body {
+    background: #fff;
+    color: #000;
+  }
+  body::before { display: none !important; }
+
   header,
   footer,
   .skip-link,
+  .site-header,
+  .site-footer,
   .accord-nav,
   details.jump,
   .downloads,
-  .endorse {
+  .endorse,
+  .reading-progress,
+  .hero__formats,
+  .cite,
+  .layer-tags,
+  .paragraph-link,
+  .summary-cell__layers,
+  .endorse-band__actions,
+  .section-mark,
+  .masthead__seal,
+  .hero__pill,
+  .hero__history,
+  .theme-toggle,
+  .defined__pop {
     display: none !important;
   }
+
   hr.rule { display: none; }
+
   .container-page,
   .container-wide {
     max-width: none;
     padding: 0;
   }
+
+  /* Collapse the two-column grid (sticky TOC + body) */
+  .accord-body { width: 100%; }
+
   section {
     padding: 0;
-    page-break-inside: avoid;
   }
+
+  .hero,
+  .hero--accord {
+    padding-block: 0 1rem !important;
+  }
+
+  .hero__inner--masthead {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+
+  .hero__title {
+    font-size: 28pt !important;
+    line-height: 1.05 !important;
+    margin-top: 0.4rem;
+  }
+
+  .hero__subtitle {
+    font-size: 12pt !important;
+    color: #333 !important;
+  }
+
+  .hero__meta {
+    font-size: 9pt !important;
+    color: #555 !important;
+  }
+
+  .accord-stamp {
+    border-top: 1pt solid #000;
+    border-bottom: 1pt solid #000;
+    padding: 0.4rem 0;
+    margin: 0.6rem 0 1.4rem;
+    font-size: 9pt;
+  }
+
   .accord-section {
-    margin-top: 1.5rem;
+    margin-top: 1.4rem;
+    break-inside: auto;
     page-break-inside: auto;
   }
+
   .accord-section h2 {
+    break-after: avoid;
     page-break-after: avoid;
+    font-size: 14pt;
+    line-height: 1.25;
+    margin-top: 0.6rem;
   }
+
+  .accord-section.preamble {
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .accord-section .section-num {
+    font-size: 8.5pt;
+    letter-spacing: 0.1em;
+    color: #555;
+  }
+
+  .accord-section.has-dropcap > p:first-of-type::first-letter {
+    initial-letter: unset;
+    color: #000;
+    font-weight: 700;
+  }
+
   .accord-body {
     font-family: 'Source Serif 4 Variable', Georgia, serif;
-    font-size: 11pt;
-    line-height: 1.55;
+    font-size: 10.5pt;
+    line-height: 1.5;
   }
+
+  .accord-body p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Show URLs after links, but not for in-page anchors */
   a {
     color: #000;
     text-decoration: underline;
   }
-  a[href^="http"]::after {
+  a[href^="http"]:not(.no-print-url)::after,
+  a[href^="mailto:"]::after {
     content: " <" attr(href) ">";
-    font-size: 9pt;
+    font-size: 8.5pt;
     color: #555;
     word-wrap: break-word;
   }
+  a[href^="#"]::after { content: ""; }
+  a[href^="mailto:"]::after { content: " <" attr(href) ">"; }
+
   .display-xl,
-  .accord-section h2 {
+  .hero__title,
+  .accord-section h2,
+  .summary-grid__heading {
     font-family: 'Zilla Slab', Georgia, serif;
+  }
+
+  /* Summary grid — keep but tighten */
+  .summary-grid {
+    margin-top: 2.5rem;
+    padding-top: 1.2rem;
+    break-before: page;
+    page-break-before: always;
+  }
+  .summary-grid__list {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .summary-cell__link {
+    padding: 0.55rem 0.6rem;
+  }
+  .summary-cell__num,
+  .summary-cell__title,
+  .summary-cell__line {
+    color: #000 !important;
+  }
+
+  /* Endorse band — keep CTA copy & list, drop the buttons */
+  .endorse-band {
+    margin-top: 1.6rem;
+    padding-top: 0.8rem;
+  }
+  .endorse-band__cta {
+    background: #fff !important;
+    border: 1pt solid #000 !important;
+    padding: 0.6rem 0.7rem;
+  }
+
+  /* Attribution — print as a clean colophon */
+  .attribution {
+    break-before: auto;
+    page-break-inside: avoid;
+    margin-top: 1.5rem;
+    border-top: 1pt solid #000;
+    padding-top: 0.6rem;
+  }
+  .attribution__dl { font-size: 9.5pt; }
+
+  .closing { font-size: 9.5pt; color: #333; }
+
+  /* Defined terms — keep the dotted underline so glossary words read as
+     glossary words on paper, but no popover. */
+  .defined__term {
+    text-decoration: underline dotted #555;
+    text-underline-offset: 2pt;
   }
 }
 
