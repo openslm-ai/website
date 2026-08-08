@@ -1,0 +1,6 @@
+# GitHub Sponsors only, and it goes to the maintainer rather than to an
+# organisation account: OpenSLM is one author and a small number of repositories
+# today, so a separate funding entity would be more overhead than clarity. If
+# that changes — a second maintainer, or institutional funding — this moves to
+# an organisation page.
+github: [anivar]
